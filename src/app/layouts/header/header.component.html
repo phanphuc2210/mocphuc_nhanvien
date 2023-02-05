@@ -1,0 +1,162 @@
+<nav
+  class="bg-gray-50 border-gray-200 px-2 sm:px-5 py-2.5 dark:bg-gray-800 sticky top-0"
+>
+  <div class="flex items-center justify-between mx-auto">
+    <a routerLink="/dashboard/home" class="flex items-center">
+      <img src="../../../assets/logo.png" class="h-9 mr-3 sm:h-12" alt="Logo" />
+      <span
+        class="self-center text-xl md:text-2xl font-extrabold whitespace-nowrap dark:text-white"
+        >MộcPhúc.</span
+      >
+    </a>
+
+    <div>
+      <div class="relative inline-block text-left dropdown">
+        <span class="">
+          <button
+            class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 hover:text-gray-500 dark:text-white"
+            aria-haspopup="true"
+            aria-expanded="true"
+            aria-controls="headlessui-menu-items-117"
+          >
+            <span class="font-bold">Hello, {{ userName }}!</span>
+            <svg
+              class="ml-2 w-4 h-4"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg></button
+        ></span>
+        <div
+          class="opacity-0 z-50 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95"
+        >
+          <div
+            class="absolute right-0 w-56 mt-2 origin-top-right select-none bg-white border border-gray-200 dark:border-gray-800 divide-y divide-gray-100 dark:divide-gray-500 rounded-md shadow-lg outline-none dark:bg-gray-800"
+            aria-labelledby="headlessui-menu-button-1"
+            id="headlessui-menu-items-117"
+            role="menu"
+          >
+            <div class="py-1">
+              <a
+                routerLink="/dashboard/user/edit"
+                tabindex="0"
+                class="text-gray-700 dark:text-gray-200 cursor-pointer flex items-center w-full px-4 py-2 text-sm leading-5 text-left"
+                role="menuitem"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Thông tin cá nhân
+              </a>
+              <a
+                (click)="toggleDarkMode()"
+                tabindex="0"
+                class="text-gray-700 dark:text-gray-200 cursor-pointer flex items-center w-full px-4 py-2 text-sm leading-5 text-left"
+                role="menuitem"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                  ></path>
+                </svg>
+                Đổi theme
+              </a>
+            </div>
+
+            <div class="py-1">
+              <a
+                (click)="logOut()"
+                tabindex="3"
+                class="text-gray-700 dark:text-gray-200 cursor-pointer flex items-center w-full px-4 py-2 text-sm leading-5 text-left"
+                role="menuitem"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  ></path>
+                </svg>
+                Đăng xuất
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div>
+            <span id="dropdownDefault" data-dropdown-toggle="dropdown" class="dark:text-white font-bold sm:px-4 py-2.5 text-center inline-flex items-center cursor-pointer">
+                Hello, {{userName}}! 
+                <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </span> -->
+    <!-- Dropdown menu -->
+    <!-- <div id="dropdown" class="hidden z-10 w-100 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-800">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                    <li routerLink="/dashboard/user/edit">
+                        <span class="flex items-center cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Thông tin cá nhân
+                        </span>
+                    </li>
+                    <li (click)="toggleDarkMode()">
+                        <span class="flex items-center cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                            Đổi theme
+                        </span>
+                    </li>
+                    <li (click)="logOut()">
+                        <span class="flex items-center cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                            Đăng xuất
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+  </div>
+</nav>
+
+<style>
+  .dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    transform: translate(0) scale(1);
+    visibility: visible;
+  }
+</style>

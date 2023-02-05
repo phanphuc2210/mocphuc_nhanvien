@@ -1,0 +1,9 @@
+<div class="app relative" [ngClass]="darkMode">
+    <app-header [userName]="user.firstname" [darkMode]="darkMode" (changeTheme)="changeTheme($event)"></app-header>
+    <div class=" grid grid-cols-6 gap-0">
+      <app-sidebar></app-sidebar>
+      <div class="col-span-5 min-h-[653px]">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-2 font-bold dark:text-slate-100">Chi tiết hóa đơn #{{ orderId }}</h2>
+    <hr>
+
+    <div *ngIf="invoice_info && invoice_details" class="mt-5">
+        <div class="grid grid-cols-2 gap-3 dark:text-white">
+            <div>
+                <p class="text-base font-bold my-3">Tên khách hàng: <span class="font-normal">{{ invoice_info.name }}</span></p>
+                <p class="text-base font-bold my-3">Số điện thoại: <span class="font-normal">{{ invoice_info.phone }}</span></p>
+                <p class="text-base font-bold my-3">Nơi nhận: <span class="font-normal">{{ invoice_info.address }}</span></p>
+            </div>
+            <div>
+                <p class="text-base font-bold my-3">Ngày đặt hàng: <span class="font-normal">{{ invoice_info.date | date: 'dd/MM/YYYY' }}</span></p>
+                <p class="text-base font-bold my-3">Phương thức thanh toán: <span class="font-normal">{{ invoice_info.payment_method }}</span></p>
+            </div>
+        </div>
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+            <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+                <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Hình ảnh
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tên sản phẩm
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Đơn giá
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Số lượng
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Thành tiền
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let detail of invoice_details" class="bg-white border-b text-gray-900 dark:text-white dark:bg-gray-900 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium  whitespace-nowrap ">
+                            <img class="w-16 mx-auto" src="{{ detail.image }}" alt="{{ detail.name }}">
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ detail.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ detail.price | currency:"VND":'vnđ':'':'vi' }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <input type="text" value="{{ detail.quantity }}" id="small-input" class="my-input input-focus mx-auto text-center w-[20%]" disabled>
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ detail.price! * detail.quantity | currency:"VND":'vnđ':'':'vi' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6 flex justify-between gap-3">
+            <a class="text-blue-600 hover:underline" routerLink="/dashboard/invoice">Quay lại trang danh sách</a>
+            <p class="text-lg font-bold dark:text-white">Tổng tiền: <span class="text-red-600">{{ total_price | currency:"VND":'vnđ':'':'vi'}}</span></p>
+        </div>
+    </div>
+</div>

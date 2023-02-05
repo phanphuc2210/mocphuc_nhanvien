@@ -1,0 +1,30 @@
+<div class="h-full p-4 dark:bg-slate-700">
+    <div class="mb-4 flex justify-between"> 
+        <h2 class="text-3xl font-bold dark:text-slate-100">Danh sách sản phẩm</h2>
+        <div class="flex justify-center items-center">
+            <p class="text-sm font-semibold dark:text-slate-100 w-32">Phân loại</p>
+            <select (change)="productClassification()" [(ngModel)]="classify" class="my-input">
+                <option selected value="">Tất cả</option>
+                <option *ngFor="let type of types" value="{{type.id}}">{{type.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <app-toast-err></app-toast-err>
+    
+    <div *ngIf="isLoading$ | async" class="flex items-center justify-center w-100 h-96">
+        <div class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
+    </div>
+
+    
+
+
+    <div *ngIf="!(isLoading$ | async)">
+        <div class="grid grid-cols-1 mt-6 md:grid-cols-2 lg:grid-cols-4 justify-center gap-5">
+            <app-product-card *ngFor="let product of products$ | async | paginate: { itemsPerPage, currentPage: p }" [product]="product"></app-product-card>
+        </div>   
+        <div class="mt-8 flex justify-center items-center"> 
+            <pagination-controls previousLabel="" nextLabel="" class="paginator" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

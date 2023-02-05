@@ -1,0 +1,66 @@
+<div class="h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">Danh sách hóa đơn</h2>
+
+    
+    <div class="overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+            <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Mã hóa đơn
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Ngày đặt
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Địa chỉ
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Sđt
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Phương thức
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="invoice.length > 0; else noOrder">
+                <tr *ngFor="let order of invoice | paginate: { itemsPerPage, currentPage: p }" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <td class="px-6 py-4">
+                        #{{ order.id }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.date | date: 'dd/MM/YYYY' }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.address }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.phone }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.payment_method }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span routerLink="/dashboard/invoice/{{ order.id }}" class="text-blue-600 hover:underline cursor-pointer">Chi tiết</span>
+                    </td>
+                </tr>
+            </tbody>
+            <ng-template #noOrder>
+                <tr>
+                    <td colspan="6">
+                        <p class="py-4">
+                            Chưa có bất kỳ hóa đơn nào!
+                        </p>
+                    </td>
+                </tr>
+            </ng-template>
+        </table>
+    </div>
+
+    <div class="mt-8 flex justify-center items-center"> 
+        <pagination-controls previousLabel="" nextLabel="" class="paginator" (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>

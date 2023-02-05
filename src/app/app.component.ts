@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'mocphuc_nhanvien';
+  title = 'MocPhuc Admin';
+  
+
+  constructor() {}
+
+  
 }

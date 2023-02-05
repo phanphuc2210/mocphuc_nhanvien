@@ -1,0 +1,56 @@
+<div class="h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">{{ title }}</h2>
+
+    
+    <div class="overflow-x-auto shadow-md sm:rounded-lg mt-6">
+        <table class="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+            <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        Stt
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Tên
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Họ
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Số điện thoại
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Email
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users | paginate: { itemsPerPage, currentPage: p, totalItems: totalUser }; let i = index" 
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        #{{ i + 1 }}
+                    </th>
+                    <td class="py-4 px-6">
+                        {{ user.firstname }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ user.lastname }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ user.phone }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ user.email }}
+                    </td>
+                    <!-- <td class="py-4 px-6">
+                        <a (click)="deleteUser(user.id!)" class="font-medium cursor-pointer text-red-600 dark:text-red-500 hover:underline">Xóa</a>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-8 flex justify-center items-center"> 
+        <pagination-controls previousLabel="" nextLabel="" class="paginator" (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>

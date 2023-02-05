@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .card {
+        background-color: theme('colors.white');
+        border-radius: theme('borderRadius.lg');
+        padding: theme('spacing.6');
+        box-shadow: theme('boxShadow.xl');
+    }
+      
+    .my-container {
+        @apply px-5 md:px-20 lg:px-36
+    }
+
+    .my-input {
+        @apply bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white block text-gray-900
+    }
+
+    .input-focus {
+        @apply focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500
+    }
+
+    .input-error {
+        @apply border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500
+    }
+}
+
