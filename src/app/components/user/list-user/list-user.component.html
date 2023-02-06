@@ -23,7 +23,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="users.length > 0; else noUser">
                 <tr *ngFor="let user of users | paginate: { itemsPerPage, currentPage: p, totalItems: totalUser }; let i = index" 
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
@@ -47,6 +47,15 @@
                     </td> -->
                 </tr>
             </tbody>
+            <ng-template #noUser>
+                <tr>
+                    <td colspan="6">
+                        <p class="py-4">
+                            Chưa có bất kỳ người dùng nào!
+                        </p>
+                    </td>
+                </tr>
+            </ng-template>
         </table>
     </div>
 
