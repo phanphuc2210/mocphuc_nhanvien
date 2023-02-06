@@ -7,7 +7,6 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private BASE_URL = 'http://localhost:3000/'
   private NODE_API = 'http://localhost:8000/auth/'
   public loginSubject = new BehaviorSubject<boolean>(localStorage.getItem('token')? true : false)
   public userSubject = new BehaviorSubject(
