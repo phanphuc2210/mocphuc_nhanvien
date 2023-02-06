@@ -1,6 +1,15 @@
-# MocphucNhanvien
+# MộcPhúc_Nhân viên (Học việc Infodation)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+
+## Công nghệ sử dụng
+### Front-end
+    - Angular
+    - TailwindCSS/Flowbite
+    - ...
+### Back-end
+    - NodeJS/ExpressJS
+    - MySQL
 
 ## Các chức năng chính
 - Dark Mode
@@ -11,6 +20,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Chỉnh sửa thông tin cá nhân
 - Xem danh sách/chi tiết hóa đơn
 - Thống kê doanh thu theo khoảng thời gian
+
+## Một số hình ảnh về dự án
+![img](https://i.imgur.com/wsh3F9i.png)     
+![img](https://i.imgur.com/LqqL5a4.png)     
+![img](https://i.imgur.com/Zg3sOGm.png) 
 
 ## Development server
 
