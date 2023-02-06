@@ -2,6 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
+## Các chức năng chính
+- Dark Mode
+- Đăng ký, đăng nhập/ đăng xuất
+- Yêu cầu login lại khi token hết hạn
+- Quản lý sản phẩm (xem, thêm, sửa, xóa, tìm kiếm)
+- Xem danh sách nhân viên/khách hàng
+- Chỉnh sửa thông tin cá nhân
+- Xem danh sách/chi tiết hóa đơn
+- Thống kê doanh thu theo khoảng thời gian
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
