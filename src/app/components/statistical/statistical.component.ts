@@ -29,6 +29,7 @@ export class StatisticalComponent implements OnInit {
 
   public statis() {
     this.statisList = []
+    this.revenue = 0
     let from = this.dateForm.controls.from.value!;
     let to = this.dateForm.controls.to.value!;
     this.invoiceService.getStatis(from, to).subscribe((res) => {
