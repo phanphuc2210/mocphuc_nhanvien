@@ -25,6 +25,14 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ![img](https://i.imgur.com/wsh3F9i.png)     
 ![img](https://i.imgur.com/LqqL5a4.png)     
 ![img](https://i.imgur.com/Zg3sOGm.png) 
+![img](https://i.imgur.com/Tv2dnup.png) 
+![img](https://i.imgur.com/qDLQKmZ.png) 
+![img](https://i.imgur.com/eqqC81r.png) 
+![img](https://i.imgur.com/xQnUihL.png) 
+![img](https://i.imgur.com/2VuWQac.png) 
+![img](https://i.imgur.com/1m9o7vS.png) 
+![img](https://i.imgur.com/XKKJYFZ.png) 
+![img](https://i.imgur.com/zkDGj2M.png) 
 
 ## Development server
 
