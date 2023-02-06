@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { errorSelector } from 'src/app/store/productStore/selectors';
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.scss'],
 })
-export class EditProductComponent implements OnInit {
+export class EditProductComponent implements OnInit, OnDestroy {
   error$!: Observable<string | undefined>
 
   productId: string = '';
@@ -76,6 +76,10 @@ export class EditProductComponent implements OnInit {
   
       this.preview_img = res.result[0].image;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(ProductsAction.setErrorNull())
   }
 
   public previewImage(e:any) {

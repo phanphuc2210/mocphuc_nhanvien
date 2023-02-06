@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { fileUploadValidator } from 'src/app/helper/validateUploadFile';
@@ -16,7 +16,7 @@ import { errorSelector } from 'src/app/store/productStore/selectors';
   templateUrl: './addproduct.component.html',
   styleUrls: ['./addproduct.component.scss']
 })
-export class AddproductComponent implements OnInit{
+export class AddproductComponent implements OnInit, OnDestroy{
   error$!: Observable<string | undefined>
 
   preview_img: any = '';
@@ -52,6 +52,10 @@ export class AddproductComponent implements OnInit{
     this.productService.getProductTypes().subscribe(res => {
       this.productTypes = res.result;
     })
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(ProductsAction.setErrorNull())
   }
 
   public previewImage(e:any) {
