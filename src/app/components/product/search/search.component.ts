@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class SearchComponent implements OnInit{
   types: ProductType[] = []
-  products: Product[] = []
+  products!: Product[]
   searchForm = this.fb.group({
     name: [''],
     type: [''],
