@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ export class HeaderComponent {
   @Input() userName: any;
   @Output() changeTheme = new EventEmitter();
   
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService) {}
   ngOnInit(): void {
   }
 
@@ -28,7 +29,6 @@ export class HeaderComponent {
   }
 
   public logOut() {
-    localStorage.clear();
-    this.router.navigate(['/login']);
+    this.authService.logOut()
   }
 }

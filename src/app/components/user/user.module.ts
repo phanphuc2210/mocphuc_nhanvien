@@ -6,16 +6,19 @@ import { RouterModule, Routes } from '@angular/router';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { CanLeaveGuard } from 'src/app/guards/can-leave.guard';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   {path: 'edit', component: EditUserComponent, canDeactivate: [CanLeaveGuard]},
+  {path: 'change-password', component: ChangePasswordComponent},
   {path: ':role', component: ListUserComponent},
 ];
 
 @NgModule({
   declarations: [
     ListUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,

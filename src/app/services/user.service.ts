@@ -7,23 +7,27 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class UserService {
-  private BASE_URL = 'http://localhost:8000/users';
+  private NODE_API = 'http://localhost:8000/users';
 
   constructor(private httpClient: HttpClient) { }
 
   public getAllUsers(role: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.BASE_URL}/${role}`);
+    return this.httpClient.get<any>(`${this.NODE_API}/${role}`);
   }
 
   public getUser(id:string): Observable<any> {
-    return this.httpClient.get<any>(`${this.BASE_URL}/${id}`)
+    return this.httpClient.get<any>(`${this.NODE_API}/${id}`)
   }
 
   public editUser(id:string, data:User): Observable<any> {
-    return this.httpClient.put<any>(`${this.BASE_URL}/${id}`, data)
+    return this.httpClient.put<any>(`${this.NODE_API}/${id}`, data)
   }
 
   public deleteUser(id:string): Observable<any> {
-    return this.httpClient.delete<any>(`${this.BASE_URL}/${id}`)
+    return this.httpClient.delete<any>(`${this.NODE_API}/${id}`)
+  }
+
+  public changePassword(id: number, data: any): Observable<any> {
+    return this.httpClient.patch<any>(`${this.NODE_API}/${id}/change-password`, data)
   }
 }

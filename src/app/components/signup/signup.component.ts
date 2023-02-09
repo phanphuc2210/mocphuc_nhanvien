@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
 import Swal from 'sweetalert2';
+import { confirmPasswordValidator } from 'src/app/helper/validateConfirmPassword';
 
 @Component({
   selector: 'app-signup',
@@ -22,18 +23,19 @@ export class SignupComponent {
     address: ['', Validators.required],
     email: ['', Validators.required],
     password: ['', Validators.required],
-  })
+    confirmPassword: ['', Validators.required],
+  }, { validator: confirmPasswordValidator })
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
   public signUp() {
     const data: User = {
-      firstname: this.signupForm.controls.firstname.value!,
-      lastname: this.signupForm.controls.lastname.value!,
-      phone: this.signupForm.controls.phone.value!,
-      address: this.signupForm.controls.address.value!,
-      email: this.signupForm.controls.email.value!,
-      password: this.signupForm.controls.password.value!,
+      firstname: this.signupForm.controls['firstname'].value!,
+      lastname: this.signupForm.controls['lastname'].value!,
+      phone: this.signupForm.controls['phone'].value!,
+      address: this.signupForm.controls['address'].value!,
+      email: this.signupForm.controls['email'].value!,
+      password: this.signupForm.controls['password'].value!,
       role: 'Admin'
     }
 
