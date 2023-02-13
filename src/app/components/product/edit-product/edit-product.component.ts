@@ -22,28 +22,26 @@ export class EditProductComponent implements OnInit, OnDestroy {
   error$!: Observable<string | undefined>
 
   productId: string = '';
-  preview_img: any = '';
-  isLoadingPreviewImg: boolean = false;
+  defaultImgUrl!:string
+  img_url: any = ''
   productTypes: ProductType[] = [];
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
-  submitted = false;
 
   editProductForm = this.fb.group({
     name: ['', Validators.required],
-    type: ['',Validators.required],
-    quantity: ['',Validators.compose([
+    type: ['', Validators.required],
+    quantity: ['', Validators.compose([
       Validators.required,
-      Validators.pattern(/^[0-9]+$/i) 
+      Validators.max(50)
     ])],
     price: ['', Validators.required],
     description: ['', Validators.required],
     image: [
       { value: '', disabled: false },
-      [fileUploadValidator(this.allowedFileExtensions)]
-    ],
-    fileSource: ['']
-  })
+      [fileUploadValidator(this.allowedFileExtensions), Validators.required]
+    ]
+  });
 
   constructor(
     private fb: FormBuilder,
@@ -68,8 +66,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       this.editProductForm.controls['quantity'].setValue(res.result[0].quantity);
       this.editProductForm.controls['price'].setValue(res.result[0].price);
       this.editProductForm.controls['description'].setValue(res.result[0].description);
-  
-      this.preview_img = res.result[0].image;
+      this.defaultImgUrl = res.result[0].image
     });
   }
 
@@ -77,38 +74,40 @@ export class EditProductComponent implements OnInit, OnDestroy {
     this.store.dispatch(ProductsAction.setErrorNull())
   }
 
-  public previewImage(e:any) {
-    this.isLoadingPreviewImg = true
-    if(!this.editProductForm.controls['image'].errors) {
-      const file = e.target.files[0];
+  // public previewImage(e:any) {
+  //   this.isLoadingPreviewImg = true
+  //   if(!this.editProductForm.controls['image'].errors) {
+  //     const file = e.target.files[0];
 
-      this.editProductForm.patchValue({
-        fileSource: file
-      });
+  //     this.editProductForm.patchValue({
+  //       fileSource: file
+  //     });
 
-      const formData = new FormData();
+  //     const formData = new FormData();
 
-      formData.append('file', this.editProductForm.controls['fileSource'].value!);
-      this.productService.uploadImage(formData).subscribe(res => {
-        console.log(res)
-        this.preview_img = res.result
-        this.isLoadingPreviewImg = false;
-        // alert('Uploaded Successfully.');
-      })
+  //     formData.append('file', this.editProductForm.controls['fileSource'].value!);
+  //     this.productService.uploadImage(formData).subscribe(res => {
+  //       console.log(res)
+  //       this.preview_img = res.result
+  //       this.isLoadingPreviewImg = false;
+  //       alert('Uploaded Successfully.');
+  //     })
 
-      // const reader = new FileReader()
-      // reader.addEventListener("load", () => {
-      //   // convert image file to base64 string
-      //   this.preview_img = reader.result
-      //   }, false
-      // )
+  //     const reader = new FileReader()
+  //     reader.addEventListener("load", () => {
+  //       // convert image file to base64 string
+  //       this.preview_img = reader.result
+  //       }, false
+  //     )
 
-      // if(file) {
-      //     reader.readAsDataURL(file);
-      // }
-    }
+  //     if(file) {
+  //         reader.readAsDataURL(file);
+  //     }
+  //   }
+  // }
 
-    
+  public receiveImgUrl(event:any) {
+    this.img_url = event
   }
 
   public saveChange() {
@@ -116,7 +115,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       name: this.editProductForm.controls['name'].value!,
       typeId: Number(this.editProductForm.controls['type'].value),
       quantity: Number(this.editProductForm.controls['quantity'].value),
-      image: this.preview_img,
+      image: this.img_url,
       price: Number(this.editProductForm.controls['price'].value),
       description: this.editProductForm.controls['description'].value!
     }
@@ -131,16 +130,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        // this.productService.updateProduct(this.productId,data).subscribe(res => {
-        //   Swal.fire({
-        //     background: '#000',
-        //     icon: 'success',
-        //     title: '<p class="text-xl text-slate-300">Thay đổi thành công</p>',
-        //     confirmButtonText: 'Ok',
-        //     confirmButtonColor: '#0e9f6e',
-        //   })
-        // })
-
         this.store.dispatch(ProductsAction.editProduct({productId: this.productId, product: data}))
       }
     })

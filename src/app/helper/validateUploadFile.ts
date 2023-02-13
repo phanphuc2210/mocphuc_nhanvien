@@ -2,7 +2,7 @@ import { AbstractControl, ValidatorFn } from "@angular/forms";
 
 export function fileUploadValidator(allowedExtensions: any): ValidatorFn {
     console.log('inside validation');
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       // Enter to validation only if has value or it's not undefined
       if (control.value !== undefined && isNaN(control.value)) {
         const file = control.value;
@@ -11,7 +11,7 @@ export function fileUploadValidator(allowedExtensions: any): ValidatorFn {
         // Find extension file inside allowed extensions array
         if (allowedExtensions.includes(ext.toLowerCase())) {
         } else {
-          return { extensionFile: true };
+          return { extensionFile:  { allowedExtensions: allowedExtensions.join(', ') } };
         }
       }
       return null;

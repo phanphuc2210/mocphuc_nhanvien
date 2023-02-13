@@ -3,26 +3,25 @@
 
     <form class="flex-col justify-center items-center mt-6" [formGroup]="dateForm">
         <div class="w-[50%] mx-auto grid grid-cols-2 gap-4">
-            <div class="mb-6">
-                <span class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Từ ngày</span>
-                <input
-                    type="date"
-                    formControlName="from"
-                    class="my-input"
-                />
-            </div>
-            <div class="mb-6">
-                <span class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Đến ngày</span>
-                <input
-                    type="date"
-                    formControlName="to"
-                    class="my-input"
-                />
-            </div>
+            <app-custom-form-input 
+                formControlName="from"
+                [type] = "'date'"
+                label = "Từ ngày"
+                inputClass="mt-2"
+                [errors]="dateForm.controls['from'].errors"
+            ></app-custom-form-input>
+
+            <app-custom-form-input 
+                formControlName="to"
+                [type] = "'date'"
+                label = "Đến ngày"
+                inputClass="mt-2"
+                [errors]="dateForm.controls['to'].errors"
+            ></app-custom-form-input>
         </div>
 
         <div class="flex justify-center gap-4">
-            <button (click)="statis()" type="button" class="py-2 px-3 text-sm font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Thống kê</button>
+            <button [disabled]="dateForm.invalid" (click)="statis()" type="button" class="py-2 px-3 text-sm font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 disabled:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Thống kê</button>
             <button type="reset" class="py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</button>
         </div>
     </form>

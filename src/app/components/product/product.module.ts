@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/app/store/productStore/reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductsEffects } from 'src/app/store/productStore/effects';
+import { CommonsModule } from 'src/app/commons/commons.module';
 
 
 const routes: Routes = [
@@ -38,8 +39,8 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxCurrencyModule,
     NgxPaginationModule,
+    CommonsModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('products', reducers),
     EffectsModule.forFeature([ProductsEffects])    

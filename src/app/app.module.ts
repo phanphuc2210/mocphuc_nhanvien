@@ -21,6 +21,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {registerLocaleData} from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 import { StatisticalComponent } from './components/statistical/statistical.component';
+import { CommonsModule } from './commons/commons.module';
 registerLocaleData(localeVi, 'vi');
 
 @NgModule({
@@ -39,6 +40,7 @@ registerLocaleData(localeVi, 'vi');
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    CommonsModule,
     SweetAlert2Module.forRoot(),
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),

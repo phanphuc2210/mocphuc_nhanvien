@@ -17,9 +17,9 @@ export class ChangePasswordComponent {
   isShowPass:boolean = false
   typePass: string = 'password'
   changePasswordForm = this.fb.group({
-    oldPassword: ['', Validators.required],
-    password: ['', Validators.required],
-    confirmPassword: ['', Validators.required],
+    oldPassword: ['', Validators.compose([Validators.required])],
+    password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+    confirmPassword: ['', Validators.compose([Validators.required])],
   }, { validator: confirmPasswordValidator })
 
   constructor(private fb: FormBuilder, private userService: UserService, private authService: AuthService, private router: Router) {}

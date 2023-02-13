@@ -7,6 +7,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { CanLeaveGuard } from 'src/app/guards/can-leave.guard';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { CommonsModule } from 'src/app/commons/commons.module';
 
 const routes: Routes = [
   {path: 'edit', component: EditUserComponent, canDeactivate: [CanLeaveGuard]},
@@ -24,6 +25,7 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    CommonsModule,
     RouterModule.forChild(routes)
   ]
 })

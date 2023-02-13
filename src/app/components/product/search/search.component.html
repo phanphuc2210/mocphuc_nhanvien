@@ -3,59 +3,40 @@
 
     <form class="flex-col justify-center items-center mt-6" [formGroup]="searchForm">
         <div class="grid grid-cols-4 gap-4">
-            <div class="mb-6">
-                <span class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Tên sản phẩm</span>
-                <input
-                    type="text"
-                    formControlName="name"
-                    class="my-input"
-                />
-            </div>
-            <div class="mb-6">
-                <label  class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Loại sản phẩm</label>
-                <select 
-                    formControlName="type"
-                    class="my-input"
-                >   
-                    <option selected value="">Tất cả</option>
-                    <option *ngFor="let type of types" value="{{ type.id }}">
-                        {{ type.name }}
-                    </option>
-                </select>
-            </div>
-    
-            <div class="mb-6">
-                <span class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Giá từ</span>
-                <select 
-                    formControlName="priceFrom"
-                    class="my-input"
-                >   
-                    <option selected value="">Tất cả</option>
-                    <option value="50000">50,000</option>
-                    <option value="100000">100,000</option>
-                    <option value="200000">200,000</option>
-                    <option value="300000">300,000</option>
-                    <option value="400000">400,000</option>
-                </select>
-            </div>
-    
-            <div class="mb-6">
-                <span class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Giá đến</span>
-                <select 
-                    formControlName="priceTo"
-                    class="my-input"
-                >   
-                    <option selected value="">Tất cả</option>
-                    <option value="400000">400,000</option>
-                    <option value="500000">500,000</option>
-                    <option value="600000">600,000</option>
-                    <option value="700000">700,000</option>
-                    <option value="800000">800,000</option>
-                    <option value="900000">900,000</option>
-                    <option value="1000000">1,000,000</option>
-                    <option value="2000000">2,000,000</option>
-                </select>
-            </div>
+            <app-custom-form-input 
+                formControlName="name"
+                [type] = "'text'"
+                label = "Tên sản phẩm"
+                inputClass="mt-2"
+            ></app-custom-form-input>
+
+            <app-custom-select
+                formControlName="type"
+                label="Loại sản phẩm"
+                [options]="types"
+                selectedOptionLabel="Tất cả"
+                selectedOptionValue=""
+            ></app-custom-select>
+
+            <app-custom-select
+                formControlName="priceFrom"
+                label="Giá từ"
+                [options]="priceFromArr"
+                selectedOptionLabel="Tất cả"
+                selectedOptionValue=""
+                optionsValue="value"
+                optionsLabel="price"
+            ></app-custom-select>
+
+            <app-custom-select
+                formControlName="priceTo"
+                label="Giá đến"
+                [options]="priceToArr"
+                selectedOptionLabel="Tất cả"
+                selectedOptionValue=""
+                optionsValue="value"
+                optionsLabel="price"
+            ></app-custom-select>
 
         </div>
 

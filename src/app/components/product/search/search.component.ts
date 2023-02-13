@@ -13,6 +13,24 @@ import Swal from 'sweetalert2';
 export class SearchComponent implements OnInit{
   types: ProductType[] = []
   products!: Product[]
+  priceFromArr = [
+    {value: "50000", price: "50.000"},
+    {value: "100000", price: "100.000"},
+    {value: "200000", price: "200.000"},
+    {value: "300000", price: "300.000"},
+    {value: "400000", price: "400.000"},
+  ]
+  priceToArr = [
+    {value: "400000", price: "400.000"},
+    {value: "500000", price: "500.000"},
+    {value: "600000", price: "600.000"},
+    {value: "700000", price: "700.000"},
+    {value: "800000", price: "800.000"},
+    {value: "900000", price: "900.000"},
+    {value: "1000000", price: "1.000.000"},
+    {value: "2000000", price: "2.000.000"},
+  ]
+
   searchForm = this.fb.group({
     name: [''],
     type: [''],

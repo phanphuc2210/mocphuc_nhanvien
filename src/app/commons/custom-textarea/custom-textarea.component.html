@@ -1,0 +1,19 @@
+<div class="mb-4 {{ containerClass }}">
+    <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">{{ label }}</label>
+    <textarea 
+        [rows] = rows
+        [cols] = cols
+        spellcheck=false 
+        [placeholder] = placeholder
+        [ngClass]="{
+                'my-input' : true,
+                'input-error': isDirty && errors
+            }"
+        class= "{{ textareaClass }}"
+        [(ngModel)]="input"
+        (blur)="onTouched()"
+        (keyup)="onChange($event)"
+        [disabled]="isDisabled"
+    ></textarea>
+    <app-validate-input [label]="label" [isDirty]="isDirty" [errors]="errors"></app-validate-input>
+</div>
