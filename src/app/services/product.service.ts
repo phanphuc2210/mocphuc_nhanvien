@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Product } from '../models/product.model';
 import { ProductType } from '../models/productType.model';
 
@@ -8,37 +9,37 @@ import { ProductType } from '../models/productType.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private NODE_API = "http://localhost:8000/";
+  private NODE_API = environment.apiURL;
 
   constructor(private httpClient: HttpClient) { }
 
   public uploadImage(data:any): Observable<any> {
-    return this.httpClient.post<any>(`${this.NODE_API}upload`, data)
+    return this.httpClient.post<any>(`${this.NODE_API}/upload`, data)
   }
 
-  public getProductTypes(): Observable<any> {
-    return this.httpClient.get<any>(`${this.NODE_API}types`);
+  public getProductTypes(): Observable<ProductType[]> {
+    return this.httpClient.get<ProductType[]>(`${this.NODE_API}/types`);
   }
 
-  public getProduct(id:string): Observable<any> {
-    return this.httpClient.get<any>(`${this.NODE_API}products/${id}`);
+  public getProduct(id:string): Observable<Product> {
+    return this.httpClient.get<Product>(`${this.NODE_API}/products/${id}`);
   }
 
-  public getAllProducts(typeId?: string): Observable<any> {
+  public getAllProducts(typeId?: string): Observable<Product[]> {
     const classify = typeId? `typeId=${typeId}` : '';
-    return this.httpClient.get<any>(`${this.NODE_API}products?${classify}`).pipe(delay(1000));
+    return this.httpClient.get<Product[]>(`${this.NODE_API}/products?${classify}`).pipe(delay(1000));
   }
 
   public addNewProduct(data: Product): Observable<any> {
-    return this.httpClient.post<any>(`${this.NODE_API}products`, data);
+    return this.httpClient.post<any>(`${this.NODE_API}/products`, data);
   }
 
   public updateProduct(id: string, data: Product): Observable<any> {
-    return this.httpClient.put<any>(`${this.NODE_API}products/${id}`, data);
+    return this.httpClient.put<any>(`${this.NODE_API}/products/${id}`, data);
   }
 
   public deleteProduct(id:string): Observable<any> {
-    return this.httpClient.delete<any>(`${this.NODE_API}products/${id}`);
+    return this.httpClient.delete<any>(`${this.NODE_API}/products/${id}`);
   }
 
   public searchProduct(name?:string, type?:string, priceFrom?: string, priceTo?: string): Observable<any> {
@@ -57,6 +58,6 @@ export class ProductService {
     if(priceTo) {
       search += `&lte=${priceTo}`
     }
-    return this.httpClient.get<any>(`${this.NODE_API}products?${search}`);
+    return this.httpClient.get<any>(`${this.NODE_API}/products?${search}`);
   }
 }

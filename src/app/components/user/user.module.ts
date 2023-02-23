@@ -12,7 +12,7 @@ import { CommonsModule } from 'src/app/commons/commons.module';
 const routes: Routes = [
   {path: 'edit', component: EditUserComponent, canDeactivate: [CanLeaveGuard]},
   {path: 'change-password', component: ChangePasswordComponent},
-  {path: ':role', component: ListUserComponent},
+  {path: ':role', component: ListUserComponent}
 ];
 
 @NgModule({

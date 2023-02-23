@@ -15,7 +15,7 @@
             <app-custom-select
                 formControlName="type"
                 label="Loại sản phẩm"
-                [options]="productTypes"
+                [options]="productTypes$ | async"
                 selectedOptionLabel="Chọn loại sản phẩm"
                 selectedOptionValue=""
                 [errors]="addProductForm.controls['type'].errors"

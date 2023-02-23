@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -11,11 +12,10 @@ import Swal from 'sweetalert2';
 })
 export class ListUserComponent implements OnInit{
   title:string = ''
-  users: User[] = [];
+  users$!: Observable<User[]>
   role!: string
   p:number = 1;
   itemsPerPage:number = 8;
-  totalUser:any;
 
   constructor(private userService: UserService, private route: ActivatedRoute) {
     
@@ -25,15 +25,13 @@ export class ListUserComponent implements OnInit{
     this.route.params.subscribe(
       param =>{
         this.role = param['role']
+        console.log(this.role)
         if(this.role === 'customer') {
           this.title = 'Danh sách khách hàng'
         } else {
           this.title = 'Danh sách nhân viên'
         }
-        this.userService.getAllUsers(this.role).subscribe(res => {
-          this.users = res.result;
-          this.totalUser = res.result.length;
-        })
+        this.users$ = this.userService.getAllUsers(this.role)
       }
     );
   }

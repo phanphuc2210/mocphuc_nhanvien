@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Order } from 'src/app/models/order.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 
@@ -8,17 +9,13 @@ import { InvoiceService } from 'src/app/services/invoice.service';
   styleUrls: ['./invoice-list.component.scss']
 })
 export class InvoiceListComponent implements OnInit {
-  invoice: Order[] = []
+  invoices$!: Observable<Order[]>
   p:number = 1;
   itemsPerPage:number = 8;
   
   constructor(private invoiceService: InvoiceService) {}
 
   ngOnInit(): void {
-    this.invoiceService.getList().subscribe(res => {
-      if(res.result) {
-        this.invoice = res.result
-      }
-    })
+    this.invoices$ = this.invoiceService.getList()
   }
 }

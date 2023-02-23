@@ -35,18 +35,18 @@ export class ChangePasswordComponent {
       newPass: this.changePasswordForm.controls['password'].value
     }
 
-    this.userService.changePassword(this.user.id, data).subscribe(
-      (res) => {
+    this.userService.changePassword(this.user.id, data).subscribe({
+      next: (res) => {
         Swal.fire({
           background: '#000',
           icon: 'success',
-          title: '<p class="text-xl text-slate-300">'+ res.result.message +'</p>',
+          title: '<p class="text-xl text-slate-300">'+ res.message +'</p>',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0e9f6e',
         })
         this.authService.logOut()
       },
-      (err) => {
+      error: (err) => {
         Swal.fire({
           background: '#000',
           icon: 'error',
@@ -55,6 +55,6 @@ export class ChangePasswordComponent {
           confirmButtonColor: '#0e9f6e',
         })
       }
-    )
+    })
   }
 }

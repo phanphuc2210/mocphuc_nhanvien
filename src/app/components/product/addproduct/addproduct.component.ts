@@ -20,7 +20,7 @@ export class AddproductComponent implements OnInit, OnDestroy{
   error$!: Observable<string | undefined>
 
   img_url: any = '';
-  productTypes: ProductType[] = [];
+  productTypes$!: Observable<ProductType[]>;
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
 
@@ -44,9 +44,7 @@ export class AddproductComponent implements OnInit, OnDestroy{
   }
   
   ngOnInit(): void {
-    this.productService.getProductTypes().subscribe(res => {
-      this.productTypes = res.result;
-    })
+    this.productTypes$ = this.productService.getProductTypes()
   }
 
   ngOnDestroy(): void {

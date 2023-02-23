@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { ProductType } from 'src/app/models/productType.model';
 import { ProductService } from 'src/app/services/product.service';
@@ -11,8 +12,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit{
-  types: ProductType[] = []
-  products!: Product[]
+  types$!: Observable<ProductType[]>
+  products$!: Observable<Product[]>
   priceFromArr = [
     {value: "50000", price: "50.000"},
     {value: "100000", price: "100.000"},
@@ -41,9 +42,7 @@ export class SearchComponent implements OnInit{
   constructor(private productService: ProductService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.productService.getProductTypes().subscribe(res => {
-      this.types = res.result
-    })
+    this.types$ = this.productService.getProductTypes()
   }
 
   public searchProduct() {
@@ -51,8 +50,6 @@ export class SearchComponent implements OnInit{
     const type = this.searchForm.controls.type.value!
     const priceFrom = this.searchForm.controls.priceFrom.value!
     const priceTo = this.searchForm.controls.priceTo.value!
-    this.productService.searchProduct(name, type, priceFrom, priceTo).subscribe(res => {
-      this.products = res.result
-    })
+    this.products$ = this.productService.searchProduct(name, type, priceFrom, priceTo)
   }
 }

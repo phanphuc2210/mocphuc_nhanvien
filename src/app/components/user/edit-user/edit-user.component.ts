@@ -27,13 +27,13 @@ export class EditUserComponent implements OnInit{
 
   ngOnInit(): void {
     this.userService.getUser(this.user.id).subscribe(res => {
-      console.log(res.result[0])
-      this.userForm.controls['firstname'].setValue(res.result[0].firstname);
-      this.userForm.controls['lastname'].setValue(res.result[0].lastname);
-      this.userForm.controls['phone'].setValue(res.result[0].phone);
-      this.userForm.controls['address'].setValue(res.result[0].address);
-      this.userForm.controls['email'].setValue(res.result[0].email);
-      this.userForm.controls['password'].setValue(res.result[0].password);
+      console.log(res)
+      this.userForm.controls['firstname'].setValue(res.firstname);
+      this.userForm.controls['lastname'].setValue(res.lastname);
+      this.userForm.controls['phone'].setValue(res.phone);
+      this.userForm.controls['address'].setValue(res.address);
+      this.userForm.controls['email'].setValue(res.email);
+      this.userForm.controls['password'].setValue(res.password);
     })
   }
 

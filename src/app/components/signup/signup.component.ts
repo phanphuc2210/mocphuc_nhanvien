@@ -46,7 +46,7 @@ export class SignupComponent {
         Swal.fire({
           background: '#000',
           icon: 'success',
-          title: '<p class="text-xl text-slate-300">Đăng ký thành công</p>',
+          title: '<p class="text-xl text-slate-300">'+ res.message +'</p>',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0e9f6e',
         }).then((result) => {
@@ -57,7 +57,13 @@ export class SignupComponent {
         })
       },
       error: err => {
-        alert('Something went wrong!')
+        Swal.fire({
+          background: '#000',
+          icon: 'success',
+          title: '<p class="text-xl text-slate-300">'+ err.error.message +'</p>',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#0e9f6e',
+        })
       }
     })
   }

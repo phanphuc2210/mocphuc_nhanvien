@@ -2,13 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private NODE_API = 'http://localhost:8000/auth/'
+  private NODE_API = environment.apiURL;
+  private endpoint = 'auth'
+  private API_URL = `${this.NODE_API}/${this.endpoint}`;
+
 
   public loginSubject = new BehaviorSubject<boolean>(localStorage.getItem('token')? true : false)
   public userSubject = new BehaviorSubject(
@@ -18,11 +22,11 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private router: Router) { }
 
   public register(data: User): Observable<any> {
-    return this.httpClient.post<any>(`${this.NODE_API}register`, data)
+    return this.httpClient.post<any>(`${this.API_URL}/register`, data)
   }
 
   public login(data: {}): Observable<any> {
-    return this.httpClient.post<any>(`${this.NODE_API}login`, data)
+    return this.httpClient.post<any>(`${this.API_URL}/login`, data)
   }
 
   public logOut(): void {

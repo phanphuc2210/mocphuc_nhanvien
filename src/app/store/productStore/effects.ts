@@ -13,11 +13,11 @@ export class ProductsEffects {
             mergeMap(() => {
                 return this.productService.getAllProducts().pipe(
                     map((res) => {
-                        const products = res.result
+                        const products = res
                         return ProductsActions.getProductsSuccess({products})
                     }),
                     catchError((error) => 
-                        of(ProductsActions.getProductsFailure({error: error.message}))
+                        of(ProductsActions.getProductsFailure({error: error.error.message}))
                     )
                 )
             })
@@ -30,21 +30,18 @@ export class ProductsEffects {
             exhaustMap(action => {
                 return this.productService.addNewProduct(action.product).pipe(
                     map(res => {
-                        if(res.result !== null) {
-                            const product = res.result
-                            Swal.fire({
-                                background: '#000',
-                                icon: 'success',
-                                title: '<p class="text-xl text-slate-300">Thêm thành công</p>',
-                                confirmButtonText: 'Ok',
-                                confirmButtonColor: '#0e9f6e',
-                            })
-                            return ProductsActions.addProductSuccess({product: product})
-                        }
-                        throw new Error('something went wrong');
+                        const product = res
+                        Swal.fire({
+                            background: '#000',
+                            icon: 'success',
+                            title: '<p class="text-xl text-slate-300">Thêm thành công</p>',
+                            confirmButtonText: 'Ok',
+                            confirmButtonColor: '#0e9f6e',
+                        })
+                        return ProductsActions.addProductSuccess({product: product})
                     }),
                     catchError((error) => 
-                        of(ProductsActions.addProductFailure({error: error.message}))
+                        of(ProductsActions.addProductFailure({error: error.error.message}))
                     )
                 )
             })
@@ -57,20 +54,17 @@ export class ProductsEffects {
             exhaustMap(action => {
                 return this.productService.updateProduct(action.productId, action.product).pipe(
                     map(res => {
-                        if(res.result !== null) {
-                            Swal.fire({
-                                background: '#000',
-                                icon: 'success',
-                                title: '<p class="text-xl text-slate-300">Thay đổi thành công</p>',
-                                confirmButtonText: 'Ok',
-                                confirmButtonColor: '#0e9f6e',
-                            })
-                            return ProductsActions.editProductSuccess({productId: res.result.id, product: res.result.product})
-                        }
-                        throw new Error('something went wrong');
+                        Swal.fire({
+                            background: '#000',
+                            icon: 'success',
+                            title: '<p class="text-xl text-slate-300">Thay đổi thành công</p>',
+                            confirmButtonText: 'Ok',
+                            confirmButtonColor: '#0e9f6e',
+                        })
+                        return ProductsActions.editProductSuccess({productId: res.id, product: res.product})
                     }),
                     catchError((error) => 
-                        of(ProductsActions.editProductFailure({error: error.message}))
+                        of(ProductsActions.editProductFailure({error: error.error.message}))
                     )
                 )
             })
@@ -82,25 +76,18 @@ export class ProductsEffects {
             ofType(ProductsActions.removeProduct),
             exhaustMap(action => {
                 return this.productService.deleteProduct(action.productId).pipe(
-                    map(res => {
-                        if(res.result !== null) {
-                            if(res.result.err) {
-                                throw new Error(res.result.err);
-                            } else {
-                                Swal.fire({
-                                    background: '#000',
-                                    icon: 'success',
-                                    title: '<p class="text-xl text-slate-300">Xóa thành công</p>',
-                                    confirmButtonText: 'Ok',
-                                    confirmButtonColor: '#1a56db',
-                                })
-                                return ProductsActions.removeProductSuccess({productId: res.result.id})
-                            }  
-                        }
-                        throw new Error('something went wrong');
+                    map(res => { 
+                        Swal.fire({
+                            background: '#000',
+                            icon: 'success',
+                            title: '<p class="text-xl text-slate-300">'+ res.message +'</p>',
+                            confirmButtonText: 'Ok',
+                            confirmButtonColor: '#1a56db',
+                        })
+                        return ProductsActions.removeProductSuccess({productId: res.id})
                     }),
                     catchError((error) => 
-                        of(ProductsActions.removeProductFailure({error: error.message}))
+                        of(ProductsActions.removeProductFailure({error: error.error.message}))
                     )
                 )
             })

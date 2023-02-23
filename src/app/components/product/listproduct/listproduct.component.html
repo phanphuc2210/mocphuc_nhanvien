@@ -5,7 +5,7 @@
             <p class="text-sm font-semibold dark:text-slate-100 w-32">Phân loại</p>
             <select (change)="productClassification()" [(ngModel)]="classify" class="my-input">
                 <option selected value="">Tất cả</option>
-                <option *ngFor="let type of types" value="{{type.id}}">{{type.name}}</option>
+                <option *ngFor="let type of types$ | async" value="{{type.id}}">{{type.name}}</option>
             </select>
         </div>
     </div>

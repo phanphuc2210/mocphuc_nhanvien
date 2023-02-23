@@ -20,7 +20,7 @@ export class ListproductComponent implements OnInit, OnDestroy{
   products$!: Observable<Product[] | any>
   
   // products: Product[] = [];
-  types: ProductType[] = [];
+  types$!: Observable<ProductType[]> 
   classify: string = ''; 
   p:number = 1;
   itemsPerPage:number = 8;
@@ -32,9 +32,7 @@ export class ListproductComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.productService.getProductTypes().subscribe(res => {
-      this.types = res.result;
-    });
+    this.types$ = this.productService.getProductTypes()
 
     this.store.dispatch(ProductsAction.getProducts())
   }

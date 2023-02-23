@@ -24,7 +24,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   productId: string = '';
   defaultImgUrl!:string
   img_url: any = ''
-  productTypes: ProductType[] = [];
+  productTypes$!: Observable<ProductType[]>
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
 
@@ -39,7 +39,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     description: ['', Validators.required],
     image: [
       { value: '', disabled: false },
-      [fileUploadValidator(this.allowedFileExtensions), Validators.required]
+      [fileUploadValidator(this.allowedFileExtensions)]
     ]
   });
 
@@ -55,18 +55,16 @@ export class EditProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     // Lấy ra loại sản phẩm
-    this.productService.getProductTypes().subscribe(res => {
-      this.productTypes = res.result;
-    });
+    this.productTypes$ = this.productService.getProductTypes()
 
     // Lấy ra sản phẩm cần edit
     this.productService.getProduct(this.productId).subscribe(res => {
-      this.editProductForm.controls['name'].setValue(res.result[0].name);
-      this.editProductForm.controls['type'].setValue(res.result[0].typeId);
-      this.editProductForm.controls['quantity'].setValue(res.result[0].quantity);
-      this.editProductForm.controls['price'].setValue(res.result[0].price);
-      this.editProductForm.controls['description'].setValue(res.result[0].description);
-      this.defaultImgUrl = res.result[0].image
+      this.editProductForm.controls['name'].setValue(res.name);
+      this.editProductForm.controls['type'].setValue(String(res.typeId));
+      this.editProductForm.controls['quantity'].setValue(String(res.quantity));
+      this.editProductForm.controls['price'].setValue(String(res.price));
+      this.editProductForm.controls['description'].setValue(res.description);
+      this.defaultImgUrl = res.image
     });
   }
 
@@ -115,7 +113,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       name: this.editProductForm.controls['name'].value!,
       typeId: Number(this.editProductForm.controls['type'].value),
       quantity: Number(this.editProductForm.controls['quantity'].value),
-      image: this.img_url,
+      image: this.img_url? this.img_url : this.defaultImgUrl,
       price: Number(this.editProductForm.controls['price'].value),
       description: this.editProductForm.controls['description'].value!
     }
