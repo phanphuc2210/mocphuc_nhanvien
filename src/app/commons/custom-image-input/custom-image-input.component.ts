@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
     }
   ]
 })
-export class CustomImageInputComponent implements ControlValueAccessor, OnChanges {
+export class CustomImageInputComponent implements ControlValueAccessor {
   @Input() label!: string
   @Input() defaultImgUrl!: string
   @Input() api_upload: string = `http://localhost:8000/upload`
@@ -37,10 +37,6 @@ export class CustomImageInputComponent implements ControlValueAccessor, OnChange
   onTouched:any = () => {}
 
   constructor(private httpClient: HttpClient) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    
-  }
 
   writeValue(input: any): void {
     this.input = input
@@ -69,6 +65,7 @@ export class CustomImageInputComponent implements ControlValueAccessor, OnChange
 
     const formData = new FormData();
     formData.append('file', file);
+
 
     this.httpClient.post<any>(this.api_upload, formData).subscribe(
       res => {

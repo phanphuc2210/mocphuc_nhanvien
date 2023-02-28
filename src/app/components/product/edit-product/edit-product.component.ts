@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { fileUploadValidator } from 'src/app/helper/validateUploadFile';
@@ -22,8 +22,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
   error$!: Observable<string | undefined>
 
   productId: string = '';
-  defaultImgUrl!:string
-  img_url: any = ''
+  defaultImgUrl!:string[]
+  img_url: any = []
   productTypes$!: Observable<ProductType[]>
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
@@ -37,11 +37,32 @@ export class EditProductComponent implements OnInit, OnDestroy {
     ])],
     price: ['', Validators.required],
     description: ['', Validators.required],
-    image: [
-      { value: '', disabled: false },
-      [fileUploadValidator(this.allowedFileExtensions)]
-    ]
+    images: this.fb.array([
+      
+    ])
+    // image: [
+    //   { value: '', disabled: false },
+    //   [fileUploadValidator(this.allowedFileExtensions)]
+    // ]
   });
+
+  get images(): FormArray {
+    return this.editProductForm.get('images') as FormArray; 
+  }
+
+  addImage() {
+    this.images.push(this.fb.control(
+      '', Validators.compose([
+        fileUploadValidator(this.allowedFileExtensions), Validators.required
+      ])
+    ));
+  }
+  
+  removeImage(index: number) {
+    this.images.removeAt(index);
+    this.img_url.splice(index, 1);
+    this.defaultImgUrl = [...this.img_url]
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -64,7 +85,16 @@ export class EditProductComponent implements OnInit, OnDestroy {
       this.editProductForm.controls['quantity'].setValue(String(res.quantity));
       this.editProductForm.controls['price'].setValue(String(res.price));
       this.editProductForm.controls['description'].setValue(res.description);
+      // Cấu hình cho nhiều hình ảnh
       this.defaultImgUrl = res.image
+      this.defaultImgUrl.forEach((url) => {
+        this.images.push(this.fb.control(
+          '', Validators.compose([
+            fileUploadValidator(this.allowedFileExtensions)
+          ])
+        ));
+      })
+      this.img_url = [...this.defaultImgUrl]
     });
   }
 
@@ -104,8 +134,8 @@ export class EditProductComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  public receiveImgUrl(event:any) {
-    this.img_url = event
+  public receiveImgUrl(event:any, index: number) {
+    this.img_url[index] = event
   }
 
   public saveChange() {
@@ -113,7 +143,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
       name: this.editProductForm.controls['name'].value!,
       typeId: Number(this.editProductForm.controls['type'].value),
       quantity: Number(this.editProductForm.controls['quantity'].value),
-      image: this.img_url? this.img_url : this.defaultImgUrl,
+      image: this.img_url,
       price: Number(this.editProductForm.controls['price'].value),
       description: this.editProductForm.controls['description'].value!
     }

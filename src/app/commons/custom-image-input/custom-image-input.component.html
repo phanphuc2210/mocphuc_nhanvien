@@ -1,5 +1,5 @@
 <div class="mb-4 {{ containerClass }}">
-  <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white"
+  <label *ngIf="label" class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white"
     >{{ label }}</label
   >
   <input
@@ -22,7 +22,7 @@
   ></app-validate-input>
 
   <div
-    class="flex items-center justify-center my-4 w-64 h-64 overflow-hidden border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+    class="flex items-center justify-center my-4 w-40 h-40 overflow-hidden border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
   >
     <img *ngIf="!isLoading; else no_preview_img" [src]="preview_img || defaultImgUrl" />
     <ng-template #no_preview_img>

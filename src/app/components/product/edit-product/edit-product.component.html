@@ -50,16 +50,48 @@
         </div>
 
         <div>
-            <app-custom-image-input
+            <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Hình ảnh</label>
+            <div formArrayName="images" *ngIf="images.controls.length">
+                <div class="mb-2" *ngFor="let c of images.controls; index as i">
+                    <app-custom-image-input
+                        [formControlName]="i"
+                        [defaultImgUrl]="defaultImgUrl[i]"
+                        (imageUrl)="receiveImgUrl($event, i)"
+                        inputClass="w-[75%]"
+                        [errors]="images.at(i).errors"
+                    ></app-custom-image-input>
+             
+                    <button 
+                        (click)="removeImage(i)"
+                        *ngIf="images.controls.length > 1"
+                        class="text-white bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700"
+                    >
+                        Xóa ảnh
+                    </button>
+
+                </div>
+                <a 
+                    class="flex items-center p-2 text-sm font-normal text-blue-600 cursor-pointer hover:underline" 
+                    (click)="addImage()"
+                >
+                    <svg class="flex-shrink-0 w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span class="ml-1">Thêm ảnh</span>
+                </a>
+            </div>
+            <!-- <app-custom-image-input
                 formControlName="image"
                 label="Hình ảnh"
                 [defaultImgUrl]="defaultImgUrl"
                 (imageUrl)="receiveImgUrl($event)"
                 [errors]="editProductForm.controls['image'].errors"
-            ></app-custom-image-input>
+            ></app-custom-image-input> -->
 
-            <button type="button" [disabled]="editProductForm.invalid" (click)="saveChange()" class="text-white bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Sửa sản phẩm</button>
-            <button routerLink="/dashboard/product" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Về trang danh sách</button>
+           <div class="mt-4">
+                <button type="button" [disabled]="editProductForm.invalid" (click)="saveChange()" class="text-white w-[48%] bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Sửa sản phẩm</button>
+                <button routerLink="/dashboard/product" type="button" class="text-white w-[48%] bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Về trang danh sách</button>
+           </div>
         </div>
     </form>
 </div>

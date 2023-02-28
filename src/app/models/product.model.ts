@@ -1,4 +1,3 @@
-import { ProductType } from "./productType.model"
 
 export interface Product {
     id?: number

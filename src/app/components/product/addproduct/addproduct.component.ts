@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { fileUploadValidator } from 'src/app/helper/validateUploadFile';
 import { AppStateInterface } from 'src/app/models/appState.interface';
@@ -19,7 +19,7 @@ import { errorSelector } from 'src/app/store/productStore/selectors';
 export class AddproductComponent implements OnInit, OnDestroy{
   error$!: Observable<string | undefined>
 
-  img_url: any = '';
+  img_url: any = [];
   productTypes$!: Observable<ProductType[]>;
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
@@ -33,11 +33,30 @@ export class AddproductComponent implements OnInit, OnDestroy{
     ])],
     price: ['', Validators.required],
     description: ['', Validators.required],
-    image: [
-      { value: '', disabled: false },
-      [fileUploadValidator(this.allowedFileExtensions), Validators.required]
-    ]
+    images: this.fb.array([
+      this.fb.control(
+        '', Validators.compose([
+          fileUploadValidator(this.allowedFileExtensions), Validators.required
+        ])
+      )
+    ])
   });
+
+  get images(): FormArray {
+    return this.addProductForm.get('images') as FormArray; 
+  }
+
+  addImage() {
+    this.images.push(this.fb.control(
+      '', Validators.compose([
+        fileUploadValidator(this.allowedFileExtensions), Validators.required
+      ])
+    ));
+  }
+  
+  removeImage(index: number) {
+    this.images.removeAt(index);
+  }
 
   constructor(private productService: ProductService, private fb: FormBuilder, private store: Store<AppStateInterface>) {
     this.error$ = this.store.pipe(select(errorSelector))
@@ -51,8 +70,11 @@ export class AddproductComponent implements OnInit, OnDestroy{
     this.store.dispatch(ProductsAction.setErrorNull())
   }
 
-  public receiveImgUrl(event:any) {
-    this.img_url = event
+  public receiveImgUrl(event:any, index: number) {
+    this.img_url[index] = event
+    // console.log("Index:", index)
+    // console.log("Event:", event)
+    // console.log("Image Array:", this.img_url)
   }
 
   public saveNew() {
