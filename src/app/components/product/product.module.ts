@@ -17,12 +17,15 @@ import { reducers } from 'src/app/store/productStore/reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductsEffects } from 'src/app/store/productStore/effects';
 import { CommonsModule } from 'src/app/commons/commons.module';
+import { NgxStarRatingModule } from 'ngx-star-rating';
+import { CommentComponent } from './comment/comment.component';
 
 
 const routes: Routes = [
   {path: 'search', component: SearchComponent},
   {path: 'add', component: AddproductComponent},
   {path: 'edit/:id', component: EditProductComponent, canDeactivate: [CanLeaveGuard]},
+  {path: 'comment/:id', component: CommentComponent},
   {path: '', component: ListproductComponent}
 ];
 
@@ -33,7 +36,8 @@ const routes: Routes = [
     EditProductComponent,
     SearchComponent,
     ProductCardComponent,
-    ToastErrComponent
+    ToastErrComponent,
+    CommentComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,8 @@ const routes: Routes = [
     CommonsModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature('products', reducers),
-    EffectsModule.forFeature([ProductsEffects])    
+    EffectsModule.forFeature([ProductsEffects]),
+    NgxStarRatingModule    
   ]
 })
 export class ProductModule { }
