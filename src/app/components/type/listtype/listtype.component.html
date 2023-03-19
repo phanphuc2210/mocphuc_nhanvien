@@ -1,0 +1,115 @@
+<div class="min-h-full p-4 dark:bg-slate-700">
+    <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">Danh sách loại sản phẩm</h2>
+  
+    <div
+    *ngIf="typeList"
+      class="overflow-x-auto shadow-md sm:rounded-lg mt-6"
+    >
+      <table class="w-full text-sm text-left text-gray-900 dark:text-gray-400">
+        <thead
+          class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-900 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="py-3 px-6">ID</th>
+            <th scope="col" class="py-3 px-6">Tên loại sản phẩm</th>
+            <th scope="col" class="py-3 px-6">Mô tả</th>
+            <th scope="col" class="py-3 px-6">Kích hoạt</th>
+            <th scope="col" class="py-3 px-6"></th>
+            <th scope="col" class="py-3 px-6"></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="typeList.length > 0; else noType">
+          <!-- Hiển thị loại sản phẩm cha -->
+          <ng-container *ngFor="let type of typeList">
+            <tr
+              *ngIf="type.parentId === 0"
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              <th
+                scope="row"
+                class="py-4 px-6 font-semibold text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                #{{ type.id }}
+              </th>
+              <td class="py-4 px-6">
+                {{ type.name }}
+              </td>
+              <td class="py-4 px-6">
+                <p
+                  class="w-[26rem] overflow-hidden text-ellipsis whitespace-nowrap"
+                >
+                  {{ type.description }}
+                </p>
+              </td>
+              <td class="py-4 px-6">
+                  <p *ngIf="type.active; else noActive" class="p-2 text-xs w-fit bg-green-600 text-white rounded-md">
+                      YES
+                  </p>
+                  <ng-template #noActive>
+                      <p class="p-2 text-xs w-fit bg-red-700 text-white rounded-md">
+                          NO
+                      </p>
+                  </ng-template>
+              </td>
+              <td
+                routerLink="/dashboard/type/edit/{{ type.id }}"
+                class="py-4 px-6 text-blue-600 hover:cursor-pointer"
+              >
+                Sửa
+              </td>
+              <td (click)="deleteType(type.id)" class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
+            </tr>
+            <!-- Hiển thị loại sản phẩm con -->
+            <ng-container *ngFor="let typeChild of typeList">
+              <tr
+                *ngIf="typeChild.parentId === type.id"
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                <th
+                  scope="row"
+                  class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  #{{ typeChild.id }}
+                </th>
+                <td class="py-4 px-6">
+                  |---> {{ typeChild.name }}
+                </td>
+                <td class="py-4 px-6">
+                  <p
+                    class="w-[26rem] overflow-hidden text-ellipsis whitespace-nowrap"
+                  >
+                    {{ typeChild.description }}
+                  </p>
+                </td>
+                <td class="py-4 px-6">
+                    <p *ngIf="typeChild.active; else noActive" class="p-2 text-xs w-fit bg-green-600 text-white rounded-md">
+                        YES
+                    </p>
+                    <ng-template #noActive>
+                        <p class="p-2 text-xs w-fit bg-red-700 text-white rounded-md">
+                            NO
+                        </p>
+                    </ng-template>
+                </td>
+                <td
+                  routerLink="/dashboard/type/edit/{{ typeChild.id }}"
+                  class="py-4 px-6 text-blue-600 hover:cursor-pointer"
+                >
+                  Sửa
+                </td>
+                <td (click)="deleteType(type.id)" class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+        <ng-template #noType>
+          <tr>
+            <td colspan="6">
+              <p class="py-4">Chưa có bất kỳ loại sản phẩm nào!</p>
+            </td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+  </div>
+  

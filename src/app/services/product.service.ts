@@ -10,6 +10,8 @@ import { ProductType } from '../models/productType.model';
 })
 export class ProductService {
   private NODE_API = environment.apiURL;
+  private endpoint = 'products'
+  private API_URL = `${this.NODE_API}/${this.endpoint}`
 
   constructor(private httpClient: HttpClient) { }
 
@@ -17,29 +19,25 @@ export class ProductService {
     return this.httpClient.post<any>(`${this.NODE_API}/upload`, data)
   }
 
-  public getProductTypes(): Observable<ProductType[]> {
-    return this.httpClient.get<ProductType[]>(`${this.NODE_API}/types`);
-  }
-
   public getProduct(id:string): Observable<Product> {
-    return this.httpClient.get<Product>(`${this.NODE_API}/products/${id}`);
+    return this.httpClient.get<Product>(`${this.API_URL}/${id}`);
   }
 
   public getAllProducts(typeId?: string): Observable<Product[]> {
     const classify = typeId? `typeId=${typeId}` : '';
-    return this.httpClient.get<Product[]>(`${this.NODE_API}/products?${classify}`).pipe(delay(1000));
+    return this.httpClient.get<Product[]>(`${this.API_URL}?${classify}`).pipe(delay(1000));
   }
 
   public addNewProduct(data: Product): Observable<any> {
-    return this.httpClient.post<any>(`${this.NODE_API}/products`, data);
+    return this.httpClient.post<any>(`${this.API_URL}`, data);
   }
 
   public updateProduct(id: string, data: Product): Observable<any> {
-    return this.httpClient.put<any>(`${this.NODE_API}/products/${id}`, data);
+    return this.httpClient.put<any>(`${this.API_URL}/${id}`, data);
   }
 
   public deleteProduct(id:string): Observable<any> {
-    return this.httpClient.delete<any>(`${this.NODE_API}/products/${id}`);
+    return this.httpClient.delete<any>(`${this.API_URL}/${id}`);
   }
 
   public searchProduct(name?:string, type?:string, priceFrom?: string, priceTo?: string): Observable<any> {
@@ -58,6 +56,6 @@ export class ProductService {
     if(priceTo) {
       search += `&lte=${priceTo}`
     }
-    return this.httpClient.get<any>(`${this.NODE_API}/products?${search}`);
+    return this.httpClient.get<any>(`${this.API_URL}?${search}`);
   }
 }

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import * as ProductsAction from 'src/app/store/productStore/action'
 import { Observable } from 'rxjs';
 import { errorSelector } from 'src/app/store/productStore/selectors';
+import { TypeService } from 'src/app/services/type.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -67,6 +68,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private typeService: TypeService,
     private route: ActivatedRoute,
     private store: Store<AppStateInterface>
   ) {
@@ -76,7 +78,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     // Lấy ra loại sản phẩm
-    this.productTypes$ = this.productService.getProductTypes()
+    this.productTypes$ = this.typeService.getProductTypes()
 
     // Lấy ra sản phẩm cần edit
     this.productService.getProduct(this.productId).subscribe(res => {

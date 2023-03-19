@@ -1,0 +1,46 @@
+<div class="min-h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-4 font-bold dark:text-slate-100">Cập nhật loại sản phẩm</h2>
+
+    <form [formGroup]="editTypeForm">
+        <app-custom-form-input 
+            formControlName="name"
+            [type] = "'text'"
+            label = "Tên loại sản phẩm"
+            [errors]="editTypeForm.controls['name'].errors"
+        ></app-custom-form-input>
+
+        <app-custom-select
+            formControlName="parentId"
+            label="Loại sản phẩm"
+            [options]="parentTypes"
+            selectedOptionLabel="Loại sản phẩm cha"
+            selectedOptionValue="0"
+            [errors]="editTypeForm.controls['parentId'].errors"
+        ></app-custom-select>
+
+        <app-custom-textarea
+            rows="4"
+            formControlName="description" 
+            label="Mô tả"
+            placeholder="Viết mô tả..."
+            [errors]="editTypeForm.controls['description'].errors"
+        ></app-custom-textarea>
+
+        <div class="mb-4">
+            <span class="block text-sm font-semibold text-slate-700 mb-2">Kích hoạt:</span>
+            <div class="flex items-center my-1">
+                <input [checked]="editTypeForm.controls['active'].value === 1" (change)="changeCheckBoxvalue($event)" id="yes" type="radio" value=1 name="active" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="yes" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Có</label>
+            </div>
+            <div class="flex items-center my-1">
+                <input [checked]="editTypeForm.controls['active'].value === 0" type="radio" (change)="changeCheckBoxvalue($event)" id="no" value=0 name="active" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="no" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Không</label>
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button (click)="saveChange()" type="button" [disabled]="editTypeForm.invalid" class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Sửa loại sản phẩm</button>
+            <button routerLink="/dashboard/type" type="button" class="text-white w-fit bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Về trang danh sách</button>
+        </div>
+    </form>
+</div>

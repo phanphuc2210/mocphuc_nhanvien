@@ -11,7 +11,6 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { CanLeaveGuard } from 'src/app/guards/can-leave.guard';
 import { SearchComponent } from './search/search.component';
 import { ProductCardComponent } from 'src/app/commons/product-card/product-card.component';
-import { ToastErrComponent } from 'src/app/commons/toast-err/toast-err.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/app/store/productStore/reducer';
 import { EffectsModule } from '@ngrx/effects';
@@ -19,6 +18,7 @@ import { ProductsEffects } from 'src/app/store/productStore/effects';
 import { CommonsModule } from 'src/app/commons/commons.module';
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { CommentComponent } from './comment/comment.component';
+import { ToastErrComponent } from 'src/app/commons/toast-err/toast-err.component';
 
 
 const routes: Routes = [
@@ -36,8 +36,8 @@ const routes: Routes = [
     EditProductComponent,
     SearchComponent,
     ProductCardComponent,
-    ToastErrComponent,
-    CommentComponent
+    CommentComponent,
+    ToastErrComponent
   ],
   imports: [
     CommonModule,

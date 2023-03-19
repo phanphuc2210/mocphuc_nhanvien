@@ -1,0 +1,70 @@
+<div class="min-h-full p-4 dark:bg-slate-700">
+  <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">Danh sách loại gỗ</h2>
+  
+  <div
+    *ngIf="woodList$ | async as woodList"
+    class="overflow-x-auto shadow-md sm:rounded-lg mt-6"
+  >
+    <table class="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+      <thead
+        class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-900 dark:text-gray-400"
+      >
+        <tr>
+          <th scope="col" class="py-3 px-6">ID</th>
+          <th scope="col" class="py-3 px-6">Hình ảnh</th>
+          <th scope="col" class="py-3 px-6">Tên loại gỗ</th>
+          <th scope="col" class="py-3 px-6">Mô tả</th>
+          <th scope="col" class="py-3 px-6"></th>
+          <th scope="col" class="py-3 px-6"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="woodList.length > 0; else noWood">
+        <tr
+          *ngFor="let wood of woodList"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        >
+          <th
+            scope="row"
+            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            #{{ wood.id }}
+          </th>
+          <td class="py-4 px-6">
+            <img
+              class="w-16 mx-auto"
+              src="{{ wood.image }}"
+              alt="{{ wood.name }}"
+            />
+          </td>
+          <td class="py-4 px-6">
+            {{ wood.name }}
+          </td>
+          <td class="py-4 px-6 text-left">
+            <p
+              class="w-[26rem] overflow-hidden text-ellipsis whitespace-nowrap"
+            >
+              {{ wood.description }}
+            </p>
+          </td>
+          <td
+            routerLink="/dashboard/wood/edit/{{ wood.id }}"
+            class="py-4 px-6 text-blue-600 hover:cursor-pointer"
+          >
+            Sửa
+          </td>
+          <td class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
+          <!-- <td class="py-4 px-6">
+                        <a (click)="deleteUser(user.id!)" class="font-medium cursor-pointer text-red-600 dark:text-red-500 hover:underline">Xóa</a>
+                    </td> -->
+        </tr>
+      </tbody>
+      <ng-template #noWood>
+        <tr>
+          <td colspan="6">
+            <p class="py-4">Chưa có bất kỳ loại gỗ nào!</p>
+          </td>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
+</div>

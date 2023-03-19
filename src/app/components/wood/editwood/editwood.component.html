@@ -1,0 +1,51 @@
+<div class="min-h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-4 font-bold dark:text-slate-100">Cập nhật loại gỗ</h2>
+
+    <form class="grid grid-cols-2 gap-9" [formGroup]="editWoodForm">
+        <div>
+            <app-custom-form-input 
+                formControlName="name"
+                [type] = "'text'"
+                label = "Tên sản phẩm"
+                [errors]="editWoodForm.controls['name'].errors"
+            ></app-custom-form-input>
+    
+            <app-custom-textarea
+                rows="4"
+                formControlName="description" 
+                label="Mô tả"
+                placeholder="Viết mô tả..."
+                [errors]="editWoodForm.controls['description'].errors"
+            ></app-custom-textarea>
+
+            <app-custom-textarea
+                rows="4"
+                formControlName="advantage" 
+                label="Ưu điểm"
+                placeholder="Viết ưu điểm..."
+                [errors]="editWoodForm.controls['advantage'].errors"
+            ></app-custom-textarea>
+
+            <app-custom-textarea
+                rows="4"
+                formControlName="defect" 
+                label="Nhược điểm"
+                placeholder="Viết nhược điểm..."
+                [errors]="editWoodForm.controls['defect'].errors"
+            ></app-custom-textarea>
+        </div>
+
+        <div>
+            <app-custom-image-input
+                formControlName="image"
+                label="Hình ảnh"
+                [defaultImgUrl]="defaultImgUrl"
+                (imageUrl)="receiveImgUrl($event)"
+                [errors]="editWoodForm.controls['image'].errors"
+            ></app-custom-image-input>
+           
+            <button type="button" [disabled]="editWoodForm.invalid" (click)="saveChange()" class="text-white bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Sửa loại gỗ</button>
+            <button routerLink="/dashboard/wood" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Về trang danh sách</button>
+        </div>
+    </form>
+</div>

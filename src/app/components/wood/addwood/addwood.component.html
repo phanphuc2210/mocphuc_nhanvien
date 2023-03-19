@@ -1,0 +1,49 @@
+<div class="min-h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-4 font-bold dark:text-slate-100">Thêm loại gỗ</h2>
+
+    <form class="grid grid-cols-2 gap-9" [formGroup]="addWoodForm">
+        <div>
+            <app-custom-form-input 
+                formControlName="name"
+                [type] = "'text'"
+                label = "Tên loại gỗ"
+                [errors]="addWoodForm.controls['name'].errors"
+            ></app-custom-form-input>
+    
+            <app-custom-textarea
+                rows="4"
+                formControlName="description" 
+                label="Mô tả"
+                placeholder="Viết mô tả..."
+                [errors]="addWoodForm.controls['description'].errors"
+            ></app-custom-textarea>
+
+            <app-custom-textarea
+                rows="4"
+                formControlName="advantage" 
+                label="Ưu điểm"
+                placeholder="Viết ưu điểm..."
+                [errors]="addWoodForm.controls['advantage'].errors"
+            ></app-custom-textarea>
+
+            <app-custom-textarea
+                rows="4"
+                formControlName="defect" 
+                label="Nhược điểm"
+                placeholder="Viết nhược điểm..."
+                [errors]="addWoodForm.controls['defect'].errors"
+            ></app-custom-textarea>
+        </div>
+
+        <div>
+            <app-custom-image-input
+                formControlName="image"
+                label="Hình ảnh"
+                (imageUrl)="receiveImgUrl($event)"
+                [errors]="addWoodForm.controls['image'].errors"
+            ></app-custom-image-input>
+           
+            <button type="button" (click)="saveNew()" [disabled]="addWoodForm.invalid" class="text-white w-full bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Thêm loại gỗ</button>
+        </div>
+    </form>
+</div>

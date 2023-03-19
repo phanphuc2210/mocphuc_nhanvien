@@ -13,6 +13,18 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'statistical', component: StatisticalComponent},
     {
+      path: 'type', 
+      loadChildren: () => 
+        import('./components/type/type.module').then(m => m.TypeModule),
+      canLoad: [AuthGuard]
+    },
+    {
+      path: 'wood', 
+      loadChildren: () => 
+        import('./components/wood/wood.module').then(m => m.WoodModule),
+      canLoad: [AuthGuard]
+    },
+    {
       path: 'product', 
       loadChildren: () => 
         import('./components/product/product.module').then(m => m.ProductModule),

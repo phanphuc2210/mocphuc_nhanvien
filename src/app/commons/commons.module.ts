@@ -9,8 +9,6 @@ import { CustomNumberInputComponent } from './custom-number-input/custom-number-
 import { CustomSelectComponent } from './custom-select/custom-select.component';
 import { CustomImageInputComponent } from './custom-image-input/custom-image-input.component';
 
-
-
 @NgModule({
   declarations: [
     CustomFormInputComponent,
@@ -18,7 +16,7 @@ import { CustomImageInputComponent } from './custom-image-input/custom-image-inp
     CustomTextareaComponent,
     CustomNumberInputComponent,
     CustomSelectComponent,
-    CustomImageInputComponent
+    CustomImageInputComponent,
   ],
   imports: [
     CommonModule,
@@ -31,7 +29,7 @@ import { CustomImageInputComponent } from './custom-image-input/custom-image-inp
     CustomTextareaComponent,
     CustomNumberInputComponent,
     CustomSelectComponent,
-    CustomImageInputComponent
+    CustomImageInputComponent,
   ]
 })
 export class CommonsModule { }
