@@ -20,6 +20,15 @@
                 selectedOptionValue=""
                 [errors]="editProductForm.controls['type'].errors"
             ></app-custom-select>
+
+            <app-custom-select
+                formControlName="wood"
+                label="Loại gỗ"
+                [options]="woodTypes$ | async"
+                selectedOptionLabel="Chọn loại gỗ"
+                selectedOptionValue=""
+                [errors]="editProductForm.controls['wood'].errors"
+            ></app-custom-select>
     
             <app-custom-number-input 
                 formControlName="quantity"
@@ -39,7 +48,31 @@
                 thousands="."
                 [errors]="editProductForm.controls['price'].errors"
             ></app-custom-number-input>
-    
+            
+            <div>
+                <label class="block text-sm font-semibold text-slate-700">Kích thước</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <app-custom-form-input 
+                        formControlName="length"
+                        [type] = "'text'"
+                        placeholder="dài(mm)"
+                        [errors]="editProductForm.controls['length'].errors"
+                    ></app-custom-form-input>
+                    <app-custom-form-input 
+                        formControlName="width"
+                        [type] = "'text'"
+                        placeholder="rộng(mm)"
+                        [errors]="editProductForm.controls['width'].errors"
+                    ></app-custom-form-input>
+                    <app-custom-form-input 
+                        formControlName="height"
+                        [type] = "'text'"
+                        placeholder="cao(mm)"
+                        [errors]="editProductForm.controls['height'].errors"
+                    ></app-custom-form-input>
+                </div>
+            </div>
+
             <app-custom-textarea
                 rows="4"
                 formControlName="description" 
@@ -47,6 +80,8 @@
                 placeholder="Viết mô tả..."
                 [errors]="editProductForm.controls['description'].errors"
             ></app-custom-textarea>
+
+
         </div>
 
         <div>

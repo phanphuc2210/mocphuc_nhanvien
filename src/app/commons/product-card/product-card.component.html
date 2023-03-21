@@ -10,23 +10,24 @@
   </div>
   <div class="p-5">
     <h5
-      class="mb-1 text-xl font-bold tracking-tight text-gray-900 dark:text-white"
+      class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white"
     >
       {{ product.name }}
     </h5>
-    <p class="mb-1 text-base font-normal text-gray-900 dark:text-white">
-      Mã sản phẩm: {{ product.id }}
-    </p>
 
     <div class="flex justify-between mb-1">
-      <p class="text-base font-normal text-gray-900 dark:text-white">
-        Loại sản phẩm: {{ product.type_name }}
+      <p class="text-sm font-normal text-gray-900 dark:text-white">
+        Mã sản phẩm: {{ product.id }}
       </p>
-      <p class="text-base font-normal text-gray-900 dark:text-white">
+      <p class="text-sm font-normal text-gray-900 dark:text-white">
         Còn lại: {{ product.quantity }}
       </p>
     </div>
 
+    <p class="text-sm font-normal text-gray-900 dark:text-white mb-1">
+      Loại sản phẩm: {{ product.type_name }}
+    </p>
+      
     <div class="flex items-center gap-2 mb-1">
       <div class="stars">
           <ngx-star-rating ngModel="{{ product.starTotal }}" [id]="'rating'" [disabled] ="true"></ngx-star-rating>
@@ -39,7 +40,7 @@
       </span>
     </div>
 
-    <p class="mb-4 text-base font-normal text-gray-900 dark:text-white">
+    <p class="mb-4 text-sm font-normal text-gray-900 dark:text-white">
       Giá bán:
       <span class="text-red-700 dark:text-red-500 font-semibold">{{
         product.price | currency : "VND" : "vnđ" : "" : "vi"

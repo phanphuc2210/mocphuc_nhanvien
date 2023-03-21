@@ -13,6 +13,8 @@ import * as ProductsAction from 'src/app/store/productStore/action'
 import { Observable } from 'rxjs';
 import { errorSelector } from 'src/app/store/productStore/selectors';
 import { TypeService } from 'src/app/services/type.service';
+import { Wood } from 'src/app/models/wood.model';
+import { WoodService } from 'src/app/services/wood.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -26,16 +28,21 @@ export class EditProductComponent implements OnInit, OnDestroy {
   defaultImgUrl!:string[]
   img_url: any = []
   productTypes$!: Observable<ProductType[]>
+  woodTypes$!: Observable<Wood[]>
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
 
   editProductForm = this.fb.group({
     name: ['', Validators.required],
     type: ['', Validators.required],
+    wood: ['', Validators.required],
     quantity: ['', Validators.compose([
       Validators.required,
       Validators.max(50)
     ])],
+    length: ['', Validators.required],
+    width: ['', Validators.required],
+    height: ['', Validators.required],
     price: ['', Validators.required],
     description: ['', Validators.required],
     images: this.fb.array([
@@ -69,6 +76,7 @@ export class EditProductComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private productService: ProductService,
     private typeService: TypeService,
+    private woodService: WoodService,
     private route: ActivatedRoute,
     private store: Store<AppStateInterface>
   ) {
@@ -79,13 +87,19 @@ export class EditProductComponent implements OnInit, OnDestroy {
     this.productId = this.route.snapshot.paramMap.get('id')!;
     // Lấy ra loại sản phẩm
     this.productTypes$ = this.typeService.getProductTypes()
+    // Lấy ra loại gỗ
+    this.woodTypes$ = this.woodService.getWoodList()
 
     // Lấy ra sản phẩm cần edit
     this.productService.getProduct(this.productId).subscribe(res => {
       this.editProductForm.controls['name'].setValue(res.name);
       this.editProductForm.controls['type'].setValue(String(res.typeId));
+      this.editProductForm.controls['wood'].setValue(String(res.woodId));
       this.editProductForm.controls['quantity'].setValue(String(res.quantity));
       this.editProductForm.controls['price'].setValue(String(res.price));
+      this.editProductForm.controls['length'].setValue(String(res.length));
+      this.editProductForm.controls['width'].setValue(String(res.width));
+      this.editProductForm.controls['height'].setValue(String(res.height));
       this.editProductForm.controls['description'].setValue(res.description);
       // Cấu hình cho nhiều hình ảnh
       this.defaultImgUrl = res.image
@@ -144,7 +158,11 @@ export class EditProductComponent implements OnInit, OnDestroy {
     const data: Product =  {
       name: this.editProductForm.controls['name'].value!,
       typeId: Number(this.editProductForm.controls['type'].value),
+      woodId: Number(this.editProductForm.controls['wood'].value),
       quantity: Number(this.editProductForm.controls['quantity'].value),
+      length: Number(this.editProductForm.controls.length.value!),
+      width: Number(this.editProductForm.controls.width.value!),
+      height: Number(this.editProductForm.controls.height.value!),
       image: this.img_url,
       price: Number(this.editProductForm.controls['price'].value),
       description: this.editProductForm.controls['description'].value!

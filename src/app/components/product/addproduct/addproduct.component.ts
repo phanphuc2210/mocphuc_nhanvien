@@ -10,6 +10,8 @@ import * as ProductsAction from 'src/app/store/productStore/action';
 import { Observable } from 'rxjs';
 import { errorSelector } from 'src/app/store/productStore/selectors';
 import { TypeService } from 'src/app/services/type.service';
+import { WoodService } from 'src/app/services/wood.service';
+import { Wood } from 'src/app/models/wood.model';
 
 @Component({
   selector: 'app-addproduct',
@@ -21,16 +23,21 @@ export class AddproductComponent implements OnInit, OnDestroy {
 
   img_url: any = [];
   productTypes$!: Observable<ProductType[]>;
+  woodTypes$!: Observable<Wood[]>;
   // Array of valid extensions
   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
 
   addProductForm = this.fb.group({
     name: ['', Validators.required],
     type: ['', Validators.required],
+    wood: ['', Validators.required],
     quantity: [
       '',
       Validators.compose([Validators.required, Validators.max(50)]),
     ],
+    length: ['', Validators.required],
+    width: ['', Validators.required],
+    height: ['', Validators.required],
     price: ['', Validators.required],
     description: ['', Validators.required],
     images: this.fb.array([
@@ -66,6 +73,7 @@ export class AddproductComponent implements OnInit, OnDestroy {
 
   constructor(
     private typeService: TypeService,
+    private woodService: WoodService,
     private fb: FormBuilder,
     private store: Store<AppStateInterface>
   ) {
@@ -74,6 +82,7 @@ export class AddproductComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.productTypes$ = this.typeService.getProductTypes();
+    this.woodTypes$ = this.woodService.getWoodList();
   }
 
   ngOnDestroy(): void {
@@ -92,8 +101,12 @@ export class AddproductComponent implements OnInit, OnDestroy {
     const product: Product = {
       name: this.addProductForm.controls.name.value!,
       typeId: Number(this.addProductForm.controls.type.value!),
+      woodId: Number(this.addProductForm.controls.wood.value!),
       quantity: Number(this.addProductForm.controls.quantity.value!),
       price: Number(this.addProductForm.controls.price.value!),
+      length: Number(this.addProductForm.controls.length.value!),
+      width: Number(this.addProductForm.controls.width.value!),
+      height: Number(this.addProductForm.controls.height.value!),
       image: this.img_url,
       description: this.addProductForm.controls.description.value!,
     };

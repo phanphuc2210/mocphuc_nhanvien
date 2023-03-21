@@ -20,6 +20,15 @@
                 selectedOptionValue=""
                 [errors]="addProductForm.controls['type'].errors"
             ></app-custom-select>
+
+            <app-custom-select
+                formControlName="wood"
+                label="Loại gỗ"
+                [options]="woodTypes$ | async"
+                selectedOptionLabel="Chọn loại gỗ"
+                selectedOptionValue=""
+                [errors]="addProductForm.controls['wood'].errors"
+            ></app-custom-select>
     
             <app-custom-number-input 
                 formControlName="quantity"
@@ -29,7 +38,7 @@
                 thousands="."
                 [errors]="addProductForm.controls['quantity'].errors"
             ></app-custom-number-input>
-    
+
             <app-custom-number-input
                 formControlName="price"
                 label="Giá bán"
@@ -39,6 +48,30 @@
                 thousands="."
                 [errors]="addProductForm.controls['price'].errors"
             ></app-custom-number-input>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700">Kích thước</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <app-custom-form-input 
+                        formControlName="length"
+                        [type] = "'text'"
+                        placeholder="dài(mm)"
+                        [errors]="addProductForm.controls['length'].errors"
+                    ></app-custom-form-input>
+                    <app-custom-form-input 
+                        formControlName="width"
+                        [type] = "'text'"
+                        placeholder="rộng(mm)"
+                        [errors]="addProductForm.controls['width'].errors"
+                    ></app-custom-form-input>
+                    <app-custom-form-input 
+                        formControlName="height"
+                        [type] = "'text'"
+                        placeholder="cao(mm)"
+                        [errors]="addProductForm.controls['height'].errors"
+                    ></app-custom-form-input>
+                </div>
+            </div>
     
             <app-custom-textarea
                 rows="4"
@@ -47,6 +80,12 @@
                 placeholder="Viết mô tả..."
                 [errors]="addProductForm.controls['description'].errors"
             ></app-custom-textarea>
+            
+            <!-- <div class="mb-4">
+                <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Mô tả</label>
+                <ckeditor tagName="textarea" [config]="config" [editor]="editor" formControlName="description"></ckeditor>
+                <app-validate-input [label]="'Mô tả'" [isDirty]="addProductForm.controls['description'].dirty" [errors]="addProductForm.controls['description'].errors"></app-validate-input>
+            </div> -->
         </div>
 
         <div>
