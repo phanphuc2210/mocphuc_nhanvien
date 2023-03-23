@@ -1,100 +1,97 @@
-<div class="min-h-full p-4  dark:bg-slate-700">
+<div class="max-h-fit p-4  dark:bg-slate-700">
     <h2 class="text-3xl mb-4 font-bold dark:text-slate-100">Thêm sản phẩm</h2>
 
     <app-toast-err></app-toast-err>
-
-    <form class="grid grid-cols-2 gap-9" [formGroup]="addProductForm">
-        <div>
-            <app-custom-form-input 
-                formControlName="name"
-                [type] = "'text'"
-                label = "Tên sản phẩm"
-                [errors]="addProductForm.controls['name'].errors"
-            ></app-custom-form-input>
-
-            <app-custom-select
-                formControlName="type"
-                label="Loại sản phẩm"
-                [options]="productTypes$ | async"
-                selectedOptionLabel="Chọn loại sản phẩm"
-                selectedOptionValue=""
-                [errors]="addProductForm.controls['type'].errors"
-            ></app-custom-select>
-
-            <app-custom-select
-                formControlName="wood"
-                label="Loại gỗ"
-                [options]="woodTypes$ | async"
-                selectedOptionLabel="Chọn loại gỗ"
-                selectedOptionValue=""
-                [errors]="addProductForm.controls['wood'].errors"
-            ></app-custom-select>
     
-            <app-custom-number-input 
-                formControlName="quantity"
-                label = "Số lượng"
-                placeholder="vd: 20"
-                align="left"
-                thousands="."
-                [errors]="addProductForm.controls['quantity'].errors"
-            ></app-custom-number-input>
-
-            <app-custom-number-input
-                formControlName="price"
-                label="Giá bán"
-                placeholder="vd: 200.000 vnđ"
-                suffix=" vnđ"
-                align="left"
-                thousands="."
-                [errors]="addProductForm.controls['price'].errors"
-            ></app-custom-number-input>
-
+    <form [formGroup]="addProductForm">
+        <div class="grid grid-cols-2 gap-9">
             <div>
-                <label class="block text-sm font-semibold text-slate-700">Kích thước</label>
-                <div class="grid grid-cols-3 gap-2">
-                    <app-custom-form-input 
-                        formControlName="length"
-                        [type] = "'text'"
-                        placeholder="dài(mm)"
-                        [errors]="addProductForm.controls['length'].errors"
-                    ></app-custom-form-input>
-                    <app-custom-form-input 
-                        formControlName="width"
-                        [type] = "'text'"
-                        placeholder="rộng(mm)"
-                        [errors]="addProductForm.controls['width'].errors"
-                    ></app-custom-form-input>
-                    <app-custom-form-input 
-                        formControlName="height"
-                        [type] = "'text'"
-                        placeholder="cao(mm)"
-                        [errors]="addProductForm.controls['height'].errors"
-                    ></app-custom-form-input>
-                </div>
+                <app-custom-form-input 
+                    formControlName="name"
+                    [type] = "'text'"
+                    label = "Tên sản phẩm"
+                    [errors]="addProductForm.controls['name'].errors"
+                ></app-custom-form-input>
+    
+                <app-custom-select
+                    formControlName="wood"
+                    label="Loại gỗ"
+                    [options]="woodTypes$ | async"
+                    selectedOptionLabel="Chọn loại gỗ"
+                    selectedOptionValue=""
+                    [errors]="addProductForm.controls['wood'].errors"
+                ></app-custom-select>
+    
+                <app-custom-number-input 
+                    formControlName="quantity"
+                    label = "Số lượng"
+                    placeholder="vd: 20"
+                    align="left"
+                    thousands="."
+                    [errors]="addProductForm.controls['quantity'].errors"
+                ></app-custom-number-input>
             </div>
     
-            <app-custom-textarea
-                rows="4"
-                formControlName="description" 
-                label="Mô tả"
-                placeholder="Viết mô tả..."
-                [errors]="addProductForm.controls['description'].errors"
-            ></app-custom-textarea>
-            
-            <!-- <div class="mb-4">
-                <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Mô tả</label>
-                <ckeditor tagName="textarea" [config]="config" [editor]="editor" formControlName="description"></ckeditor>
-                <app-validate-input [label]="'Mô tả'" [isDirty]="addProductForm.controls['description'].dirty" [errors]="addProductForm.controls['description'].errors"></app-validate-input>
-            </div> -->
+            <div>
+                <app-custom-select
+                    formControlName="type"
+                    label="Loại sản phẩm"
+                    [options]="productTypes$ | async"
+                    selectedOptionLabel="Chọn loại sản phẩm"
+                    selectedOptionValue=""
+                    [errors]="addProductForm.controls['type'].errors"
+                ></app-custom-select>
+    
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700">Kích thước</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <app-custom-form-input 
+                            formControlName="length"
+                            [type] = "'text'"
+                            placeholder="dài(mm)"
+                            [errors]="addProductForm.controls['length'].errors"
+                        ></app-custom-form-input>
+                        <app-custom-form-input 
+                            formControlName="width"
+                            [type] = "'text'"
+                            placeholder="rộng(mm)"
+                            [errors]="addProductForm.controls['width'].errors"
+                        ></app-custom-form-input>
+                        <app-custom-form-input 
+                            formControlName="height"
+                            [type] = "'text'"
+                            placeholder="cao(mm)"
+                            [errors]="addProductForm.controls['height'].errors"
+                        ></app-custom-form-input>
+                    </div>
+                </div>
+    
+                <app-custom-number-input
+                    formControlName="price"
+                    label="Giá bán"
+                    placeholder="vd: 200.000 vnđ"
+                    suffix=" vnđ"
+                    align="left"
+                    thousands="."
+                    [errors]="addProductForm.controls['price'].errors"
+                ></app-custom-number-input>
+            </div>
         </div>
 
+        <app-custom-text-rich
+                formControlName="description"
+                label = "Mô tả"
+                placeholder="Viết mô tả..."
+                [errors]="addProductForm.controls['description'].errors"
+        ></app-custom-text-rich>
+
         <div>
-            <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Hình ảnh</label>
-            <div formArrayName="images" *ngIf="images.controls.length">
+            <label class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Hình ảnh</label>
+            <div class="grid grid-cols-5 gap-2" formArrayName="images" *ngIf="images.controls.length">
                 <div class="mb-2" *ngFor="let c of images.controls; index as i">
                     <app-custom-image-input
                         [formControlName]="i"
-                        inputClass="w-[75%]"
+                        inputClass="w-[80%]"
                         (imageUrl)="receiveImgUrl($event, i)"
                         [errors]="images.at(i).errors"
                     ></app-custom-image-input>
@@ -107,22 +104,18 @@
                         Xóa ảnh
                     </button>
                 </div>
-                <a 
-                    class="flex items-center p-2 text-sm font-normal text-blue-600 cursor-pointer hover:underline" 
-                    (click)="addImage()"
-                >
-                    <svg class="flex-shrink-0 w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                    </svg>
-                    <span class="ml-1">Thêm ảnh</span>
-                </a>
             </div>
-            <!-- <app-custom-image-input
-                formControlName="image"
-                (imageUrl)="receiveImgUrl($event)"
-            ></app-custom-image-input> -->
-           
-            <button type="button" (click)="saveNew()" [disabled]="addProductForm.invalid" class="text-white w-full bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Thêm sản phẩm</button>
+            <a 
+                class="flex items-center text-sm font-normal text-blue-600 cursor-pointer hover:underline" 
+                (click)="addImage()"
+            >
+                <svg class="flex-shrink-0 w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span class="ml-1">Thêm ảnh</span>
+            </a>
         </div>
+
+        <button type="button" (click)="saveNew()" [disabled]="addProductForm.invalid" class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Thêm sản phẩm</button>
     </form>
 </div>

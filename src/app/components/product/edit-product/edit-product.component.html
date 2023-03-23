@@ -3,99 +3,100 @@
 
     <app-toast-err></app-toast-err>
 
-    <form class="grid grid-cols-2 gap-9" [formGroup]="editProductForm">
-        <div>
-            <app-custom-form-input 
-                formControlName="name"
-                [type] = "'text'"
-                label = "Tên sản phẩm"
-                [errors]="editProductForm.controls['name'].errors"
-            ></app-custom-form-input>
-
-            <app-custom-select
-                formControlName="type"
-                label="Loại sản phẩm"
-                [options]="productTypes$ | async"
-                selectedOptionLabel="Chọn loại sản phẩm"
-                selectedOptionValue=""
-                [errors]="editProductForm.controls['type'].errors"
-            ></app-custom-select>
-
-            <app-custom-select
-                formControlName="wood"
-                label="Loại gỗ"
-                [options]="woodTypes$ | async"
-                selectedOptionLabel="Chọn loại gỗ"
-                selectedOptionValue=""
-                [errors]="editProductForm.controls['wood'].errors"
-            ></app-custom-select>
-    
-            <app-custom-number-input 
-                formControlName="quantity"
-                label = "Số lượng tồn"
-                placeholder="vd: 20"
-                align="left"
-                thousands="."
-                [errors]="editProductForm.controls['quantity'].errors"
-            ></app-custom-number-input>
-    
-            <app-custom-number-input
-                formControlName="price"
-                label="Giá bán"
-                placeholder="vd: 200.000 vnđ"
-                suffix=" vnđ"
-                align="left"
-                thousands="."
-                [errors]="editProductForm.controls['price'].errors"
-            ></app-custom-number-input>
-            
+    <form [formGroup]="editProductForm">
+        <div class="grid grid-cols-2 gap-9">
             <div>
-                <label class="block text-sm font-semibold text-slate-700">Kích thước</label>
-                <div class="grid grid-cols-3 gap-2">
-                    <app-custom-form-input 
-                        formControlName="length"
-                        [type] = "'text'"
-                        placeholder="dài(mm)"
-                        [errors]="editProductForm.controls['length'].errors"
-                    ></app-custom-form-input>
-                    <app-custom-form-input 
-                        formControlName="width"
-                        [type] = "'text'"
-                        placeholder="rộng(mm)"
-                        [errors]="editProductForm.controls['width'].errors"
-                    ></app-custom-form-input>
-                    <app-custom-form-input 
-                        formControlName="height"
-                        [type] = "'text'"
-                        placeholder="cao(mm)"
-                        [errors]="editProductForm.controls['height'].errors"
-                    ></app-custom-form-input>
-                </div>
+                <app-custom-form-input 
+                    formControlName="name"
+                    [type] = "'text'"
+                    label = "Tên sản phẩm"
+                    [errors]="editProductForm.controls['name'].errors"
+                ></app-custom-form-input>
+    
+                <app-custom-select
+                    formControlName="wood"
+                    label="Loại gỗ"
+                    [options]="woodTypes$ | async"
+                    selectedOptionLabel="Chọn loại gỗ"
+                    selectedOptionValue=""
+                    [errors]="editProductForm.controls['wood'].errors"
+                ></app-custom-select>
+    
+                <app-custom-number-input 
+                    formControlName="quantity"
+                    label = "Số lượng"
+                    placeholder="vd: 20"
+                    align="left"
+                    thousands="."
+                    [errors]="editProductForm.controls['quantity'].errors"
+                ></app-custom-number-input>
             </div>
-
-            <app-custom-textarea
-                rows="4"
-                formControlName="description" 
-                label="Mô tả"
-                placeholder="Viết mô tả..."
-                [errors]="editProductForm.controls['description'].errors"
-            ></app-custom-textarea>
-
-
+    
+            <div>
+                <app-custom-select
+                    formControlName="type"
+                    label="Loại sản phẩm"
+                    [options]="productTypes$ | async"
+                    selectedOptionLabel="Chọn loại sản phẩm"
+                    selectedOptionValue=""
+                    [errors]="editProductForm.controls['type'].errors"
+                ></app-custom-select>
+    
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700">Kích thước</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <app-custom-form-input 
+                            formControlName="length"
+                            [type] = "'text'"
+                            placeholder="dài(mm)"
+                            [errors]="editProductForm.controls['length'].errors"
+                        ></app-custom-form-input>
+                        <app-custom-form-input 
+                            formControlName="width"
+                            [type] = "'text'"
+                            placeholder="rộng(mm)"
+                            [errors]="editProductForm.controls['width'].errors"
+                        ></app-custom-form-input>
+                        <app-custom-form-input 
+                            formControlName="height"
+                            [type] = "'text'"
+                            placeholder="cao(mm)"
+                            [errors]="editProductForm.controls['height'].errors"
+                        ></app-custom-form-input>
+                    </div>
+                </div>
+    
+                <app-custom-number-input
+                    formControlName="price"
+                    label="Giá bán"
+                    placeholder="vd: 200.000 vnđ"
+                    suffix=" vnđ"
+                    align="left"
+                    thousands="."
+                    [errors]="editProductForm.controls['price'].errors"
+                ></app-custom-number-input>
+            </div>
         </div>
 
+        <app-custom-text-rich
+                formControlName="description"
+                label = "Mô tả"
+                placeholder="Viết mô tả..."
+                [errors]="editProductForm.controls['description'].errors"
+        ></app-custom-text-rich>
+
         <div>
-            <label class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Hình ảnh</label>
-            <div formArrayName="images" *ngIf="images.controls.length">
+            <label class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Hình ảnh</label>
+            <div class="grid grid-cols-5 gap-2" formArrayName="images" *ngIf="images.controls.length">
                 <div class="mb-2" *ngFor="let c of images.controls; index as i">
                     <app-custom-image-input
                         [formControlName]="i"
                         [defaultImgUrl]="defaultImgUrl[i]"
                         (imageUrl)="receiveImgUrl($event, i)"
-                        inputClass="w-[75%]"
+                        inputClass="w-[80%]"
                         [errors]="images.at(i).errors"
                     ></app-custom-image-input>
-             
+            
                     <button 
                         (click)="removeImage(i)"
                         *ngIf="images.controls.length > 1"
@@ -103,30 +104,23 @@
                     >
                         Xóa ảnh
                     </button>
-
                 </div>
-                <a 
-                    class="flex items-center p-2 text-sm font-normal text-blue-600 cursor-pointer hover:underline" 
-                    (click)="addImage()"
-                >
-                    <svg class="flex-shrink-0 w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                    </svg>
-                    <span class="ml-1">Thêm ảnh</span>
-                </a>
             </div>
-            <!-- <app-custom-image-input
-                formControlName="image"
-                label="Hình ảnh"
-                [defaultImgUrl]="defaultImgUrl"
-                (imageUrl)="receiveImgUrl($event)"
-                [errors]="editProductForm.controls['image'].errors"
-            ></app-custom-image-input> -->
-
-           <div class="mt-4">
-                <button type="button" [disabled]="editProductForm.invalid" (click)="saveChange()" class="text-white w-[48%] bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Sửa sản phẩm</button>
-                <button routerLink="/dashboard/product" type="button" class="text-white w-[48%] bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Về trang danh sách</button>
-           </div>
+            <a 
+                class="flex items-center text-sm font-normal text-blue-600 cursor-pointer hover:underline" 
+                (click)="addImage()"
+            >
+                <svg class="flex-shrink-0 w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span class="ml-1">Thêm ảnh</span>
+            </a>
         </div>
+
+        <div class="mt-4">
+            <button type="button" [disabled]="editProductForm.invalid" (click)="saveChange()" class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Sửa sản phẩm</button>
+            <button routerLink="/dashboard/product" type="button" class="text-white w-fit bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Về trang danh sách</button>
+        </div>
+        
     </form>
 </div>

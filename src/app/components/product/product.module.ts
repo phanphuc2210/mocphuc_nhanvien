@@ -20,7 +20,6 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { CommentComponent } from './comment/comment.component';
 import { ToastErrComponent } from 'src/app/commons/toast-err/toast-err.component';
 
-
 const routes: Routes = [
   {path: 'search', component: SearchComponent},
   {path: 'add', component: AddproductComponent},
@@ -48,7 +47,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     StoreModule.forFeature('products', reducers),
     EffectsModule.forFeature([ProductsEffects]),
-    NgxStarRatingModule    
+    NgxStarRatingModule,
   ]
 })
 export class ProductModule { }

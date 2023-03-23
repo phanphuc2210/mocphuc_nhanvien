@@ -1,0 +1,19 @@
+<div 
+    class="mb-4 {{ containerClass }}"
+    (blur)="onTouched()"
+    (keyup)="onChange(input)"
+>
+    <label class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">{{ label }}</label>
+    <input type="text" style="display: none" target>
+    <angular-editor 
+        [config]="config"
+        spellcheck="false"
+        [ngClass]="{
+            'my-input' : true
+        }"
+        [placeholder] = placeholder
+        [(ngModel)]="input"
+        [disabled]="isDisabled"
+    ></angular-editor>
+    <app-validate-input [label]="label" [isDirty]="isDirty" [errors]="errors"></app-validate-input>
+</div>

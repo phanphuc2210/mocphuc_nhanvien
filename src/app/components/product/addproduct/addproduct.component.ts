@@ -12,6 +12,7 @@ import { errorSelector } from 'src/app/store/productStore/selectors';
 import { TypeService } from 'src/app/services/type.service';
 import { WoodService } from 'src/app/services/wood.service';
 import { Wood } from 'src/app/models/wood.model';
+// import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-addproduct',
@@ -20,6 +21,21 @@ import { Wood } from 'src/app/models/wood.model';
 })
 export class AddproductComponent implements OnInit, OnDestroy {
   error$!: Observable<string | undefined>;
+
+  // config: AngularEditorConfig = {
+  //   editable: true,
+  //   spellcheck: true,
+  //   height: '15rem',
+  //   minHeight: '5rem',
+  //   placeholder: 'Enter text here...',
+  //   translate: 'no',
+  //   defaultParagraphSeparator: 'p',
+  //   defaultFontName: 'Calibri',
+  //   toolbarHiddenButtons: [
+  //     ['fontName', 'subscript','superscript',],
+  //     ['fontSize','textColor','backgroundColor', 'link', 'unlink', 'insertVideo', 'removeFormat']
+  //   ]
+  // };
 
   img_url: any = [];
   productTypes$!: Observable<ProductType[]>;
