@@ -33,7 +33,7 @@ export class CustomTextRichComponent implements ControlValueAccessor {
   config: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '15rem',
+    height: '10rem',
     minHeight: '5rem',
     translate: 'no',
     defaultParagraphSeparator: 'p',

@@ -10,29 +10,26 @@
                 [errors]="editWoodForm.controls['name'].errors"
             ></app-custom-form-input>
     
-            <app-custom-textarea
-                rows="4"
-                formControlName="description" 
-                label="Mô tả"
+            <app-custom-text-rich
+                formControlName="description"
+                label = "Mô tả"
                 placeholder="Viết mô tả..."
                 [errors]="editWoodForm.controls['description'].errors"
-            ></app-custom-textarea>
+            ></app-custom-text-rich>
 
-            <app-custom-textarea
-                rows="4"
-                formControlName="advantage" 
-                label="Ưu điểm"
+            <app-custom-text-rich
+                formControlName="advantage"
+                label = "Ưu điểm"
                 placeholder="Viết ưu điểm..."
                 [errors]="editWoodForm.controls['advantage'].errors"
-            ></app-custom-textarea>
+            ></app-custom-text-rich>
 
-            <app-custom-textarea
-                rows="4"
-                formControlName="defect" 
-                label="Nhược điểm"
+            <app-custom-text-rich
+                formControlName="defect"
+                label = "Nhược điểm"
                 placeholder="Viết nhược điểm..."
                 [errors]="editWoodForm.controls['defect'].errors"
-            ></app-custom-textarea>
+            ></app-custom-text-rich>
         </div>
 
         <div>
