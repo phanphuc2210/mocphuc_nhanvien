@@ -18,4 +18,6 @@ export class InvoiceListComponent implements OnInit {
   ngOnInit(): void {
     this.invoices$ = this.invoiceService.getList()
   }
+
+  
 }

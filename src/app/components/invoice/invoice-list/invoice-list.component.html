@@ -22,6 +22,9 @@
                         Phương thức
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Trạng thái
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         
                     </th>
                 </tr>
@@ -32,7 +35,7 @@
                         #{{ order.id }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ order.date | date: 'dd/MM/YYYY' }}
+                        {{ order.order_date | date: 'dd/MM/YYYY' }}
                     </td>
                     <td class="px-6 py-4">
                         {{ order.address }}
@@ -42,6 +45,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ order.payment_method }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ order.status_name }}
                     </td>
                     <td class="px-6 py-4">
                         <span routerLink="/dashboard/invoice/{{ order.id }}" class="text-blue-600 hover:underline cursor-pointer">Chi tiết</span>
