@@ -7,6 +7,7 @@ import type { ModalOptions, ModalInterface } from 'flowbite';
 import { FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import statusCode from 'src/app/constant/status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-invoice-detail',
@@ -26,6 +27,7 @@ export class InvoiceDetailComponent implements OnInit {
   total_price: number = 0
 
   showUpdateStatusBtn: boolean = true
+  statusList$!: Observable<any>
   nextStatus!: any
   updateStatusForm = this.fb.group({
     status: ['', Validators.required],
@@ -51,6 +53,9 @@ export class InvoiceDetailComponent implements OnInit {
 
     // Lấy ra trang thái tiếp theo
     this.setupStatus()
+
+    // Lấy danh sách trạng thái của hóa đơn
+    this.loadStatusList()
 
     // Thiết lập hộp thoại cập nhật trạng thái
     this.modal = new Modal(this.modalEl.nativeElement, this.modalOptions);
@@ -83,6 +88,10 @@ export class InvoiceDetailComponent implements OnInit {
     })
   }
 
+  loadStatusList() {
+    this.statusList$ = this.invoiceService.getListStatus(Number(this.orderId))
+  }
+
   showModal() {
     this.modal.show();
   }
@@ -110,6 +119,7 @@ export class InvoiceDetailComponent implements OnInit {
         })
         this.setupOrderDetail()
         this.setupStatus()
+        this.loadStatusList()
       },
       error: err => {
         Swal.fire({
