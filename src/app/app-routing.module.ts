@@ -31,6 +31,12 @@ const routes: Routes = [
       canLoad: [AuthGuard]
     },
     {
+      path: 'voucher', 
+      loadChildren: () => 
+        import('./components/voucher/voucher.module').then(m => m.VoucherModule),
+      canLoad: [AuthGuard]
+    },
+    {
       path: 'user',
       loadChildren: () => 
         import('./components/user/user.module').then(m => m.UserModule),
