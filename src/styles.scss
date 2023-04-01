@@ -16,7 +16,7 @@
     }
 
     .my-input {
-        @apply bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white block text-gray-900
+        @apply bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white block text-gray-900 disabled:bg-gray-200 dark:disabled:disabled:bg-gray-800
     }
 
     .my-file-input {

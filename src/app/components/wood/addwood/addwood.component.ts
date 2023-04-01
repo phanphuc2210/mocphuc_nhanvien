@@ -19,6 +19,7 @@ export class AddwoodComponent {
   addWoodForm = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
+    detail: ['', Validators.required],
     image: [
       { value: '', disabled: false },
       [fileUploadValidator(this.allowedFileExtensions), Validators.required]
@@ -38,6 +39,7 @@ export class AddwoodComponent {
       name: this.addWoodForm.controls.name.value!,
       image: this.img_url,
       description: this.addWoodForm.controls.description.value!,
+      detail: this.addWoodForm.controls.detail.value!,
       advantage: this.addWoodForm.controls.advantage.value!,
       defect: this.addWoodForm.controls.defect.value!,
     }

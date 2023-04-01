@@ -1,1 +1,72 @@
-<p>addvoucher works!</p>
+<div class="min-h-full p-4  dark:bg-slate-700">
+    <h2 class="text-3xl mb-4 font-bold dark:text-slate-100">Thêm mới Voucher</h2>
+
+    <form [formGroup]="addVoucherForm">
+        <div class="grid grid-cols-2 gap-9">
+            <div>
+                <app-custom-form-input 
+                    formControlName="code"
+                    [type] = "'text'"
+                    label = "Mã giảm giá"
+                    [errors]="addVoucherForm.controls['code'].errors"
+                ></app-custom-form-input>
+
+                <app-custom-number-input
+                    formControlName="discount"
+                    label="Giá giảm"
+                    placeholder="vd: 200.000 vnđ"
+                    suffix=" vnđ"
+                    align="left"
+                    thousands="."
+                    [errors]="addVoucherForm.controls['discount'].errors"
+                ></app-custom-number-input>
+
+                <app-custom-form-input 
+                    formControlName="release_date"
+                    [type] = "'date'"
+                    label = "Ngày phát hành"
+                    [errors]="addVoucherForm.controls['release_date'].errors"
+                ></app-custom-form-input>
+
+                <app-custom-form-input 
+                    formControlName="expiration_date"
+                    [type] = "'date'"
+                    label = "Ngày hết hạn"
+                    [errors]="addVoucherForm.controls['expiration_date'].errors"
+                ></app-custom-form-input>
+            </div>
+
+            <div>
+                <app-custom-select
+                    formControlName="applicable_productType"
+                    label="Loại sản phẩm áp dụng"
+                    [options]="productTypes$ | async"
+                    selectedOptionLabel="Chọn loại sản phẩm"
+                    selectedOptionValue=""
+                    [errors]="addVoucherForm.controls['applicable_productType'].errors"
+                ></app-custom-select>
+
+                <app-custom-number-input
+                    formControlName="bill_from"
+                    label="Đơn tối thiểu"
+                    placeholder="vd: 500.000 vnđ"
+                    suffix=" vnđ"
+                    align="left"
+                    thousands="."
+                    [errors]="addVoucherForm.controls['bill_from'].errors"
+                ></app-custom-number-input>
+
+                <app-custom-number-input 
+                    formControlName="quantity"
+                    label = "Số lượng"
+                    placeholder="vd: 20"
+                    align="left"
+                    thousands="."
+                    [errors]="addVoucherForm.controls['quantity'].errors"
+                ></app-custom-number-input>
+
+                <button type="button" (click)="saveNew()" [disabled]="addVoucherForm.invalid" class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Thêm Voucher</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -7,6 +7,7 @@ import { ListVoucherComponent } from './list-voucher/list-voucher.component';
 import { CanLeaveGuard } from 'src/app/guards/can-leave.guard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonsModule } from 'src/app/commons/commons.module';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 const routes: Routes = [
   {path: 'add', component: AddvoucherComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     CommonsModule,
+    NgxPaginationModule,
     RouterModule.forChild(routes),
   ]
 })

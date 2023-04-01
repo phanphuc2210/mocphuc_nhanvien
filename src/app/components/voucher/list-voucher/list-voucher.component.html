@@ -1,1 +1,183 @@
-<p>list-voucher works!</p>
+<div class="min-h-full p-4 dark:bg-slate-700">
+    <div class="mb-5 flex justify-between">
+        <h2 class="text-3xl  font-bold dark:text-slate-100">Danh sách Voucher</h2>
+
+        <button 
+            (click)="showModal()"
+            type="button" 
+            class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-semibold rounded-lg text-xs px-3 py-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700"
+        >
+            Thêm mới
+        </button>
+    </div>
+
+
+    <div
+    *ngIf="voucherList$ | async as voucherList"
+    class="overflow-x-auto shadow-md sm:rounded-lg mt-6"
+  >
+    <table class="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+      <thead
+        class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-900 dark:text-gray-400"
+      >
+        <tr>
+          <th scope="col" class="py-3 px-6">Stt</th>
+          <th scope="col" class="py-3 px-6">Mã</th>
+          <th scope="col" class="py-3 px-6">Giá giảm</th>
+          <th scope="col" class="py-3 px-6">Ngày phát hành</th>
+          <th scope="col" class="py-3 px-6">Ngày hết hạn</th>
+          <th scope="col" class="py-3 px-6">Loại sản phẩm áp dụng</th>
+          <th scope="col" class="py-3 px-6">Đơn tối thiểu</th>
+          <th scope="col" class="py-3 px-6"></th>
+          <th scope="col" class="py-3 px-6"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="voucherList.length > 0; else noVoucher">
+        <tr
+          *ngFor="let voucher of voucherList | paginate: { itemsPerPage, currentPage: p }; let i = index"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        >
+          <th
+            scope="row"
+            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            #{{ i + 1 }}
+          </th>
+          <td class="py-4 px-6">
+            {{ voucher.code }}
+          </td>
+          <td class="py-4 px-6">
+            {{ voucher.discount | currency : "VND" : "vnđ" : "" : "vi"}}
+          </td>
+          <td class="py-4 px-6">
+            {{ voucher.release_date | date: 'dd/MM/YYYY' }}
+          </td>
+          <td class="py-4 px-6">
+            {{ voucher.expiration_date | date: 'dd/MM/YYYY' }}
+          </td>
+          <td class="py-4 px-6">
+            {{ voucher.applicable_productTypeName }}
+          </td>
+          <td class="py-4 px-6">
+            {{ voucher.bill_from | currency : "VND" : "vnđ" : "" : "vi"}}
+          </td>
+          <td
+            (click)="showModal(voucher.id)"
+            class="py-4 px-6 text-blue-600 hover:cursor-pointer"
+          >
+            Sửa
+          </td>
+          <td class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
+          <!-- <td class="py-4 px-6">
+                        <a (click)="deleteUser(user.id!)" class="font-medium cursor-pointer text-red-600 dark:text-red-500 hover:underline">Xóa</a>
+                    </td> -->
+        </tr>
+      </tbody>
+      <ng-template #noVoucher>
+        <tr>
+          <td colspan="6">
+            <p class="py-4">Chưa có bất kỳ Voucher nào!</p>
+          </td>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
+
+  <div class="mt-8 flex justify-center items-center"> 
+    <pagination-controls previousLabel="" nextLabel="" class="paginator" (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<!-- Modal -->
+<div #modalEl tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+    <div class="relative w-full h-full max-w-2xl md:h-auto">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button (click)="hideModal()" type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="authentication-modal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <p
+                    class="mb-6 text-xl font-semibold dark:text-white"
+                >
+                    
+                {{ titileModal }} Voucher
+                </p>
+                <!-- <form class="max-h-96 w-full p-2 overflow-y-scroll" >
+                    
+                </form> -->
+                <form [formGroup]="voucherForm">
+                    <div class="grid grid-cols-2 gap-9">
+                        <div>
+                            <app-custom-form-input 
+                                formControlName="code"
+                                [type] = "'text'"
+                                label = "Mã giảm giá"
+                                [errors]="voucherForm.controls['code'].errors"
+                            ></app-custom-form-input>
+            
+                            <app-custom-number-input
+                                formControlName="discount"
+                                label="Giá giảm"
+                                placeholder="vd: 200.000 vnđ"
+                                suffix=" vnđ"
+                                align="left"
+                                thousands="."
+                                [errors]="voucherForm.controls['discount'].errors"
+                            ></app-custom-number-input>
+            
+                            <app-custom-form-input 
+                                formControlName="release_date"
+                                [type] = "'date'"
+                                label = "Ngày phát hành"
+                                [errors]="voucherForm.controls['release_date'].errors"
+                            ></app-custom-form-input>
+            
+                            <app-custom-form-input 
+                                formControlName="expiration_date"
+                                placeholder="dd-mm-yyyy"
+                                [type] = "'date'"
+                                label = "Ngày hết hạn"
+                                [errors]="voucherForm.controls['expiration_date'].errors"
+                            ></app-custom-form-input>
+                        </div>
+            
+                        <div>
+                            <app-custom-select
+                                formControlName="applicable_productType"
+                                label="Loại sản phẩm áp dụng"
+                                [options]="productTypes$ | async"
+                                selectedOptionLabel="Chọn loại sản phẩm"
+                                selectedOptionValue=""
+                                [errors]="voucherForm.controls['applicable_productType'].errors"
+                            ></app-custom-select>
+            
+                            <app-custom-number-input
+                                formControlName="bill_from"
+                                label="Đơn tối thiểu"
+                                placeholder="vd: 500.000 vnđ"
+                                suffix=" vnđ"
+                                align="left"
+                                thousands="."
+                                [errors]="voucherForm.controls['bill_from'].errors"
+                            ></app-custom-number-input>
+            
+                            <app-custom-number-input 
+                                formControlName="quantity"
+                                label = "Số lượng"
+                                placeholder="vd: 20"
+                                align="left"
+                                thousands="."
+                                [errors]="voucherForm.controls['quantity'].errors"
+                            ></app-custom-number-input>
+            
+                            <!-- <button type="button" (click)="saveNew()" [disabled]="addVoucherForm.invalid" class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">Thêm Voucher</button> -->
+                        </div>
+                    </div>
+                </form>
+                <button type="button" (click)="saveNew()" [disabled]="voucherForm.invalid" class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700">{{ titileModal }}</button>
+            </div>
+        </div>
+    </div>
+</div> 

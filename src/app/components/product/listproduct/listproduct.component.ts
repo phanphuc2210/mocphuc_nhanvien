@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Product } from 'src/app/models/product.model';
 import { ProductType } from 'src/app/models/productType.model';
@@ -14,6 +14,12 @@ import {
 } from 'src/app/store/productStore/selectors';
 import { AppStateInterface } from 'src/app/models/appState.interface';
 import { TypeService } from 'src/app/services/type.service';
+import { Modal } from 'flowbite';
+import type { ModalOptions, ModalInterface } from 'flowbite';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { fileUploadValidator } from 'src/app/helper/validateUploadFile';
+import { Wood } from 'src/app/models/wood.model';
+import { WoodService } from 'src/app/services/wood.service';
 
 @Component({
   selector: 'app-listproduct',
@@ -21,8 +27,14 @@ import { TypeService } from 'src/app/services/type.service';
   styleUrls: ['./listproduct.component.scss'],
 })
 export class ListproductComponent implements OnInit, OnDestroy {
-  isLoading$: Observable<boolean>;
-  error$: Observable<string | undefined>;
+  @ViewChild('modalEl', {
+    read: ElementRef,
+    static: true,
+  })
+  modalEl!: ElementRef<HTMLDivElement>;
+
+  isLoading$!: Observable<boolean>;
+  error$!: Observable<string | undefined>;
   products$!: Observable<Product[] | any>;
 
   // products: Product[] = [];
@@ -31,9 +43,76 @@ export class ListproductComponent implements OnInit, OnDestroy {
   p: number = 1;
   itemsPerPage: number = 8;
 
+  // Flowbite config
+  modal!: ModalInterface;
+  titileModal = 'Thêm mới'
+
+  modalOptions: ModalOptions = {
+    placement: 'center',
+    backdrop: 'static',
+    backdropClasses:
+      'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  };
+
+  img_url: any = [];
+  woodTypes$!: Observable<Wood[]>;
+
+  // Cấu hình form thêm/sửa
+   // Array of valid extensions
+   allowedFileExtensions = ['jpg', 'jpeg', 'png'];
+
+   isAdd = true
+   defaultImgUrl!:string[]
+   productId!: number;
+   productForm = this.fb.group({
+     name: ['', Validators.required],
+     type: ['', Validators.required],
+     wood: ['', Validators.required],
+     quantity: [
+       '',
+       Validators.compose([Validators.required, Validators.max(50)]),
+     ],
+     length: ['', Validators.required],
+     width: ['', Validators.required],
+     height: ['', Validators.required],
+     price: ['', Validators.required],
+     description: ['', Validators.required],
+     images: this.fb.array([
+       this.fb.control(
+         '',
+         Validators.compose([
+           fileUploadValidator(this.allowedFileExtensions),
+           Validators.required,
+         ])
+       ),
+     ]),
+   });
+ 
+   get images(): FormArray {
+     return this.productForm.get('images') as FormArray;
+   }
+ 
+   addImage() {
+     this.images.push(
+       this.fb.control(
+         '',
+         Validators.compose([
+           fileUploadValidator(this.allowedFileExtensions),
+           Validators.required,
+         ])
+       )
+     );
+   }
+ 
+   removeImage(index: number) {
+     this.images.removeAt(index);
+   }
+
   constructor(
     private productService: ProductService,
+    private woodService: WoodService,
     private typeService: TypeService,
+    private fb: FormBuilder,
     private store: Store<AppStateInterface>
   ) {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
@@ -43,8 +122,11 @@ export class ListproductComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.types$ = this.typeService.getProductTypes();
+    this.woodTypes$ = this.woodService.getWoodList();
 
     this.store.dispatch(ProductsAction.getProducts());
+    // Thiết lập hộp thoại cập nhật trạng thái
+    this.modal = new Modal(this.modalEl.nativeElement, this.modalOptions);
   }
 
   ngOnDestroy(): void {
@@ -63,5 +145,126 @@ export class ListproductComponent implements OnInit, OnDestroy {
       select(productsByTypeIdSelector(this.classify))
     );
     this.p = 1;
+  }
+
+  public receiveImgUrl(event: any, index: number) {
+    this.img_url[index] = event;
+  }
+
+  setValueForControls(data?: Product) {
+    this.productForm.controls['name'].setValue(data? data.name : '');
+    this.productForm.controls['type'].setValue(data? String(data.typeId) : '');
+    this.productForm.controls['wood'].setValue(data? String(data.woodId) : '');
+    this.productForm.controls['quantity'].setValue(data? String(data.quantity) : '');
+    this.productForm.controls['price'].setValue(data? String(data.price) : '');
+    this.productForm.controls['length'].setValue(data? String(data.length) : '');
+    this.productForm.controls['width'].setValue(data? String(data.width) : '');
+    this.productForm.controls['height'].setValue(data? String(data.height): '');
+    this.productForm.controls['description'].setValue(data? data.description : '');
+    if(data) {
+      // Cấu hình cho nhiều hình ảnh
+      this.images.clear()
+      this.defaultImgUrl = data.image
+      this.defaultImgUrl.forEach((url) => {
+        this.images.push(this.fb.control(
+          '', Validators.compose([
+            fileUploadValidator(this.allowedFileExtensions)
+          ])
+        ));
+      })
+      this.img_url = [...this.defaultImgUrl]
+    } else {
+      this.images.clear()
+      this.images.push(this.fb.control(
+        '', Validators.compose([
+          fileUploadValidator(this.allowedFileExtensions)
+        ])
+      ));
+      this.defaultImgUrl = []
+      this.img_url = []
+    }
+  }
+
+  setValueForForm(productId?: number) {
+    if(productId) {
+      this.productId = productId;
+      this.productService.getProduct(String(productId)).subscribe(res => {
+        this.setValueForControls(res);
+      })
+    } else {
+      this.setValueForControls();
+    }
+  }
+
+  showModal(productId?: number) {
+    this.titileModal = productId? 'Cập nhật' : 'Thêm mới';
+    this.isAdd = productId? false : true;
+    this.setValueForForm(productId);
+    this.modal.show();
+  }
+
+  hideModal() {
+    this.modal.hide();
+  }
+
+  public saveNew() {
+    const product: Product = {
+      name: this.productForm.controls.name.value!,
+      typeId: Number(this.productForm.controls.type.value!),
+      woodId: Number(this.productForm.controls.wood.value!),
+      quantity: Number(this.productForm.controls.quantity.value!),
+      price: Number(this.productForm.controls.price.value!),
+      length: Number(this.productForm.controls.length.value!),
+      width: Number(this.productForm.controls.width.value!),
+      height: Number(this.productForm.controls.height.value!),
+      image: this.img_url,
+      description: this.productForm.controls.description.value!,
+    };
+
+    if(this.isAdd) {
+      this.store.dispatch(ProductsAction.addProduct({ product }));
+      this.hideModal();
+    } else {
+      Swal.fire({
+        title: '<p class="text-xl text-slate-300">Bạn thật sự muốn thay đổi sản phẩm này?</p>',
+        background: '#000',
+        showCancelButton: true,
+        cancelButtonText: 'Hủy',
+        confirmButtonText: 'Thay đổi',
+        confirmButtonColor: '#1a56db',
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.store.dispatch(ProductsAction.editProduct({productId: String(this.productId), product: product}))
+          this.hideModal();
+        }
+      })
+    }
+  }
+
+  public deleteProduct(id: number) {
+    Swal.fire({
+      title: '<p class="text-xl text-slate-300">Bạn thật sự muốn xóa sản phẩm này?</p>',
+      background: '#000',
+      showCancelButton: true,
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#c81e1e',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        // this.productService.deleteProduct(String(id)).subscribe(res => {
+        //     Swal.fire({
+        //       background: '#000',
+        //       icon: 'success',
+        //       title: '<p class="text-xl text-slate-300">Xóa thành công</p>',
+        //       confirmButtonText: 'Ok',
+        //       confirmButtonColor: '#1a56db',
+        //     })
+        //     this.products = this.products.filter(product => product.id != id);
+        // })
+        this.store.dispatch(ProductsAction.removeProduct({productId: String(id)}))
+      }
+    })
   }
 }

@@ -7,6 +7,7 @@ import { EditwoodComponent } from './editwood/editwood.component';
 import { CanLeaveGuard } from 'src/app/guards/can-leave.guard';
 import { CommonsModule } from 'src/app/commons/commons.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 const routes: Routes = [
   {path: 'add', component: AddwoodComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     CommonsModule,
+    NgxPaginationModule,
     RouterModule.forChild(routes),
   ]
 })

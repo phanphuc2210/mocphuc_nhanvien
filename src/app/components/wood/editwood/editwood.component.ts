@@ -22,6 +22,7 @@ export class EditwoodComponent implements OnInit {
   editWoodForm = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
+    detail: ['', Validators.required],
     image: [
       { value: '', disabled: false },
       [fileUploadValidator(this.allowedFileExtensions)]
@@ -39,6 +40,7 @@ export class EditwoodComponent implements OnInit {
     this.woodService.getWood(this.woodId).subscribe(res => {
       this.editWoodForm.controls['name'].setValue(res.name);
       this.editWoodForm.controls['description'].setValue(res.description);
+      this.editWoodForm.controls['detail'].setValue(res.detail);
       this.editWoodForm.controls['advantage'].setValue(res.advantage);
       this.editWoodForm.controls['defect'].setValue(res.defect);
       this.defaultImgUrl = res.image
@@ -54,6 +56,7 @@ export class EditwoodComponent implements OnInit {
       name: this.editWoodForm.controls.name.value!,
       image: this.img_url,
       description: this.editWoodForm.controls.description.value!,
+      detail: this.editWoodForm.controls.detail.value!,
       advantage: this.editWoodForm.controls.advantage.value!,
       defect: this.editWoodForm.controls.defect.value!,
     }
