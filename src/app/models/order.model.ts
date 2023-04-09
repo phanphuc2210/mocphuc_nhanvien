@@ -21,3 +21,8 @@ export interface Order_Detail {
     price?:number
     quantity: number
 }
+
+export interface Payment {
+    order: Order
+    order_details: Order_Detail[]
+}

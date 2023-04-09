@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Payment } from '../models/order.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class InvoiceService {
 
   public getStatis(from: string, to: string): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/statistical?from=${from}&to=${to}`)
+  }
+
+  public sendMail(data: Payment): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/send-mail`, data)
   }
 }

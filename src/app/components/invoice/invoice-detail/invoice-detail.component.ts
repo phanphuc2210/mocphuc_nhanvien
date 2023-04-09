@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Order, Order_Detail } from 'src/app/models/order.model';
+import { Order, Order_Detail, Payment } from 'src/app/models/order.model';
 import { InvoiceService } from 'src/app/services/invoice.service';
 import { Modal } from 'flowbite';
 import type { ModalOptions, ModalInterface } from 'flowbite';
@@ -82,7 +82,7 @@ export class InvoiceDetailComponent implements OnInit {
     this.invoiceService.getNextStatus(Number(this.orderId)).subscribe(res => {
       this.nextStatus = res
       this.updateStatusForm.controls['status'].setValue(res.nextStatus)
-      if(res.statusId >= statusCode.Hoan_Thanh) {
+      if(res.statusId === statusCode.Hoan_Thanh) {
         this.showUpdateStatusBtn = false
       }
     })
@@ -117,6 +117,10 @@ export class InvoiceDetailComponent implements OnInit {
           confirmButtonText: 'Ok',
           confirmButtonColor: '#1a56db',
         })
+
+        if(this.nextStatus.statusId === statusCode.Da_Xac_Nhan) {
+          this.sendMail()
+        }
         this.setupOrderDetail()
         this.setupStatus()
         this.loadStatusList()
@@ -129,6 +133,21 @@ export class InvoiceDetailComponent implements OnInit {
           confirmButtonText: 'Ok',
           confirmButtonColor: '#1a56db',
         })
+      }
+    })
+  }
+
+  sendMail() {
+    const data: Payment = {
+      order: this.invoice_info,
+      order_details: this.invoice_details
+    }
+    this.invoiceService.sendMail(data).subscribe({
+      next: res => {
+        console.log('Mail:', res)
+      },
+      error: err => {
+        console.log('Mail:', err.error.message)
       }
     })
   }
