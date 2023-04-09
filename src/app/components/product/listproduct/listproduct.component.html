@@ -243,18 +243,24 @@
                   <app-custom-form-input
                     formControlName="length"
                     [type]="'text'"
+                    label="Chiều dài"
+                    [hideLabel]="true"
                     placeholder="dài(mm)"
                     [errors]="productForm.controls['length'].errors"
                   ></app-custom-form-input>
                   <app-custom-form-input
                     formControlName="width"
                     [type]="'text'"
+                    label="Chiều rộng"
+                    [hideLabel]="true"
                     placeholder="rộng(mm)"
                     [errors]="productForm.controls['width'].errors"
                   ></app-custom-form-input>
                   <app-custom-form-input
                     formControlName="height"
                     [type]="'text'"
+                    label="Chiều cao"
+                    [hideLabel]="true"
                     placeholder="cao(mm)"
                     [errors]="productForm.controls['height'].errors"
                   ></app-custom-form-input>

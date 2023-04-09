@@ -3,11 +3,14 @@ export interface Order {
     userId: Number
     name?: String
     order_date?: Date
+    customer_name?: string
     address: String
     phone: String
     payment_method: String
     status?: number
     status_name?: string
+    code?: string
+    discount?: number
 }
 
 export interface Order_Detail {

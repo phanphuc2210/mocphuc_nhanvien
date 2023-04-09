@@ -82,7 +82,7 @@ export class InvoiceDetailComponent implements OnInit {
     this.invoiceService.getNextStatus(Number(this.orderId)).subscribe(res => {
       this.nextStatus = res
       this.updateStatusForm.controls['status'].setValue(res.nextStatus)
-      if(res.statusId === statusCode.Hoan_Thanh) {
+      if(res.statusId >= statusCode.Hoan_Thanh) {
         this.showUpdateStatusBtn = false
       }
     })

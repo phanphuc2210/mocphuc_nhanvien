@@ -17,6 +17,7 @@ export class CustomFormInputComponent implements ControlValueAccessor {
   
   @Input() type!: string
   @Input() label!: string
+  @Input() hideLabel: boolean = false
   @Input() containerClass!: string
   @Input() inputClass!: string
   @Input() placeholder: string = ''
