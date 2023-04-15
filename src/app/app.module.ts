@@ -22,6 +22,8 @@ import {registerLocaleData} from '@angular/common';
 import localeVi from '@angular/common/locales/vi';
 import { StatisticalComponent } from './components/statistical/statistical.component';
 import { CommonsModule } from './commons/commons.module';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 registerLocaleData(localeVi, 'vi');
 
 @NgModule({
@@ -33,7 +35,9 @@ registerLocaleData(localeVi, 'vi');
     LoginComponent,
     SignupComponent,
     DashboardComponent,
-    StatisticalComponent
+    StatisticalComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

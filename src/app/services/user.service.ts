@@ -33,4 +33,12 @@ export class UserService {
   public changePassword(id: number, data: any): Observable<any> {
     return this.httpClient.patch<any>(`${this.API_URL}/${id}/change-password`, data)
   }
+
+  public forgotPassword(data: {email: string, isAdmin: boolean}): Observable<any> {
+    return this.httpClient.post<any>(`${this.API_URL}/forgot-password`, data)
+  }
+
+  public resetPassword(data: {newPass: string, resetToken: string}): Observable<any> {
+    return this.httpClient.post<any>(`${this.API_URL}/reset-password`, data)
+  }
 }
