@@ -29,8 +29,9 @@ export class InvoiceDetailComponent implements OnInit {
   showUpdateStatusBtn: boolean = true
   statusList$!: Observable<any>
   nextStatus!: any
+  statusSelect!: any
   updateStatusForm = this.fb.group({
-    status: ['', Validators.required],
+    status: ["", Validators.required],
   })
 
   // Flowbite config
@@ -78,11 +79,21 @@ export class InvoiceDetailComponent implements OnInit {
   }
 
   setupStatus() {
-    this.updateStatusForm.controls['status'].disable()
+    // this.updateStatusForm.controls['status'].disable()
     this.invoiceService.getNextStatus(Number(this.orderId)).subscribe(res => {
       this.nextStatus = res
-      this.updateStatusForm.controls['status'].setValue(res.nextStatus)
-      if(res.statusId === statusCode.Hoan_Thanh) {
+      if(this.nextStatus.statusId === statusCode.Da_Xac_Nhan) {
+        this.statusSelect = [
+          {id: this.nextStatus.statusId, name: this.nextStatus.nextStatus},
+          {id: statusCode.Da_Huy, name: 'Hủy hóa đơn'}
+        ]
+      } else {
+        this.statusSelect = [
+          {id: this.nextStatus.statusId, name: this.nextStatus.nextStatus}
+        ]
+      }
+      // this.updateStatusForm.controls['status'].setValue(res.nextStatus)
+      if(res.statusId >= statusCode.Hoan_Thanh) {
         this.showUpdateStatusBtn = false
       }
     })
@@ -103,7 +114,7 @@ export class InvoiceDetailComponent implements OnInit {
   updateStatus() {
     const data: {orderId: number, nextStatus: number} = {
       orderId: Number(this.orderId),
-      nextStatus: this.nextStatus.statusId
+      nextStatus: Number(this.updateStatusForm.controls['status'].value!)
     }
 
     this.invoiceService.updateStatus(data).subscribe({
@@ -119,7 +130,11 @@ export class InvoiceDetailComponent implements OnInit {
         })
 
         if(this.nextStatus.statusId === statusCode.Da_Xac_Nhan) {
-          this.sendMail()
+          this.sendMail('Cảm ơn bạn đã đặt hàng trên MộcPhúc.')
+        }
+
+        if(this.nextStatus.statusId === statusCode.Da_Giao_Hang) {
+          this.sendMail('Thông báo giao hàng thành công.')
         }
         this.setupOrderDetail()
         this.setupStatus()
@@ -137,10 +152,11 @@ export class InvoiceDetailComponent implements OnInit {
     })
   }
 
-  sendMail() {
-    const data: Payment = {
+  sendMail(subject: string) {
+    const data = {
       order: this.invoice_info,
-      order_details: this.invoice_details
+      order_details: this.invoice_details,
+      subject: subject
     }
     this.invoiceService.sendMail(data).subscribe({
       next: res => {

@@ -116,15 +116,24 @@
                     Cập nhật trạng thái
                 </p>
                 <form class="space-y-4" [formGroup]="updateStatusForm">
-                    <app-custom-form-input 
+                    <!-- <app-custom-form-input 
                         formControlName="status"
                         [type] = "'text'"
                         label = "Trạng thái mới"
                         [errors]="updateStatusForm.controls['status'].errors"
-                    ></app-custom-form-input>
+                    ></app-custom-form-input> -->
+                    <app-custom-select
+                        formControlName="status"
+                        label="Trạng thái mới"
+                        [options]="statusSelect"
+                        selectedOptionLabel="Chọn trạng thái"
+                        selectedOptionValue=""
+                        [errors]="updateStatusForm.controls['status'].errors"
+                    ></app-custom-select>
                     <button  
+                        [disabled]="updateStatusForm.invalid"
                         (click)="updateStatus()"
-                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        class="w-full text-white bg-blue-700 hover:bg-blue-800 disabled:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         Cập nhật
                     </button>
