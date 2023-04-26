@@ -27,6 +27,12 @@ const routes: Routes = [
       canLoad: [AuthGuard]
     },
     {
+      path: 'slider', 
+      loadChildren: () => 
+        import('./components/slider/slider.module').then(m => m.SliderModule),
+      canLoad: [AuthGuard]
+    },
+    {
       path: 'product', 
       loadChildren: () => 
         import('./components/product/product.module').then(m => m.ProductModule),

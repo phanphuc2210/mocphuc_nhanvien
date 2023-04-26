@@ -21,6 +21,7 @@ export class CustomImageInputComponent implements ControlValueAccessor {
   @Input() api_upload: string = `http://localhost:8000/upload`
   @Input() containerClass!: string
   @Input() inputClass!: string
+  @Input() imageSizeClass: string = 'w-32 h-32'
   @Input() errors!: ValidationErrors | null
 
   @Output() imageUrl = new EventEmitter<string>();

@@ -1,0 +1,218 @@
+<div class="min-h-full p-4 dark:bg-slate-700">
+  <div class="mb-5 flex justify-between">
+    <h2 class="text-3xl font-bold dark:text-slate-100">Danh sách slider</h2>
+
+    <button
+      (click)="showModal()"
+      type="button"
+      class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-semibold rounded-lg text-xs px-3 py-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700"
+    >
+      Thêm mới
+    </button>
+  </div>
+
+  <div
+    *ngIf="sliderList$ | async as sliderList"
+    class="overflow-x-auto shadow-md sm:rounded-lg mt-6"
+  >
+    <table class="w-full text-sm text-center text-gray-900 dark:text-gray-400">
+      <thead
+        class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-900 dark:text-gray-400"
+      >
+        <tr>
+          <th scope="col" class="py-3 px-6">ID</th>
+          <th scope="col" class="py-3 px-6">Hình ảnh</th>
+          <th scope="col" class="py-3 px-6">Liên kết đến</th>
+          <th scope="col" class="py-3 px-6">Kích hoạt</th>
+          <th scope="col" class="py-3 px-6"></th>
+          <th scope="col" class="py-3 px-6"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="sliderList.length > 0; else noSlider">
+        <tr
+          *ngFor="
+            let slider of sliderList
+              | paginate : { itemsPerPage, currentPage: p }
+          "
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        >
+          <th
+            scope="row"
+            class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            #{{ slider.id }}
+          </th>
+          <td class="py-4 px-6">
+            <img class="w-16 mx-auto" src="{{ slider.image }}" alt="image" />
+          </td>
+          <td class="py-4 px-6">
+            {{ slider.linkto }}
+          </td>
+          <td class="py-4 px-6">
+            <p
+              *ngIf="slider.active; else noActive"
+              class="p-2 text-xs w-fit bg-green-600 text-white rounded-md"
+            >
+              YES
+            </p>
+            <ng-template #noActive>
+              <p class="p-2 text-xs w-fit bg-red-700 text-white rounded-md">
+                NO
+              </p>
+            </ng-template>
+          </td>
+          <td
+            (click)="showModal(slider.id)"
+            class="py-4 px-6 text-blue-600 hover:cursor-pointer"
+          >
+            Sửa
+          </td>
+          <td class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
+          <!-- <td class="py-4 px-6">
+                        <a (click)="deleteUser(user.id!)" class="font-medium cursor-pointer text-red-600 dark:text-red-500 hover:underline">Xóa</a>
+                    </td> -->
+        </tr>
+      </tbody>
+      <ng-template #noSlider>
+        <tr>
+          <td colspan="6">
+            <p class="py-4">Chưa có bất kỳ slide nào!</p>
+          </td>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
+
+  <div class="mt-8 flex justify-center items-center">
+    <pagination-controls
+      previousLabel=""
+      nextLabel=""
+      class="paginator"
+      (pageChange)="p = $event"
+    ></pagination-controls>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  #modalEl
+  tabindex="-1"
+  aria-hidden="true"
+  class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full"
+>
+  <div class="relative w-full h-full max-w-2xl md:h-auto">
+    <!-- Modal content -->
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <button
+        (click)="hideModal()"
+        type="button"
+        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+        data-modal-hide="authentication-modal"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+      <div class="px-6 py-6 lg:px-8">
+        <p class="mb-6 text-xl font-semibold dark:text-white">
+          {{ titileModal }} slider
+        </p>
+        <form
+          class="max-h-96 w-full p-2 overflow-y-scroll"
+          [formGroup]="sliderForm"
+        >
+          <ng-container *ngIf="isAdd; else isEdit">
+            <app-custom-image-input
+              formControlName="image"
+              label="Hình ảnh"
+              imageSizeClass="w-full h-40"
+              (imageUrl)="receiveImgUrl($event)"
+              [errors]="sliderForm.controls['image'].errors"
+            ></app-custom-image-input>
+          </ng-container>
+          <ng-template #isEdit>
+            <app-custom-image-input
+              formControlName="image"
+              label="Hình ảnh"
+              imageSizeClass="w-full h-40"
+              [defaultImgUrl]="defaultImgUrl"
+              (imageUrl)="receiveImgUrl($event)"
+              [errors]="sliderForm.controls['image'].errors"
+            ></app-custom-image-input>
+          </ng-template>
+
+          <app-custom-form-input
+            formControlName="linkto"
+            [type]="'text'"
+            label="Liên kết đến"
+            [errors]="sliderForm.controls['linkto'].errors"
+          ></app-custom-form-input>
+
+          <app-custom-textarea
+            formControlName="description"
+            label="Mô tả"
+            placeholder="Viết mô tả..."
+            [errors]="sliderForm.controls['description'].errors"
+          ></app-custom-textarea>
+
+          <div class="mb-4">
+            <span class="block text-sm font-semibold text-slate-700 mb-2"
+              >Kích hoạt:</span
+            >
+            <div class="flex items-center my-1">
+              <input
+                [checked]="sliderForm.controls['active'].value === 1"
+                (change)="changeCheckBoxvalue($event)"
+                id="yes"
+                type="radio"
+                value="1"
+                name="active"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="yes"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Có</label
+              >
+            </div>
+            <div class="flex items-center my-1">
+              <input
+                [checked]="sliderForm.controls['active'].value === 0"
+                type="radio"
+                (change)="changeCheckBoxvalue($event)"
+                id="no"
+                value="0"
+                name="active"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="no"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Không</label
+              >
+            </div>
+          </div>
+        </form>
+        <button
+          type="button"
+          (click)="saveNew()"
+          [disabled]="sliderForm.invalid"
+          class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-lg text-sm px-5 py-2.5 mr-2 my-6 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700"
+        >
+          {{ titileModal }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
