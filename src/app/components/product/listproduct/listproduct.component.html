@@ -1,19 +1,43 @@
 <div class="min-h-full p-4 dark:bg-slate-700">
-  <div class="mb-4 flex justify-between">
+  <div class="mb-5 flex justify-between">
     <h2 class="text-3xl font-bold dark:text-slate-100">Danh sách sản phẩm</h2>
-    <div class="flex justify-center gap-3">
-      <div class="flex justify-center items-center">
-        <p class="text-sm font-semibold dark:text-slate-100 w-28">Phân loại:</p>
-        <select
-          (change)="productClassification()"
-          [(ngModel)]="classify"
-          class="my-input"
-        >
-          <!-- <option selected value="">Tất cả</option>
-          <option *ngFor="let type of types" value="{{ type.id }}">
-            {{ type.name }}
-          </option> -->
-          <option selected value="">Tất cả</option>
+
+    <button
+      (click)="showModal()"
+      type="button"
+      class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-semibold rounded-lg text-xs px-3 py-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700"
+    >
+      Thêm mới
+    </button>
+  </div>
+
+  <form class="flex-col justify-center items-center mt-6" [formGroup]="searchForm">
+    <div class="grid grid-cols-5 gap-4">
+        <app-custom-form-input 
+            formControlName="name"
+            [type] = "'text'"
+            label = "Tên sản phẩm"
+            inputClass="mt-2"
+        ></app-custom-form-input>
+
+        <!-- <app-custom-select
+            formControlName="type"
+            label="Loại sản phẩm"
+            [options]="types"
+            selectedOptionLabel="Tất cả"
+            selectedOptionValue=""
+        ></app-custom-select> -->
+
+        <div class="mb-4" *ngIf="types">
+          <label  class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Loại sản phẩm</label>
+          <select 
+              formControlName="type"
+              [ngClass]="{
+                  'my-input' : true,
+                  'input-error': searchForm.controls['type'].dirty && searchForm.controls['type'].invalid
+              }"
+          >   
+              <option selected value="">Tất cả</option>
               <ng-container *ngFor="let type of types">
                 <optgroup *ngIf="type.parentId === 0 && quantityChildren(type.id!) > 0; else notChildren" label="{{ type.name }}">
                   <ng-container *ngFor="let typeChild of types">
@@ -28,18 +52,35 @@
                   </option>
                 </ng-template>
               </ng-container>
-        </select>
-      </div>
+          </select>
+          <app-validate-input [label]="'Loại sản phẩm'" [isDirty]="searchForm.controls['type'].dirty" [errors]="searchForm.controls['type'].errors"></app-validate-input>
+        </div>
 
-      <button
-        (click)="showModal()"
-        type="button"
-        class="text-white w-fit bg-gray-800 disabled:bg-gray-600 disabled:text-slate-300 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-semibold rounded-lg text-xs px-3 py-2 dark:bg-gray-800 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700"
-      >
-        Thêm mới
-      </button>
+        <app-custom-select
+            formControlName="priceFrom"
+            label="Giá từ"
+            [options]="priceFromArr"
+            selectedOptionLabel="Tất cả"
+            selectedOptionValue=""
+            optionsValue="value"
+            optionsLabel="price"
+        ></app-custom-select>
+
+        <app-custom-select
+            formControlName="priceTo"
+            label="Giá đến"
+            [options]="priceToArr"
+            selectedOptionLabel="Tất cả"
+            selectedOptionValue=""
+            optionsValue="value"
+            optionsLabel="price"
+        ></app-custom-select>
+
+        <div class="mb-4 flex items-end">
+          <button (click)="searchProduct()" type="button" class="py-2 px-3 w-fit text-xs font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Lọc sản phẩm</button>
+        </div>   
     </div>
-  </div>
+  </form>
 
   <app-toast-err></app-toast-err>
 
