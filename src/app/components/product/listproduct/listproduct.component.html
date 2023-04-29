@@ -9,10 +9,25 @@
           [(ngModel)]="classify"
           class="my-input"
         >
-          <option selected value="">Tất cả</option>
-          <option *ngFor="let type of types$ | async" value="{{ type.id }}">
+          <!-- <option selected value="">Tất cả</option>
+          <option *ngFor="let type of types" value="{{ type.id }}">
             {{ type.name }}
-          </option>
+          </option> -->
+          <option selected value="">Tất cả</option>
+              <ng-container *ngFor="let type of types">
+                <optgroup *ngIf="type.parentId === 0 && quantityChildren(type.id!) > 0; else notChildren" label="{{ type.name }}">
+                  <ng-container *ngFor="let typeChild of types">
+                    <option *ngIf="typeChild.parentId === type.id" value="{{ typeChild.id }}">
+                      {{ typeChild.name }}
+                    </option>
+                  </ng-container>
+                </optgroup>
+                <ng-template #notChildren>
+                  <option *ngIf="type.parentId === 0" value="{{ type.id }}">
+                    {{ type.name }}
+                  </option>
+                </ng-template>
+              </ng-container>
         </select>
       </div>
 
@@ -226,14 +241,42 @@
             </div>
 
             <div>
-              <app-custom-select
+              <!-- <app-custom-select
                 formControlName="type"
                 label="Loại sản phẩm"
                 [options]="types$ | async"
                 selectedOptionLabel="Chọn loại sản phẩm"
                 selectedOptionValue=""
                 [errors]="productForm.controls['type'].errors"
-              ></app-custom-select>
+              ></app-custom-select> -->
+
+              <div class="mb-4" *ngIf="types">
+                <label  class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Loại sản phẩm</label>
+                <select 
+                    formControlName="type"
+                    [ngClass]="{
+                        'my-input' : true,
+                        'input-error': productForm.controls['type'].dirty && productForm.controls['type'].invalid
+                    }"
+                >   
+                    <option selected value="">Chọn loại sản phẩm</option>
+                    <ng-container *ngFor="let type of types">
+                      <optgroup *ngIf="type.parentId === 0 && quantityChildren(type.id!) > 0; else notChildren" label="{{ type.name }}">
+                        <ng-container *ngFor="let typeChild of types">
+                          <option *ngIf="typeChild.parentId === type.id" value="{{ typeChild.id }}">
+                            {{ typeChild.name }}
+                          </option>
+                        </ng-container>
+                      </optgroup>
+                      <ng-template #notChildren>
+                        <option *ngIf="type.parentId === 0" value="{{ type.id }}">
+                          {{ type.name }}
+                        </option>
+                      </ng-template>
+                    </ng-container>
+                </select>
+                <app-validate-input [label]="'Loại sản phẩm'" [isDirty]="productForm.controls['type'].dirty" [errors]="productForm.controls['type'].errors"></app-validate-input>
+              </div>
 
               <div>
                 <label class="block text-sm font-semibold text-slate-700"

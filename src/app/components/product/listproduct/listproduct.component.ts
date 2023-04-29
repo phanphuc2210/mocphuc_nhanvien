@@ -38,7 +38,7 @@ export class ListproductComponent implements OnInit, OnDestroy {
   products$!: Observable<Product[] | any>;
 
   // products: Product[] = [];
-  types$!: Observable<ProductType[]>;
+  types!: ProductType[];
   classify: string = '';
   p: number = 1;
   itemsPerPage: number = 8;
@@ -121,7 +121,9 @@ export class ListproductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.types$ = this.typeService.getProductTypes();
+    this.typeService.getProductTypes().subscribe(res => {
+      this.types = res.filter(val => val.active === 1);
+    });
     this.woodTypes$ = this.woodService.getWoodList();
 
     this.store.dispatch(ProductsAction.getProducts());
@@ -266,5 +268,16 @@ export class ListproductComponent implements OnInit, OnDestroy {
         this.store.dispatch(ProductsAction.removeProduct({productId: String(id)}))
       }
     })
+  }
+
+  quantityChildren(typeId: number): number {
+    let quantity = 0;
+    this.types.forEach(type => {
+      if(type.parentId === typeId) {
+        quantity++;
+      }
+    });
+
+    return quantity;
   }
 }
