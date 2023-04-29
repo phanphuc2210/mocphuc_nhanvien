@@ -183,4 +183,40 @@ export class ListwoodComponent implements OnInit {
       this.editWood(data)
     }
   }
+
+  public deleteWood(woodId: number) {
+    Swal.fire({
+      title: '<p class="text-xl text-slate-300">Bạn thật sự muốn xóa loại gỗ này?</p>',
+      background: '#000',
+      showCancelButton: true,
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#c81e1e',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.woodService.deleteWood(String(woodId)).subscribe({
+          next: res => {
+            Swal.fire({
+              background: '#000',
+              icon: 'success',
+              title: '<p class="text-xl text-slate-300">'+ res.message +'</p>',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#1a56db',
+            })
+            this.woodList$ = this.woodService.getWoodList()
+          },
+          error: err => {
+            Swal.fire({
+              background: '#000',
+              icon: 'error',
+              title: '<p class="text-xl text-slate-300">'+ err.error.message +'</p>',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#1a56db',
+            })
+          }
+        })
+      }
+    })
+  }
 }

@@ -29,4 +29,8 @@ export class WoodService {
   public updateWood(id: string, data: Wood): Observable<any> {
     return this.httpClient.put<any>(`${this.API_URL}/${id}`, data)
   }
+
+  public deleteWood(id: string): Observable<any> {
+    return this.httpClient.delete<any>(`${this.API_URL}/${id}`)
+  }
 }

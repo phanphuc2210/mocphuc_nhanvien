@@ -176,7 +176,7 @@ export class ListtypeComponent implements OnInit {
 
   public deleteType(id: any) {
     Swal.fire({
-      title: '<p class="text-xl text-slate-300">Bạn thật sự muốn xóa sản phẩm này?</p>',
+      title: '<p class="text-xl text-slate-300">Bạn thật sự muốn xóa loại sản phẩm này?</p>',
       background: '#000',
       showCancelButton: true,
       cancelButtonText: 'Hủy',
