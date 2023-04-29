@@ -23,6 +23,7 @@
           <th scope="col" class="py-3 px-6">ID</th>
           <th scope="col" class="py-3 px-6">Hình ảnh</th>
           <th scope="col" class="py-3 px-6">Liên kết đến</th>
+          <th scope="col" class="py-3 px-6">Mô tả</th>
           <th scope="col" class="py-3 px-6">Kích hoạt</th>
           <th scope="col" class="py-3 px-6"></th>
           <th scope="col" class="py-3 px-6"></th>
@@ -49,6 +50,9 @@
             {{ slider.linkto }}
           </td>
           <td class="py-4 px-6">
+            {{ slider.description }}
+          </td>
+          <td class="py-4 px-6 flex justify-center">
             <p
               *ngIf="slider.active; else noActive"
               class="p-2 text-xs w-fit bg-green-600 text-white rounded-md"
@@ -67,7 +71,7 @@
           >
             Sửa
           </td>
-          <td class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
+          <td (click)="deleteSlide(slider.id!)" class="py-4 px-6 text-red-700 hover:cursor-pointer">Xóa</td>
           <!-- <td class="py-4 px-6">
                         <a (click)="deleteUser(user.id!)" class="font-medium cursor-pointer text-red-600 dark:text-red-500 hover:underline">Xóa</a>
                     </td> -->

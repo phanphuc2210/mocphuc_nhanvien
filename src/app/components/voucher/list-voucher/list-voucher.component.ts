@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, debounceTime } from 'rxjs';
 import { Voucher } from 'src/app/models/voucher.model';
 import { VoucherService } from 'src/app/services/voucher.service';
 import { Modal } from 'flowbite';
@@ -24,6 +24,7 @@ export class ListVoucherComponent implements OnInit {
   voucherList$!: Observable<Voucher[]>;
   p:number = 1;
   itemsPerPage:number = 8;
+  codeList: string[] = []
 
   // Cấu hình form thêm/sửa
   productTypes$!: Observable<ProductType[]>;
@@ -57,11 +58,28 @@ export class ListVoucherComponent implements OnInit {
     private voucherService: VoucherService,
     private typeService: TypeService,
     private fb: FormBuilder
-  ) {}
+  ) {
+    // valueChanges of code fromControls
+    this.voucherForm.controls['code'].valueChanges.pipe(debounceTime(1000)).subscribe(res => {
+      if(res && this.codeList) {
+        console.log("codelist:", this.codeList)
+        console.log("res code:", res)
+        if(this.codeList.includes(res)) {
+          this.voucherForm.controls['code'].setErrors({isDuplicateCode: true})
+        }
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.voucherList$ = this.voucherService.getVoucherList();
     this.productTypes$ = this.typeService.getProductTypes();
+
+    this.voucherList$.subscribe(res => {
+      res.forEach(voucher => {
+        this.codeList.push(voucher.code!)
+      })
+    })
 
     // Thiết lập hộp thoại cập nhật trạng thái
     this.modal = new Modal(this.modalEl.nativeElement, this.modalOptions);
@@ -115,6 +133,11 @@ export class ListVoucherComponent implements OnInit {
         })
         this.hideModal();
         this.voucherList$ = this.voucherService.getVoucherList();
+        this.voucherList$.subscribe(res => {
+          res.forEach(voucher => {
+            this.codeList.push(voucher.code!)
+          })
+        })
       },
       error: err => {
         Swal.fire({
@@ -149,6 +172,11 @@ export class ListVoucherComponent implements OnInit {
             })
             this.hideModal();
             this.voucherList$ = this.voucherService.getVoucherList();
+            this.voucherList$.subscribe(res => {
+              res.forEach(voucher => {
+                this.codeList.push(voucher.code!)
+              })
+            })
           },
           error: err => {
             Swal.fire({
@@ -180,5 +208,40 @@ export class ListVoucherComponent implements OnInit {
     } else {
       this.editVoucher(data)
     }
+  }
+
+  public deleteVoucher(voucherId: number) {
+    Swal.fire({
+      title: '<p class="text-xl text-slate-300">Bạn thật sự muốn xóa voucher này?</p>',
+      background: '#000',
+      showCancelButton: true,
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#b22023',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.voucherService.deleteVoucher(String(voucherId)).subscribe({
+          next: res => {
+            Swal.fire({
+              background: '#000',
+              icon: 'success',
+              title: '<p class="text-xl text-slate-300">'+ res.message +'</p>',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#1a56db',
+            })
+            this.voucherList$ = this.voucherService.getVoucherList()
+          },
+          error: err => {
+            Swal.fire({
+              background: '#000',
+              icon: 'error',
+              title: '<p class="text-xl text-slate-300">'+ err.error.message +'</p>',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#1a56db',
+            })
+          }
+        })
+      }
+    })
   }
 }

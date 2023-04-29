@@ -34,6 +34,8 @@ export class ValidateInputComponent implements OnChanges{
       return `*${this.label} không đúng định dạng!`
     } else if(this.errors?.['extensionFile']) {
       return `*${this.label} phải có phần mở rộng là ${this.errors?.['extensionFile']?.['allowedExtensions']}!`
+    } else if(this.errors?.['isDuplicateCode']) {
+      return `*${this.label} bị trùng lặp!`
     }
 
     return ""

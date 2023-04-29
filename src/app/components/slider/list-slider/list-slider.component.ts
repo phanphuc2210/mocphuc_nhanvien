@@ -33,10 +33,10 @@ export class ListSliderComponent implements OnInit{
   sliderForm = this.fb.group({
     image: [
       { value: '', disabled: false },
-      [fileUploadValidator(this.allowedFileExtensions)]
+      [fileUploadValidator(this.allowedFileExtensions), Validators.required]
     ],
-    linkto: ['', Validators.required],
-    description: [''],
+    linkto: ['',Validators.required],
+    description: ['',Validators.required],
     active: [1, Validators.required],
   });
 
@@ -85,6 +85,11 @@ export class ListSliderComponent implements OnInit{
   setValueForForm(sliderId?: number) {
     if(sliderId) {
       this.sliderId = sliderId;
+      if(!this.isAdd) {
+        this.sliderForm.controls['image'].removeValidators(Validators.required);
+      } else {
+        this.sliderForm.controls['image'].addValidators(Validators.required);
+      }
       this.sliderService.getSlider(String(sliderId)).subscribe(res => {
         this.setValueForControls(res);
       })
@@ -104,6 +109,14 @@ export class ListSliderComponent implements OnInit{
     this.modal.hide();
   }
 
+  // resetForm() {
+  //   this.sliderForm.controls['image'].setValue('')
+  //   this.sliderForm.controls['linkto'].setValue('')
+  //   this.sliderForm.controls['description'].setValue('')
+  //   this.sliderForm.controls['active'].setValue(1)
+  //   this.img_url = ''
+  // }
+
   addSlider(data: Slider) {
     this.sliderService.addSlider(data).subscribe({
       next: res => {
@@ -116,6 +129,7 @@ export class ListSliderComponent implements OnInit{
         })
         this.hideModal();
         this.sliderList$ = this.sliderService.getSliderList()
+        this.sliderForm.reset()
       },
       error: err => {
         Swal.fire({
@@ -179,5 +193,40 @@ export class ListSliderComponent implements OnInit{
     } else {
       this.editSlider(data)
     }
+  }
+
+  public deleteSlide(slideId: number) {
+    Swal.fire({
+      title: '<p class="text-xl text-slate-300">Bạn thật sự muốn xóa slide này?</p>',
+      background: '#000',
+      showCancelButton: true,
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#b22023',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sliderService.deleteSlider(String(slideId)).subscribe({
+          next: res => {
+            Swal.fire({
+              background: '#000',
+              icon: 'success',
+              title: '<p class="text-xl text-slate-300">'+ res.message +'</p>',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#1a56db',
+            })
+            this.sliderList$ = this.sliderService.getSliderList()
+          },
+          error: err => {
+            Swal.fire({
+              background: '#000',
+              icon: 'error',
+              title: '<p class="text-xl text-slate-300">'+ err.error.message +'</p>',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#1a56db',
+            })
+          }
+        })
+      }
+    })
   }
 }

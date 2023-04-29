@@ -29,4 +29,8 @@ export class SliderService {
   public updateSlider(id: string, data: Slider): Observable<any> {
     return this.httpClient.put<any>(`${this.API_URL}/${id}`, data)
   }
+
+  public deleteSlider(id: string): Observable<any> {
+    return this.httpClient.delete<any>(`${this.API_URL}/${id}`)
+  }
 }

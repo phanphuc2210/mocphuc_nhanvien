@@ -194,7 +194,9 @@ export class ListtypeComponent implements OnInit {
               confirmButtonText: 'Ok',
               confirmButtonColor: '#1a56db',
             })
-            this.typeList = this.typeList.filter(type => type.id !== id)
+            this.typeService.getProductTypes().subscribe(res => {
+              this.typeList = res
+            })
           },
           error: err => {
             Swal.fire({

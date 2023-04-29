@@ -29,4 +29,8 @@ export class VoucherService {
   public updateVoucher(id: string, data: Voucher): Observable<any> {
     return this.httpClient.put<any>(`${this.API_URL}/${id}`, data)
   }
+
+  public deleteVoucher(id: string): Observable<any> {
+    return this.httpClient.delete<any>(`${this.API_URL}/${id}`)
+  }
 }
