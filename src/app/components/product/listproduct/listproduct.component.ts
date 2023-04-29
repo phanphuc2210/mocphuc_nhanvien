@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Product } from 'src/app/models/product.model';
+import { Comment } from 'src/app/models/comment.model';
 import { ProductType } from 'src/app/models/productType.model';
 import { ProductService } from 'src/app/services/product.service';
 import Swal from 'sweetalert2';
@@ -20,6 +21,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { fileUploadValidator } from 'src/app/helper/validateUploadFile';
 import { Wood } from 'src/app/models/wood.model';
 import { WoodService } from 'src/app/services/wood.service';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-listproduct',
@@ -33,6 +35,12 @@ export class ListproductComponent implements OnInit, OnDestroy {
   })
   modalEl!: ElementRef<HTMLDivElement>;
 
+  @ViewChild('commentEl', {
+    read: ElementRef,
+    static: true,
+  })
+  commentEl!: ElementRef<HTMLDivElement>;
+
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | undefined>;
   products$!: Observable<Product[] | any>;
@@ -45,6 +53,7 @@ export class ListproductComponent implements OnInit, OnDestroy {
 
   // Flowbite config
   modal!: ModalInterface;
+  commentMd!: ModalInterface;
   titileModal = 'Thêm mới'
 
   modalOptions: ModalOptions = {
@@ -108,10 +117,23 @@ export class ListproductComponent implements OnInit, OnDestroy {
      this.images.removeAt(index);
    }
 
+  //  Comment
+  commentList$!: Observable<Comment[]>
+  product!: Product;
+  starLabel = [
+    'Vui lòng đánh giá',
+    'Rất không hài lòng',
+    'Không hài lòng',
+    'Bình thường',
+    'Hài lòng',
+    'Cực kì hài lòng',
+  ];
+
   constructor(
     private productService: ProductService,
     private woodService: WoodService,
     private typeService: TypeService,
+    private commentService: CommentService,
     private fb: FormBuilder,
     private store: Store<AppStateInterface>
   ) {
@@ -129,6 +151,7 @@ export class ListproductComponent implements OnInit, OnDestroy {
     this.store.dispatch(ProductsAction.getProducts());
     // Thiết lập hộp thoại cập nhật trạng thái
     this.modal = new Modal(this.modalEl.nativeElement, this.modalOptions);
+    this.commentMd = new Modal(this.commentEl.nativeElement, this.modalOptions);
   }
 
   ngOnDestroy(): void {
@@ -205,8 +228,20 @@ export class ListproductComponent implements OnInit, OnDestroy {
     this.modal.show();
   }
 
+  showComment(productId: number) {
+    this.commentList$ = this.commentService.getComments(productId);
+    this.productService.getProduct(String(productId)).subscribe(res => {
+      this.product = res
+    })
+    this.commentMd.show();
+  }
+
   hideModal() {
     this.modal.hide();
+  }
+
+  hideComment() {
+    this.commentMd.hide();
   }
 
   public saveNew() {
