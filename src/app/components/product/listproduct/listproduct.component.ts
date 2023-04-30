@@ -114,7 +114,9 @@ export class ListproductComponent implements OnInit, OnDestroy {
    }
  
    removeImage(index: number) {
-     this.images.removeAt(index);
+    this.images.removeAt(index);
+    this.img_url.splice(index, 1);
+    this.defaultImgUrl = [...this.img_url]
    }
 
   //  Comment

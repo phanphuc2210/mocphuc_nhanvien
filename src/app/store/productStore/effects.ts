@@ -86,8 +86,16 @@ export class ProductsEffects {
                         })
                         return ProductsActions.removeProductSuccess({productId: res.id})
                     }),
-                    catchError((error) => 
-                        of(ProductsActions.removeProductFailure({error: error.error.message}))
+                    catchError((error) => {
+                        Swal.fire({
+                            background: '#000',
+                            icon: 'error',
+                            title: '<p class="text-xl text-slate-300">'+ error.error.message +'</p>',
+                            confirmButtonText: 'Ok',
+                            confirmButtonColor: '#1a56db',
+                        })
+                        return of(ProductsActions.removeProductFailure({error: error.error.message}))
+                    }
                     )
                 )
             })

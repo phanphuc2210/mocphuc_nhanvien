@@ -82,7 +82,7 @@
     </div>
   </form>
 
-  <app-toast-err></app-toast-err>
+  <!-- <app-toast-err></app-toast-err> -->
 
   <div
     *ngIf="isLoading$ | async"
@@ -391,13 +391,15 @@
                 </ng-container>
 
                 <ng-template #isEdit>
-                    <app-custom-image-input
-                        [formControlName]="i"
-                        [defaultImgUrl]="defaultImgUrl[i]"
-                        (imageUrl)="receiveImgUrl($event, i)"
-                        inputClass="w-[80%]"
-                        [errors]="images.at(i).errors"
-                    ></app-custom-image-input>
+                    <ng-container *ngIf="defaultImgUrl">
+                      <app-custom-image-input
+                          [formControlName]="i"
+                          [defaultImgUrl]="defaultImgUrl[i]"
+                          (imageUrl)="receiveImgUrl($event, i)"
+                          inputClass="w-[80%]"
+                          [errors]="images.at(i).errors"
+                      ></app-custom-image-input>
+                    </ng-container>
                 </ng-template>
 
                 <button
