@@ -36,6 +36,10 @@ export class ValidateInputComponent implements OnChanges{
       return `*${this.label} phải có phần mở rộng là ${this.errors?.['extensionFile']?.['allowedExtensions']}!`
     } else if(this.errors?.['isDuplicateCode']) {
       return `*${this.label} bị trùng lặp!`
+    } else if(this.errors?.['toDateInvalid']) {
+      return `*Ngày đến phải lớn hơn ngày từ!`
+    } else if(this.errors?.['fromDateInvalid']) {
+      return `*Ngày từ phải nhỏ hơn ngày đến!`
     }
 
     return ""

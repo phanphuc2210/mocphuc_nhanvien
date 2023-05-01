@@ -23,7 +23,33 @@ export class StatisticalComponent implements OnInit {
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     private productService: ProductService
-  ) {}
+  ) {
+    this.dateForm.get('to')?.valueChanges.subscribe(val => {
+      if(val) {
+        if (this.dateForm.get('from')?.value) {
+          const to = new Date(val);
+          const from = new Date(this.dateForm.get('from')?.value!);
+
+          if (to < from) {
+            this.dateForm.get('to')?.setErrors({toDateInvalid: true})
+          }
+        }
+      }
+    })
+
+    this.dateForm.get('from')?.valueChanges.subscribe(val => {
+      if(val) {
+        if (this.dateForm.get('to')?.value) {
+          const from = new Date(val);
+          const to = new Date(this.dateForm.get('to')?.value!);
+
+          if (from > to) {
+            this.dateForm.get('from')?.setErrors({fromDateInvalid: true})
+          }
+        }
+      }
+    })
+  }
 
   ngOnInit(): void {}
 

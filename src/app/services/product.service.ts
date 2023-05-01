@@ -40,7 +40,7 @@ export class ProductService {
     return this.httpClient.delete<any>(`${this.API_URL}/${id}`);
   }
 
-  public searchProduct(name?:string, type?:string, priceFrom?: string, priceTo?: string): Observable<any> {
+  public searchProduct(name?:string, type?:string, wood?: string, priceFrom?: string, priceTo?: string): Observable<any> {
     let search = '';
     if(name) {
       let nameSplit = name.split(' ')
@@ -49,6 +49,9 @@ export class ProductService {
     }
     if(type) {
       search += `&typeId=${type}`
+    }
+    if(wood) {
+      search += `&woodId=${wood}`
     }
     if(priceFrom) {
       search += `&gte=${priceFrom}`

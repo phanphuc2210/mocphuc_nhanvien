@@ -12,7 +12,7 @@
   </div>
 
   <form class="flex-col justify-center items-center mt-6" [formGroup]="searchForm">
-    <div class="grid grid-cols-5 gap-4">
+    <div class="grid grid-cols-6 gap-4">
         <app-custom-form-input 
             formControlName="name"
             [type] = "'text'"
@@ -55,6 +55,14 @@
           </select>
           <app-validate-input [label]="'Loại sản phẩm'" [isDirty]="searchForm.controls['type'].dirty" [errors]="searchForm.controls['type'].errors"></app-validate-input>
         </div>
+
+        <app-custom-select
+          formControlName="wood"
+          label="Loại gỗ"
+          [options]="woodTypes$ | async"
+          selectedOptionLabel="Tất cả"
+          selectedOptionValue=""
+        ></app-custom-select>
 
         <app-custom-select
             formControlName="priceFrom"

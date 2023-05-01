@@ -153,6 +153,7 @@ export class ListproductComponent implements OnInit, OnDestroy {
   searchForm = this.fb.group({
     name: [''],
     type: [''],
+    wood: [''],
     priceFrom: [''],
     priceTo: [''],
   });
@@ -348,11 +349,13 @@ export class ListproductComponent implements OnInit, OnDestroy {
   public searchProduct() {
     const name = this.searchForm.controls.name.value!;
     const type = this.searchForm.controls.type.value!;
+    const wood = this.searchForm.controls.wood.value!;
     const priceFrom = this.searchForm.controls.priceFrom.value!;
     const priceTo = this.searchForm.controls.priceTo.value!;
     this.products$ = this.productService.searchProduct(
       name,
       type,
+      wood,
       priceFrom,
       priceTo
     );
