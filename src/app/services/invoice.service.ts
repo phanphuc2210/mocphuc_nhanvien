@@ -51,6 +51,10 @@ export class InvoiceService {
     return this.http.get<any>(`${this.API_URL}/statistical?from=${from}&to=${to}`)
   }
 
+  public analysis(from: string, to: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/analysis?from=${from}&to=${to}`)
+  }
+
   public sendMail(data: Payment): Observable<any> {
     return this.http.post<any>(`${this.API_URL}/send-mail`, data)
   }

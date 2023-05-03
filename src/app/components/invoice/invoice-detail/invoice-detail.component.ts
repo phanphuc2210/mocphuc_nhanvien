@@ -70,7 +70,7 @@ export class InvoiceDetailComponent implements OnInit {
         this.invoice_details.forEach(d => {
           this.total_price += d.price! * d.quantity
         })
-        console.log('Invocie #' + this.orderId + ':', { invoice_info: this.invoice_info, invoice_details: this.invoice_details})
+        // console.log('Invocie #' + this.orderId + ':', { invoice_info: this.invoice_info, invoice_details: this.invoice_details})
       },
       error: err => {
         console.log("Error invocie-detail:", err.error.message)

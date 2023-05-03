@@ -2,7 +2,7 @@
     <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">Danh sách hóa đơn</h2>
 
     <form class="flex-col justify-center items-center mt-6" [formGroup]="searchForm">
-        <div class="grid grid-cols-6 gap-4">
+        <div class="grid grid-cols-5 gap-4">
             <app-custom-form-input 
                 formControlName="from"
                 [type] = "'date'"
@@ -35,7 +35,8 @@
                 selectedOptionValue=""
             ></app-custom-select>
 
-            <div class="mb-4 flex items-end">
+            <div class="mb-4">
+                <div ngClass="block mb-1 h-6"></div>
                 <button (click)="searchInvoice()" type="button" class="py-2 px-3 w-fit text-xs font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Lọc hóa đơn</button>
             </div>   
         </div>

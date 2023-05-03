@@ -1,0 +1,46 @@
+
+.paginator ::ng-deep .ngx-pagination .current { 
+    background: linear-gradient(to right, #1c64f2, #1e429f);
+    border-radius: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin: 0 4px;
+  }
+
+  .paginator ::ng-deep .ngx-pagination a,
+  .ngx-pagination button {
+    color: #fff;
+    background: #1f2937;
+    border-radius: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin: 0 4px;
+    text-decoration: none;
+  }
+  
+  .paginator ::ng-deep .ngx-pagination a:hover,
+  .ngx-pagination button:hover {
+    color: white;
+    background: #111827;
+    border-radius: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+    text-decoration: none;
+  }
+
+  :host::ng-deep label.star {
+    padding: 0 4px !important;
+    font-size: 1.5rem !important;
+    color: #ddd !important;
+    &::before {
+        content: "\f005" !important;
+    }
+    &:hover {
+      transform: rotate(0deg) scale(1) !important;
+    }
+  }
+  
+  :host::ng-deep input.star-5:checked ~ label.star::before {
+    color: #fe7 !important;
+    text-shadow: 0 0 0 #fe7 !important;
+  }

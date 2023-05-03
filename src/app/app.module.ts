@@ -2,8 +2,11 @@ import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxStarRatingModule } from 'ngx-star-rating';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +27,7 @@ import { StatisticalComponent } from './components/statistical/statistical.compo
 import { CommonsModule } from './commons/commons.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 registerLocaleData(localeVi, 'vi');
 
 @NgModule({
@@ -37,14 +41,18 @@ registerLocaleData(localeVi, 'vi');
     DashboardComponent,
     StatisticalComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     CommonsModule,
+    NgxPaginationModule,
+    NgxStarRatingModule,
     SweetAlert2Module.forRoot(),
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),

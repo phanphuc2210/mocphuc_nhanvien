@@ -144,7 +144,34 @@
                         </div>
             
                         <div>
-                            <app-custom-select
+                            <div class="mb-4" *ngIf="productTypes">
+                              <label  class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Loại sản phẩm</label>
+                              <select 
+                                  formControlName="applicable_productType"
+                                  [ngClass]="{
+                                      'my-input' : true,
+                                      'input-error': voucherForm.controls['applicable_productType'].dirty && voucherForm.controls['applicable_productType'].invalid
+                                  }"
+                              >   
+                                  <option selected value="">Chọn loại sản phẩm</option>
+                                  <ng-container *ngFor="let type of productTypes">
+                                    <optgroup *ngIf="type.parentId === 0 && quantityChildren(type.id!) > 0; else notChildren" label="{{ type.name }}">
+                                      <ng-container *ngFor="let typeChild of productTypes">
+                                        <option *ngIf="typeChild.parentId === type.id" value="{{ typeChild.id }}">
+                                          {{ typeChild.name }}
+                                        </option>
+                                      </ng-container>
+                                    </optgroup>
+                                    <ng-template #notChildren>
+                                      <option *ngIf="type.parentId === 0" value="{{ type.id }}">
+                                        {{ type.name }}
+                                      </option>
+                                    </ng-template>
+                                  </ng-container>
+                              </select>
+                              <app-validate-input [label]="'Loại sản phẩm'" [isDirty]="voucherForm.controls['applicable_productType'].dirty" [errors]="voucherForm.controls['applicable_productType'].errors"></app-validate-input>
+                            </div>
+                            <!-- <app-custom-select
                                 formControlName="applicable_productType"
                                 label="Loại sản phẩm áp dụng"
                                 [options]="productTypes$ | async"
@@ -152,7 +179,7 @@
                                 selectedOptionValue=""
                                 [errors]="voucherForm.controls['applicable_productType'].errors"
                             ></app-custom-select>
-            
+             -->
                             <app-custom-number-input
                                 formControlName="bill_from"
                                 label="Đơn tối thiểu"

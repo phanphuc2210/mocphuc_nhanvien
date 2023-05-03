@@ -27,7 +27,6 @@ export class EditUserComponent implements OnInit{
 
   ngOnInit(): void {
     this.userService.getUser(this.user.id).subscribe(res => {
-      console.log(res)
       this.userForm.controls['firstname'].setValue(res.firstname);
       this.userForm.controls['lastname'].setValue(res.lastname);
       this.userForm.controls['phone'].setValue(res.phone);

@@ -1,7 +1,6 @@
 import { AbstractControl, ValidatorFn } from "@angular/forms";
 
 export function fileUploadValidator(allowedExtensions: any): ValidatorFn {
-    console.log('inside validation');
     return (control: AbstractControl): { [key: string]: any } | null => {
       // Enter to validation only if has value or it's not undefined
       if (control.value !== undefined && isNaN(control.value)) {

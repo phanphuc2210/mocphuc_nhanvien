@@ -4,6 +4,7 @@ import { InvoiceService } from 'src/app/services/invoice.service';
 import { Order_Detail } from 'src/app/models/order.model';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product.model';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-statistical',
@@ -19,10 +20,34 @@ export class StatisticalComponent implements OnInit {
   product!: Product
   revenue: number = 0;
 
+  p: number = 1;
+  itemsPerPage: number = 5;
+
+  data!: {
+    customers: number,
+    products: number,
+    orders: number
+  }
+
+  quantityStar!: {
+    one_star: number,
+    two_star: number,
+    three_star: number,
+    four_star: number,
+    five_star: number,
+  }
+
+  rating1 = 1;
+  rating2 = 2;
+  rating3 = 3;
+  rating4 = 4;
+  rating5 = 5;
+
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
-    private productService: ProductService
+    private productService: ProductService,
+    private commentService: CommentService,
   ) {
     this.dateForm.get('to')?.valueChanges.subscribe(val => {
       if(val) {
@@ -58,6 +83,12 @@ export class StatisticalComponent implements OnInit {
     this.revenue = 0
     let from = this.dateForm.controls.from.value!;
     let to = this.dateForm.controls.to.value!;
+    this.invoiceService.analysis(from, to).subscribe(res => {
+      this.data = res
+    }) 
+    this.commentService.analysis(from,to).subscribe(res => {
+      this.quantityStar = res
+    })
     this.invoiceService.getStatis(from, to).subscribe({
       next: (res) => {
         let statis: Order_Detail[] = res;

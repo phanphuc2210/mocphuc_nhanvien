@@ -21,4 +21,8 @@ export class CommentService {
   public postComment(data: Comment): Observable<any> {
     return this.httpClient.post<any>(`${this.API_URL}`, data)
   }
+
+  public analysis(from: string, to: string): Observable<any> {
+    return this.httpClient.get<Comment[]>(`${this.API_URL}/analysis?from=${from}&to=${to}`)
+  }
 }

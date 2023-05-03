@@ -27,7 +27,7 @@ export class ListVoucherComponent implements OnInit {
   codeList: string[] = []
 
   // Cấu hình form thêm/sửa
-  productTypes$!: Observable<ProductType[]>;
+  productTypes!: ProductType[];
   voucherId!: number;
 
   voucherForm = this.fb.group({
@@ -62,8 +62,6 @@ export class ListVoucherComponent implements OnInit {
     // valueChanges of code fromControls
     this.voucherForm.controls['code'].valueChanges.pipe(debounceTime(1000)).subscribe(res => {
       if(res && this.codeList) {
-        console.log("codelist:", this.codeList)
-        console.log("res code:", res)
         if(this.codeList.includes(res)) {
           this.voucherForm.controls['code'].setErrors({isDuplicateCode: true})
         }
@@ -73,7 +71,9 @@ export class ListVoucherComponent implements OnInit {
 
   ngOnInit(): void {
     this.voucherList$ = this.voucherService.getVoucherList();
-    this.productTypes$ = this.typeService.getProductTypes();
+    this.typeService.getProductTypes().subscribe(res => {
+      this.productTypes = res
+    });
 
     this.voucherList$.subscribe(res => {
       res.forEach(voucher => {
@@ -243,5 +243,16 @@ export class ListVoucherComponent implements OnInit {
         })
       }
     })
+  }
+
+  quantityChildren(typeId: number): number {
+    let quantity = 0;
+    this.productTypes.forEach(type => {
+      if(type.parentId === typeId) {
+        quantity++;
+      }
+    });
+
+    return quantity;
   }
 }

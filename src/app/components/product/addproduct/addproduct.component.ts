@@ -113,7 +113,6 @@ export class AddproductComponent implements OnInit, OnDestroy {
   }
 
   public saveNew() {
-    console.log('Add product form:', this.addProductForm.value);
     const product: Product = {
       name: this.addProductForm.controls.name.value!,
       typeId: Number(this.addProductForm.controls.type.value!),

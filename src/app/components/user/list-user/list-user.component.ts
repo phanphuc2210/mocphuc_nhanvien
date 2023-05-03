@@ -25,7 +25,6 @@ export class ListUserComponent implements OnInit{
     this.route.params.subscribe(
       param =>{
         this.role = param['role']
-        console.log(this.role)
         if(this.role === 'customer') {
           this.title = 'Danh sách khách hàng'
         } else {
