@@ -10,6 +10,12 @@
         padding: theme('spacing.6');
         box-shadow: theme('boxShadow.xl');
     }
+
+    .text-origin {
+        background: -webkit-linear-gradient(#eee, #333);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
       
     .my-container {
         @apply px-5 md:px-20 lg:px-36

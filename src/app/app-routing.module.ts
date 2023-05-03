@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SignupComponent } from './components/signup/signup.component';
 import { StatisticalComponent } from './components/statistical/statistical.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotfoundComponent } from './components/notfound/notfound.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/dashboard/home', pathMatch: 'full'},
@@ -61,6 +62,7 @@ const routes: Routes = [
   // {path: 'signup', component: SignupComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
+  {path: '**', component: NotfoundComponent}
 ];
 
 @NgModule({
