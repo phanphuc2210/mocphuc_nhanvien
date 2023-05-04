@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent {
   @Input() darkMode: any;
   @Input() userName: any;
+  @Input() avatar: any;
   @Output() changeTheme = new EventEmitter();
   
   constructor(private authService: AuthService) {}

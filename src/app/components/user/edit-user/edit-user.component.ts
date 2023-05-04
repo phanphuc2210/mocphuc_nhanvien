@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { fileUploadValidator } from 'src/app/helper/validateUploadFile';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -12,9 +13,20 @@ import Swal from 'sweetalert2';
 })
 export class EditUserComponent implements OnInit{
   private user = this.authService.userSubject.value;
+
+  defaultImgUrl!:string
+  img_url: any = ''
+  
+  // Array of valid extensions
+  allowedFileExtensions = ['jpg', 'jpeg', 'png'];
+
   userForm = this.fb.group({
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
+    avatar: [
+      { value: '', disabled: false },
+      [fileUploadValidator(this.allowedFileExtensions)]
+    ],
     phone: ['', Validators.compose([
       Validators.required, Validators.pattern(/^[0-9]{10}$/i)
     ])],
@@ -33,13 +45,19 @@ export class EditUserComponent implements OnInit{
       this.userForm.controls['address'].setValue(res.address);
       this.userForm.controls['email'].setValue(res.email);
       this.userForm.controls['password'].setValue(res.password);
+      this.defaultImgUrl = res.avatar!;
     })
+  }
+
+  public receiveImgUrl(event:any) {
+    this.img_url = event
   }
 
   public changeInfo() {
     const data: User = {
       firstname: this.userForm.controls.firstname.value!,
       lastname: this.userForm.controls.lastname.value!,
+      avatar: this.img_url,
       phone: this.userForm.controls.phone.value!,
       address: this.userForm.controls.address.value!,
       email: this.userForm.controls.email.value!,
@@ -60,7 +78,8 @@ export class EditUserComponent implements OnInit{
           if (result.isConfirmed) {
             const userLS = {
               ...this.user,
-              firstname: this.userForm.controls.firstname.value!
+              firstname: this.userForm.controls.firstname.value!,
+              avatar: this.img_url
             }
             localStorage.setItem('user', JSON.stringify(userLS))
             this.authService.userSubject.next(userLS)

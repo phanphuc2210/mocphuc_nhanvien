@@ -494,9 +494,14 @@
               <div *ngFor="let comment of commentList">
                   <hr class="my-4">
                   <div class="grid grid-cols-6">
-                      <div class="col-span-2">
+                      <div class="col-span-2 flex">
+                        <div class="w-7 h-7 rounded-full overflow-hidden mr-2">
+                          <img src="{{ comment.avatar }}" alt="avatar">
+                        </div>
+                        <div>
                           <p class="text-sm font-bold">{{ comment.username }}</p>
                           <p class="text-xs">{{ comment.time | date: 'd/M/yyy HH:mm' }}</p>
+                        </div>
                       </div>
                       <div class="col-span-4">
                           <div class="flex items-center gap-3">

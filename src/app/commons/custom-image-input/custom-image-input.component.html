@@ -2,24 +2,26 @@
   <label *ngIf="label" class="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
     >{{ label }}</label
   >
-  <input
-    type="file"
-    [ngClass]="{
-      'my-file-input': true,
-      'input-error': isDirty && errors
-    }"
-    class="{{ inputClass }}"
-    [(ngModel)]="input"
-    (blur)="onTouched()"
-    (change)="onChange($event)"
-    (change)="sendImgUrl($event)"
-    [disabled]="isDisabled"
-  />
-  <app-validate-input
-    [label]="label"
-    [isDirty]="isDirty"
-    [errors]="errors"
-  ></app-validate-input>
+  <ng-container *ngIf="position === 'top'">
+    <input
+      type="file"
+      [ngClass]="{
+        'my-file-input': true,
+        'input-error': isDirty && errors
+      }"
+      class="{{ inputClass }}"
+      [(ngModel)]="input"
+      (blur)="onTouched()"
+      (change)="onChange($event)"
+      (change)="sendImgUrl($event)"
+      [disabled]="isDisabled"
+    />
+    <app-validate-input
+      [label]="label"
+      [isDirty]="isDirty"
+      [errors]="errors"
+    ></app-validate-input>
+  </ng-container>
 
   <div
     class="flex items-center justify-center my-2 {{ imageSizeClass }} overflow-hidden border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
@@ -47,5 +49,26 @@
       </div>
     </ng-template>
   </div>
+
+  <ng-container *ngIf="position === 'bottom'">
+    <input
+      type="file"
+      [ngClass]="{
+        'my-file-input': true,
+        'input-error': isDirty && errors
+      }"
+      class="{{ inputClass }}"
+      [(ngModel)]="input"
+      (blur)="onTouched()"
+      (change)="onChange($event)"
+      (change)="sendImgUrl($event)"
+      [disabled]="isDisabled"
+    />
+    <app-validate-input
+      [label]="label"
+      [isDirty]="isDirty"
+      [errors]="errors"
+    ></app-validate-input>
+  </ng-container>
 </div>
 

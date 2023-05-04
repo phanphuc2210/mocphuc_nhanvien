@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, ValidationErrors } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-custom-image-input',
@@ -18,8 +18,9 @@ import { BehaviorSubject } from 'rxjs';
 export class CustomImageInputComponent implements ControlValueAccessor {
   @Input() label!: string
   @Input() defaultImgUrl!: string
-  @Input() api_upload: string = `http://localhost:8000/upload`
+  @Input() api_upload: string = `${environment.apiURL}/upload`
   @Input() containerClass!: string
+  @Input() position: 'top' | 'bottom' = 'top'
   @Input() inputClass!: string
   @Input() imageSizeClass: string = 'w-32 h-32'
   @Input() errors!: ValidationErrors | null

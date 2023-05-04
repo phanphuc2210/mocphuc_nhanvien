@@ -1,5 +1,5 @@
 <div class="app relative h-screen dark:bg-gray-800" [ngClass]="darkMode">
-    <app-header [userName]="user.firstname" [darkMode]="darkMode" (changeTheme)="changeTheme($event)"></app-header>
+    <app-header [userName]="user.firstname" [avatar]="user.avatar" [darkMode]="darkMode" (changeTheme)="changeTheme($event)"></app-header>
     <div class="flex w-full h-[91%]">
       <app-sidebar class="w-[17%] fixed"></app-sidebar>
       <div class="w-[83%] relative left-[17%] min-h-full dark:bg-gray-800">
