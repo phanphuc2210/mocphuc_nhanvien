@@ -29,6 +29,8 @@ import { CommonsModule } from './commons/commons.module';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { ClickSidebarDirective } from './directives/click-sidebar.directive';
+import { ClickSidebarCoverDirective } from './directives/click-sidebar-cover.directive';
 registerLocaleData(localeVi, 'vi');
 
 @NgModule({
@@ -43,7 +45,9 @@ registerLocaleData(localeVi, 'vi');
     StatisticalComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    ClickSidebarDirective,
+    ClickSidebarCoverDirective
   ],
   imports: [
     BrowserModule,

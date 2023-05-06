@@ -1,8 +1,9 @@
 <div class="app relative h-screen dark:bg-gray-800" [ngClass]="darkMode">
     <app-header [userName]="user.firstname" [avatar]="user.avatar" [darkMode]="darkMode" (changeTheme)="changeTheme($event)"></app-header>
     <div class="flex w-full h-[91%]">
-      <app-sidebar class="w-[17%] fixed"></app-sidebar>
-      <div class="w-[83%] relative left-[17%] min-h-full dark:bg-gray-800">
+      <app-sidebar class="lg:w-[17%] fixed z-50 lg:z-0 transition-transform -translate-x-full lg:translate-x-0"></app-sidebar>
+      <div appClickSidebarCover class="fixed h-full w-full z-40 bg-gray-500 hidden opacity-50 lg:hidden"></div>
+      <div class="lg:w-[83%] w-full relative lg:left-[17%] min-h-full dark:bg-gray-800">
         <router-outlet></router-outlet>
       </div>
     </div>
