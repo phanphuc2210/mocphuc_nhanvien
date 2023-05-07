@@ -77,4 +77,12 @@ export class InvoiceListComponent implements OnInit {
       from, to, payment, status
     );
   }
+
+  reset() {
+    this.searchForm.get('from')?.setValue('');
+    this.searchForm.get('to')?.setValue('');
+    this.searchForm.get('payment')?.setValue('');
+    this.searchForm.get('status')?.setValue('');
+    this.invoices$ = this.invoiceService.getList();
+  }
 }
