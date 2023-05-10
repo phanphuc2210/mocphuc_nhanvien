@@ -5,6 +5,11 @@ import { Order_Detail } from 'src/app/models/order.model';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product.model';
 import { CommentService } from 'src/app/services/comment.service';
+import { ProductType } from 'src/app/models/productType.model';
+import { TypeService } from 'src/app/services/type.service';
+import { Observable } from 'rxjs';
+import { Wood } from 'src/app/models/wood.model';
+import { WoodService } from 'src/app/services/wood.service';
 
 @Component({
   selector: 'app-statistical',
@@ -12,10 +17,16 @@ import { CommentService } from 'src/app/services/comment.service';
   styleUrls: ['./statistical.component.scss'],
 })
 export class StatisticalComponent implements OnInit {
-  dateForm = this.fb.group({
+  requestForm = this.fb.group({
     from: ['', Validators.required],
     to: ['', Validators.required],
+    type: [''],
+    wood: [''],
   });
+
+  types!: ProductType[];
+  woodTypes$!: Observable<Wood[]>;
+
   statisList!: Order_Detail[];
   product!: Product
   revenue: number = 0;
@@ -48,48 +59,57 @@ export class StatisticalComponent implements OnInit {
     private invoiceService: InvoiceService,
     private productService: ProductService,
     private commentService: CommentService,
+    private typeService: TypeService,
+    private woodService: WoodService
   ) {
-    this.dateForm.get('to')?.valueChanges.subscribe(val => {
+    this.requestForm.get('to')?.valueChanges.subscribe(val => {
       if(val) {
-        if (this.dateForm.get('from')?.value) {
+        if (this.requestForm.get('from')?.value) {
           const to = new Date(val);
-          const from = new Date(this.dateForm.get('from')?.value!);
+          const from = new Date(this.requestForm.get('from')?.value!);
 
           if (to < from) {
-            this.dateForm.get('to')?.setErrors({toDateInvalid: true})
+            this.requestForm.get('to')?.setErrors({toDateInvalid: true})
           }
         }
       }
     })
 
-    this.dateForm.get('from')?.valueChanges.subscribe(val => {
+    this.requestForm.get('from')?.valueChanges.subscribe(val => {
       if(val) {
-        if (this.dateForm.get('to')?.value) {
+        if (this.requestForm.get('to')?.value) {
           const from = new Date(val);
-          const to = new Date(this.dateForm.get('to')?.value!);
+          const to = new Date(this.requestForm.get('to')?.value!);
 
           if (from > to) {
-            this.dateForm.get('from')?.setErrors({fromDateInvalid: true})
+            this.requestForm.get('from')?.setErrors({fromDateInvalid: true})
           }
         }
       }
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.typeService.getProductTypes().subscribe(res => {
+      this.types = res.filter(val => val.active === 1);
+    });
+    this.woodTypes$ = this.woodService.getWoodList();
+  }
 
   public statis() {
     this.statisList = []
     this.revenue = 0
-    let from = this.dateForm.controls.from.value!;
-    let to = this.dateForm.controls.to.value!;
+    let from = this.requestForm.controls.from.value!;
+    let to = this.requestForm.controls.to.value!;
+    let type = this.requestForm.controls.type.value!;
+    let wood = this.requestForm.controls.wood.value!;
     this.invoiceService.analysis(from, to).subscribe(res => {
       this.data = res
     }) 
-    this.commentService.analysis(from,to).subscribe(res => {
+    this.commentService.analysis(from,to,type, wood).subscribe(res => {
       this.quantityStar = res
     })
-    this.invoiceService.getStatis(from, to).subscribe({
+    this.invoiceService.getStatis(from, to, type, wood).subscribe({
       next: (res) => {
         let statis: Order_Detail[] = res;
         statis.forEach((s) => {
@@ -111,5 +131,16 @@ export class StatisticalComponent implements OnInit {
         console.log("Error statistical: ", err.error.message)
       }
     });
+  }
+
+  quantityChildren(typeId: number): number {
+    let quantity = 0;
+    this.types.forEach(type => {
+      if(type.parentId === typeId) {
+        quantity++;
+      }
+    });
+
+    return quantity;
   }
 }

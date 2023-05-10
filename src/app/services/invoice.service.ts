@@ -47,8 +47,15 @@ export class InvoiceService {
     return this.http.patch<any>(`${this.API_URL}/update-status`, data)
   }
 
-  public getStatis(from: string, to: string): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/statistical?from=${from}&to=${to}`)
+  public getStatis(from: string, to: string, type?: string, wood?: string): Observable<any> {
+    let query = `from=${from}&to=${to}`;
+    if(type) {
+      query += `&typeId=${type}`
+    }
+    if(wood) {
+      query += `&woodId=${wood}`
+    }
+    return this.http.get<any>(`${this.API_URL}/statistical?${query}`)
   }
 
   public analysis(from: string, to: string): Observable<any> {

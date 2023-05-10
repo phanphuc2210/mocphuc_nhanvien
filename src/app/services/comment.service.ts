@@ -22,7 +22,14 @@ export class CommentService {
     return this.httpClient.post<any>(`${this.API_URL}`, data)
   }
 
-  public analysis(from: string, to: string): Observable<any> {
-    return this.httpClient.get<Comment[]>(`${this.API_URL}/analysis?from=${from}&to=${to}`)
+  public analysis(from: string, to: string, type?: string, wood?: string): Observable<any> {
+    let query = `from=${from}&to=${to}`;
+    if(type) {
+      query += `&typeId=${type}`
+    }
+    if(wood) {
+      query += `&woodId=${wood}`
+    }
+    return this.httpClient.get<Comment[]>(`${this.API_URL}/analysis?${query}`)
   }
 }

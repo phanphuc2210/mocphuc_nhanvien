@@ -1,14 +1,14 @@
 <div class="min-h-full p-4 dark:bg-slate-700">
     <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">Thống kê doanh thu</h2>
 
-    <form class="flex-col justify-center items-center mt-6" [formGroup]="dateForm">
-        <div class="w-[50%] mx-auto grid grid-cols-2 gap-4">
+    <form class="flex-col justify-center items-center mt-6" [formGroup]="requestForm">
+        <div class="w-[90%] mx-auto grid grid-cols-4 gap-4">
             <app-custom-form-input 
                 formControlName="from"
                 [type] = "'date'"
                 label = "Từ ngày"
                 inputClass="mt-2"
-                [errors]="dateForm.controls['from'].errors"
+                [errors]="requestForm.controls['from'].errors"
             ></app-custom-form-input>
 
             <app-custom-form-input 
@@ -16,12 +16,48 @@
                 [type] = "'date'"
                 label = "Đến ngày"
                 inputClass="mt-2"
-                [errors]="dateForm.controls['to'].errors"
+                [errors]="requestForm.controls['to'].errors"
             ></app-custom-form-input>
+
+            <div class="mb-4" *ngIf="types">
+                <label  class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Loại sản phẩm</label>
+                <select 
+                    formControlName="type"
+                    [ngClass]="{
+                        'my-input' : true,
+                        'input-error': requestForm.controls['type'].dirty && requestForm.controls['type'].invalid
+                    }"
+                >   
+                    <option selected value="">Tất cả</option>
+                    <ng-container *ngFor="let type of types">
+                      <optgroup *ngIf="type.parentId === 0 && quantityChildren(type.id!) > 0; else notChildren" label="{{ type.name }}">
+                        <ng-container *ngFor="let typeChild of types">
+                          <option *ngIf="typeChild.parentId === type.id" value="{{ typeChild.id }}">
+                            {{ typeChild.name }}
+                          </option>
+                        </ng-container>
+                      </optgroup>
+                      <ng-template #notChildren>
+                        <option *ngIf="type.parentId === 0" value="{{ type.id }}">
+                          {{ type.name }}
+                        </option>
+                      </ng-template>
+                    </ng-container>
+                </select>
+                <app-validate-input [label]="'Loại sản phẩm'" [isDirty]="requestForm.controls['type'].dirty" [errors]="requestForm.controls['type'].errors"></app-validate-input>
+              </div>
+
+              <app-custom-select
+                formControlName="wood"
+                label="Loại gỗ"
+                [options]="woodTypes$ | async"
+                selectedOptionLabel="Tất cả"
+                selectedOptionValue=""
+               ></app-custom-select>
         </div>
 
         <div class="flex justify-center gap-4">
-            <button [disabled]="dateForm.invalid" (click)="statis()" type="button" class="py-2 px-3 text-sm font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 disabled:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Thống kê</button>
+            <button [disabled]="requestForm.invalid" (click)="statis()" type="button" class="py-2 px-3 text-sm font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 disabled:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Thống kê</button>
             <button type="reset" class="py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</button>
         </div>
     </form>
