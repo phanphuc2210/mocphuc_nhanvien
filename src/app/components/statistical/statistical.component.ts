@@ -103,7 +103,7 @@ export class StatisticalComponent implements OnInit {
     let to = this.requestForm.controls.to.value!;
     let type = this.requestForm.controls.type.value!;
     let wood = this.requestForm.controls.wood.value!;
-    this.invoiceService.analysis(from, to).subscribe(res => {
+    this.invoiceService.analysis(from, to,type, wood).subscribe(res => {
       this.data = res
     }) 
     this.commentService.analysis(from,to,type, wood).subscribe(res => {
@@ -131,6 +131,7 @@ export class StatisticalComponent implements OnInit {
         console.log("Error statistical: ", err.error.message)
       }
     });
+    this.p = 1;
   }
 
   quantityChildren(typeId: number): number {

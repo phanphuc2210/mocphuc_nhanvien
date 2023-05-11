@@ -58,8 +58,15 @@ export class InvoiceService {
     return this.http.get<any>(`${this.API_URL}/statistical?${query}`)
   }
 
-  public analysis(from: string, to: string): Observable<any> {
-    return this.http.get<any>(`${this.API_URL}/analysis?from=${from}&to=${to}`)
+  public analysis(from: string, to: string, type?: string, wood?: string): Observable<any> {
+    let query = `from=${from}&to=${to}`;
+    if(type) {
+      query += `&typeId=${type}`
+    }
+    if(wood) {
+      query += `&woodId=${wood}`
+    }
+    return this.http.get<any>(`${this.API_URL}/analysis?${query}`)
   }
 
   public sendMail(data: Payment): Observable<any> {
