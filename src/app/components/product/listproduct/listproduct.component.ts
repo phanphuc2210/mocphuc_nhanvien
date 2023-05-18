@@ -266,6 +266,7 @@ export class ListproductComponent implements OnInit, OnDestroy {
   }
 
   hideModal() {
+    this.productForm.reset();
     this.modal.hide();
   }
 
@@ -285,6 +286,7 @@ export class ListproductComponent implements OnInit, OnDestroy {
       height: Number(this.productForm.controls.height.value!),
       image: this.img_url,
       description: this.productForm.controls.description.value!,
+      type_name: this.types.find(type => type.id === Number(this.productForm.controls.type.value!))?.name
     };
 
     if(this.isAdd) {

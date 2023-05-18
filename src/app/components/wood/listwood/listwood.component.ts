@@ -102,6 +102,7 @@ export class ListwoodComponent implements OnInit {
   }
 
   hideModal() {
+    this.woodForm.reset();
     this.modal.hide();
   }
 
