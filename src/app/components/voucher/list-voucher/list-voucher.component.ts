@@ -118,6 +118,7 @@ export class ListVoucherComponent implements OnInit {
   }
 
   hideModal() {
+    this.voucherForm.reset();
     this.modal.hide();
   }
 
