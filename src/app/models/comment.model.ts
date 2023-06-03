@@ -7,4 +7,5 @@ export interface Comment {
     image?: string
     star: number
     time?: Date
+    product_name?: string
 }

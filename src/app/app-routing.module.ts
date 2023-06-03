@@ -9,12 +9,14 @@ import { SignupComponent } from './components/signup/signup.component';
 import { StatisticalComponent } from './components/statistical/statistical.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { CommentStatisticalComponent } from './components/comment-statistical/comment-statistical.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/dashboard/home', pathMatch: 'full'},
   {path: 'dashboard', component: DashboardComponent, children: [
     { path: 'home', component: HomeComponent },
     { path: 'statistical', component: StatisticalComponent},
+    { path: 'comment', component: CommentStatisticalComponent},
     {
       path: 'type', 
       loadChildren: () => 

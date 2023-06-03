@@ -31,6 +31,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { ClickSidebarDirective } from './directives/click-sidebar.directive';
 import { ClickSidebarCoverDirective } from './directives/click-sidebar-cover.directive';
+import { CommentStatisticalComponent } from './components/comment-statistical/comment-statistical.component';
 registerLocaleData(localeVi, 'vi');
 
 @NgModule({
@@ -47,7 +48,8 @@ registerLocaleData(localeVi, 'vi');
     ResetPasswordComponent,
     NotfoundComponent,
     ClickSidebarDirective,
-    ClickSidebarCoverDirective
+    ClickSidebarCoverDirective,
+    CommentStatisticalComponent
   ],
   imports: [
     BrowserModule,

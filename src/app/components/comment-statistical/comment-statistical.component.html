@@ -1,0 +1,156 @@
+<div class="min-h-full p-4 dark:bg-slate-700">
+    <h2 class="text-3xl mb-5 font-bold dark:text-slate-100">Thống kê bình luận - đánh giá</h2>
+
+    <form class="flex-col justify-center items-center mt-6" [formGroup]="requestForm">
+        <div class="w-[90%] mx-auto grid grid-cols-4 gap-4">
+            <app-custom-form-input 
+                formControlName="from"
+                [type] = "'date'"
+                label = "Từ ngày"
+                inputClass="mt-2"
+                [errors]="requestForm.controls['from'].errors"
+            ></app-custom-form-input>
+
+            <app-custom-form-input 
+                formControlName="to"
+                [type] = "'date'"
+                label = "Đến ngày"
+                inputClass="mt-2"
+                [errors]="requestForm.controls['to'].errors"
+            ></app-custom-form-input>
+
+            <div class="mb-4" *ngIf="types">
+                <label  class="block mb-2 text-sm font-bold text-gray-900 dark:text-white">Loại sản phẩm</label>
+                <select 
+                    formControlName="type"
+                    [ngClass]="{
+                        'my-input' : true,
+                        'input-error': requestForm.controls['type'].dirty && requestForm.controls['type'].invalid
+                    }"
+                >   
+                    <option selected value="">Tất cả</option>
+                    <ng-container *ngFor="let type of types">
+                      <optgroup *ngIf="type.parentId === 0 && quantityChildren(type.id!) > 0; else notChildren" label="{{ type.name }}">
+                        <ng-container *ngFor="let typeChild of types">
+                          <option *ngIf="typeChild.parentId === type.id" value="{{ typeChild.id }}">
+                            {{ typeChild.name }}
+                          </option>
+                        </ng-container>
+                      </optgroup>
+                      <ng-template #notChildren>
+                        <option *ngIf="type.parentId === 0" value="{{ type.id }}">
+                          {{ type.name }}
+                        </option>
+                      </ng-template>
+                    </ng-container>
+                </select>
+                <app-validate-input [label]="'Loại sản phẩm'" [isDirty]="requestForm.controls['type'].dirty" [errors]="requestForm.controls['type'].errors"></app-validate-input>
+              </div>
+
+              <app-custom-select
+                formControlName="wood"
+                label="Loại gỗ"
+                [options]="woodTypes$ | async"
+                selectedOptionLabel="Tất cả"
+                selectedOptionValue=""
+               ></app-custom-select>
+        </div>
+
+        <div class="flex justify-center gap-4">
+            <button [disabled]="requestForm.invalid" (click)="handleSubmit()" type="button" class="py-2 px-3 text-sm font-medium text-center text-white bg-gray-900 rounded-lg hover:bg-gray-700 disabled:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-800">Thống kê</button>
+            <button type="reset" class="py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Reset</button>
+        </div>
+    </form>
+    <hr class="my-3 w-96 mx-auto">
+
+    <div *ngIf="quantityStar">
+        
+        <div class="my-6 grid grid-cols-5 gap-3">
+            <div class="p-4 rounded-lg bg-gray-800 cursor-pointer" (click)="filterComment(rating1)">
+                <div class="flex justify-center">
+                    <ngx-star-rating [(ngModel)]="rating1" [disabled] ="true"></ngx-star-rating>
+                </div>
+                <p class="text-4xl font-bold text-center text-white">{{ quantityStar.one_star }}</p>
+            </div>
+            <div class="p-4 rounded-lg bg-gray-800 cursor-pointer" (click)="filterComment(rating2)">
+                <div class="flex justify-center">
+                    <ngx-star-rating [(ngModel)]="rating2" [disabled] ="true"></ngx-star-rating>
+                </div>
+                <p class="text-4xl font-bold text-center text-white">{{ quantityStar.two_star }}</p>
+            </div>
+            <div class="p-4 rounded-lg bg-gray-800 cursor-pointer" (click)="filterComment(rating3)">
+                <div class="flex justify-center">
+                    <ngx-star-rating [(ngModel)]="rating3" [disabled] ="true"></ngx-star-rating>
+                </div>
+                <p class="text-4xl font-bold text-center text-white" text-center>{{ quantityStar.three_star }}</p>
+            </div>
+            <div class="p-4 rounded-lg bg-gray-800 cursor-pointer" (click)="filterComment(rating4)">
+                <div class="flex justify-center">
+                    <ngx-star-rating [(ngModel)]="rating4" [disabled] ="true"></ngx-star-rating>
+                </div>
+                <p class="text-4xl font-bold text-center text-white">{{ quantityStar.four_star }}</p>
+            </div>
+            <div class="p-4 rounded-lg bg-gray-800 cursor-pointer" (click)="filterComment(rating5)">
+                <div class="flex justify-center">
+                    <ngx-star-rating [(ngModel)]="rating5" [disabled] ="true"></ngx-star-rating>
+                </div>
+                <p class="text-4xl font-bold text-center text-white">{{ quantityStar.five_star }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="list-comment h-[700px] overflow-y-scroll" *ngIf="filterCommentList">
+        <div *ngIf="filterCommentList.length > 0; else noComment">
+            <div *ngFor="let comment of filterCommentList">
+                <hr class="my-4">
+                <div class="grid grid-cols-6">
+                    <div class="col-span-1 flex">
+                      <div class="w-7 h-7 rounded-full overflow-hidden mr-2">
+                        <img src="{{ comment.avatar }}" alt="avatar">
+                      </div>
+                      <div>
+                        <p class="text-sm font-bold">{{ comment.username }}</p>
+                        <p class="text-xs">{{ comment.time | date: 'd/M/yyy HH:mm' }}</p>
+                      </div>
+                    </div>
+                    <div class="col-span-5">
+                        <div class="flex items-center gap-3">
+                            <div class="stars">
+                                <ngx-star-rating ngModel="{{ comment.star }}" [id]="'rating'" [disabled] ="true"></ngx-star-rating>
+                            </div >
+                            <p>
+                                <span class="text-sm font-semibold">{{ starLabel[comment.star] }}</span>
+                                <span class="pl-2 text-xs font-semibold"> (với sản phẩm "{{ comment.product_name }}")</span>
+                            </p>
+                        </div>
+                        <p class="text-green-400 text-xs flex items-center">
+                            <svg 
+                                class="w-4 h-4 mr-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            Đã mua hàng
+                        </p>
+                        <div class="mt-3 text-sm">
+                            {{ comment.message }}
+                        </div>
+                        <div *ngIf="comment.image" class="mt-3">
+                          <img class="w-20" src="{{ comment.image }}" alt="comment image">
+                      </div>
+                    </div>
+                </div >
+            </div>
+            
+        </div>
+        <ng-template #noComment>
+            <div class="h-16 flex justify-center items-center">
+                <span class="text-center font-medium text-sm">Không có bình luận - đánh giá nào !!!</span>
+            </div>
+        </ng-template>
+    </div >
+</div>
+

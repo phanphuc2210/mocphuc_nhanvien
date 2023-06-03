@@ -18,12 +18,29 @@ export class CommentService {
     return this.httpClient.get<Comment[]>(`${this.API_URL}/${productId}`)
   }
 
+  public getAll(from?: string, to?: string, type?: string, wood?: string): Observable<Comment[]> {
+    let query = '';
+    if(from && to) {
+      query += `from=${from}&to=${to}`
+    }
+    if(type) {
+      query += `&typeId=${type}`
+    }
+    if(wood) {
+      query += `&woodId=${wood}`
+    }
+    return this.httpClient.get<Comment[]>(`${this.API_URL}?${query}`)
+  }
+
   public postComment(data: Comment): Observable<any> {
     return this.httpClient.post<any>(`${this.API_URL}`, data)
   }
 
-  public analysis(from: string, to: string, type?: string, wood?: string): Observable<any> {
-    let query = `from=${from}&to=${to}`;
+  public analysis(from?: string, to?: string, type?: string, wood?: string): Observable<any> {
+    let query = '';
+    if(from && to) {
+      query += `from=${from}&to=${to}`
+    }
     if(type) {
       query += `&typeId=${type}`
     }
