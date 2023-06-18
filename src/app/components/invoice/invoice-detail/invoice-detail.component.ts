@@ -65,6 +65,7 @@ export class InvoiceDetailComponent implements OnInit {
   setupOrderDetail() {
     this.invoiceService.getDetail(Number(this.orderId)).subscribe({
       next: res => {
+        this.total_price = 0;
         this.invoice_info = res.order
         this.invoice_details = res.order_details
         this.invoice_details.forEach(d => {
